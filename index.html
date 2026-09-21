@@ -1,0 +1,1943 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E3B33">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Build your Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font-family:'DM Sans',system-ui,sans-serif;background:#F7F1E6}
+input,select,button,textarea{font-family:inherit}
+.fld:focus{outline:none;border-color:#0E3B33;box-shadow:0 0 0 3px rgba(201,150,59,0.35)}
+.btn:focus-visible{outline:3px solid #C9963B;outline-offset:2px}
+.fld::placeholder{color:#8A928D}
+.rail{scrollbar-width:none;scroll-snap-type:x mandatory;scroll-padding-left:24px}
+.rail::-webkit-scrollbar{display:none}
+.snap{scroll-snap-align:start}
+.btn[disabled]{cursor:not-allowed}
+/* The only change from the 390x844 artboard: the outer frame becomes fluid. */
+html,body{height:100%}
+body{box-sizing:border-box;display:flex;justify-content:center;align-items:stretch;color:#1B2B27}
+#app{display:contents}
+.app-shell{width:100%;max-width:390px;height:100%}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<template id="tpl">
+<div class="app-shell" style="position: relative; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F1E6; color: #1B2B27; overflow: hidden;">
+
+<!-- Header -->
+<div style="background: #0E3B33; padding: 28px 24px 22px 24px; display: flex; flex-direction: column;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+<div style="width: 56px; height: 56px; border-radius: 50%; border: 2px solid #C9963B; display: flex; align-items: center; justify-content: center; background: #145244;">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-5 0-8 0-12"></path><path d="M12 12c-4 0-6-2-6-6 4 0 6 2 6 6z"></path><path d="M12 15c4 0 6-2 6-6-4 0-6 2-6 6z"></path></svg>
+</div>
+<span style="font-size: 10px; letter-spacing: 2px; font-weight: 600; color: #E9C77E;">LOGO</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #C9D6D1; font-weight: 500;">Catering</span>
+<h1 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 500; font-size: 34px; line-height: 1.05; color: #FBF6EA;">Build your Menu!</h1>
+</div>
+</div>
+
+</div>
+
+<sc-if value="{{isDetails}}" hint-placeholder-val="{{true}}">
+<!-- Stepper stripe -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 1 of 5">
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">1</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">2</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">3</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">4</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">5</div>
+</div>
+
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 18px 24px 8px 24px; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center;">
+<h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; color: #0E3B33;">Customer Details</h2>
+</div>
+
+<!-- Name -->
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="name" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Name</label>
+<div style="position: relative;">
+<svg style="position: absolute; left: 14px; top: 15px; pointer-events: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>
+<input id="name" class="fld" type="text" value="{{name}}" onChange="{{setName}}" placeholder="Full name" autocomplete="name" style="width: 100%; box-sizing: border-box; height: 50px; padding: 0 14px 0 44px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+</div>
+</div>
+
+<!-- Contact -->
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="phone" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Contact</label>
+<div style="display: flex; gap: 10px;">
+<div style="position: relative; width: 104px; flex-shrink: 0;">
+<select id="cc" aria-label="Country code" class="fld" value="{{cc}}" onChange="{{setCc}}" style="appearance: none; -webkit-appearance: none; width: 100%; box-sizing: border-box; height: 50px; padding: 0 30px 0 14px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; font-weight: 600; color: #1B2B27;">
+<option value="+971">+971</option>
+<option value="+966">+966</option>
+<option value="+974">+974</option>
+<option value="+968">+968</option>
+<option value="+965">+965</option>
+<option value="+973">+973</option>
+<option value="+91">+91</option>
+<option value="+92">+92</option>
+<option value="+44">+44</option>
+<option value="+1">+1</option>
+</select>
+<svg style="position: absolute; right: 12px; top: 19px; pointer-events: none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</div>
+<input id="phone" class="fld" type="tel" value="{{phone}}" onChange="{{setPhone}}" inputmode="tel" placeholder="50 123 4567" autocomplete="tel-national" style="flex-grow: 1; min-width: 0; box-sizing: border-box; height: 50px; padding: 0 14px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+</div>
+</div>
+
+<!-- Emirates -->
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="emirate" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Emirates</label>
+<div style="position: relative;">
+<svg style="position: absolute; left: 14px; top: 15px; pointer-events: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>
+<select id="emirate" class="fld" value="{{emirate}}" onChange="{{setEmirate}}" style="appearance: none; -webkit-appearance: none; width: 100%; box-sizing: border-box; height: 50px; padding: 0 40px 0 44px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+<option value="">Select emirate</option>
+<option>Abu Dhabi</option>
+<option>Dubai</option>
+<option>Sharjah</option>
+<option>Ajman</option>
+<option>Umm Al Quwain</option>
+<option>Ras Al Khaimah</option>
+<option>Fujairah</option>
+</select>
+<svg style="position: absolute; right: 14px; top: 19px; pointer-events: none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</div>
+</div>
+
+<!-- Event date + time -->
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="date" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Event Date</label>
+<div style="display: flex; gap: 10px;">
+<input id="date" class="fld" type="date" value="{{date}}" onChange="{{setDate}}" style="flex-grow: 1; min-width: 0; box-sizing: border-box; height: 50px; padding: 0 12px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+<div style="position: relative; width: 128px; flex-shrink: 0;">
+<select id="time" aria-label="Event time" class="fld" value="{{time}}" onChange="{{setTime}}" style="appearance: none; -webkit-appearance: none; width: 100%; box-sizing: border-box; height: 50px; padding: 0 32px 0 14px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+<option value="">Time</option>
+<option>10:00 AM</option>
+<option>11:00 AM</option>
+<option>12:00 PM</option>
+<option>01:00 PM</option>
+<option>02:00 PM</option>
+<option>03:00 PM</option>
+<option>04:00 PM</option>
+<option>05:00 PM</option>
+<option>06:00 PM</option>
+<option>07:00 PM</option>
+<option>08:00 PM</option>
+<option>09:00 PM</option>
+</select>
+<svg style="position: absolute; right: 12px; top: 19px; pointer-events: none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</div>
+</div>
+</div>
+
+<!-- Pax -->
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Pax</span>
+<div style="display: flex; align-items: center; gap: 12px;">
+<button class="btn" type="button" aria-label="Decrease guests" onClick="{{decPax}}" style="width: 50px; height: 50px; border-radius: 14px; border: 1.5px solid #0E3B33; background: #FFFFFF; color: #0E3B33; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg>
+</button>
+<input id="pax" class="fld" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" aria-label="Number of guests" value="{{paxText}}" onChange="{{typePax}}" onBlur="{{blurPax}}" style="width: 92px; height: 50px; box-sizing: border-box; border-radius: 14px; border: 1.5px solid transparent; background: rgba(14,59,51,0.12); color: #0E3B33; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 24px; text-align: center; padding: 0;">
+<button class="btn" type="button" aria-label="Increase guests" onClick="{{incPax}}" style="width: 50px; height: 50px; border-radius: 14px; border: 1.5px solid #0E3B33; background: #FFFFFF; color: #0E3B33; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+</button>
+<span style="font-size: 16px; font-weight: 500; color: #4A5A55;">persons</span>
+</div>
+</div>
+
+<!-- Pure veg -->
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 14px; background: #FFFFFF; border: 1.5px solid #DDD3BF;">
+<div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+<div style="width: 20px; height: 20px; flex-shrink: 0; box-sizing: border-box; border-radius: 4px; border: 2px solid #2E7D32; display: flex; align-items: center; justify-content: center;"><div style="width: 9px; height: 9px; border-radius: 50%; background: #2E7D32;"></div></div>
+<span id="pv-label" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55; white-space: nowrap;">Pure Veg?</span>
+</div>
+<div role="group" aria-labelledby="pv-label" style="display: flex; gap: 6px;">
+<button class="btn" type="button" aria-pressed="{{pvYes.on}}" onClick="{{pvYes.pick}}" style="width: 72px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 700; border: 1.5px solid {{pvYes.border}}; background: {{pvYes.bg}}; color: {{pvYes.color}};">Yes</button>
+<button class="btn" type="button" aria-pressed="{{pvNo.on}}" onClick="{{pvNo.pick}}" style="width: 72px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 700; border: 1.5px solid {{pvNo.border}}; background: {{pvNo.bg}}; color: {{pvNo.color}};">No</button>
+</div>
+</div>
+</div><div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
+<button class="btn" type="button" aria-label="Back" disabled="{{true}}" style="opacity: 0.35; cursor: not-allowed; width: 56px; height: 56px; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</button>
+<button class="btn" type="button" onClick="{{nextFromDetails}}" style="flex-grow: 1; height: 56px; text-decoration: none; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28);">
+<span>Save &amp; Next</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</div>
+
+
+</sc-if>
+<sc-if value="{{isSetup}}" hint-placeholder-val="{{false}}">
+<!-- Stepper stripe -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 2 of 5">
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">2</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">3</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">4</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">5</div>
+</div>
+
+<!-- Content -->
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 20px 24px 8px 24px; display: flex; flex-direction: column; gap: 16px;">
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">SETUP</h2>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Catering Type</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<button class="btn" type="button" aria-pressed="{{delivery.on}}" onClick="{{delivery.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; overflow: hidden; cursor: pointer; text-align: center; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{delivery.border}}; box-shadow: {{delivery.shadow}};">
+<div style="height: 104px; width: 100%;"><svg width="100%" height="100%" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><rect width="160" height="100" fill="#F1E7D0"/><rect y="78" width="160" height="22" fill="#DCCDA8"/><path d="M6 89h20M46 89h20M86 89h20M126 89h20" stroke="#C9B98F" stroke-width="2" stroke-linecap="round"/>
+<path d="M8 48h14M4 58h18M10 68h12" stroke="#C9B98F" stroke-width="2.5" stroke-linecap="round"/>
+<rect x="28" y="36" width="72" height="40" rx="5" fill="#0E3B33"/><rect x="28" y="58" width="72" height="5" fill="#C9963B"/>
+<path d="M100 46h20l13 15v15h-33z" fill="#145244"/><path d="M106 51h11l9 10h-20z" fill="#CFE3DC"/>
+<circle cx="64" cy="47" r="6" fill="#E9C77E"/><path d="M60 47h8" stroke="#0E3B33" stroke-width="2" stroke-linecap="round"/>
+<circle cx="50" cy="77" r="9" fill="#1B2B27"/><circle cx="50" cy="77" r="3.5" fill="#E9C77E"/><circle cx="115" cy="77" r="9" fill="#1B2B27"/><circle cx="115" cy="77" r="3.5" fill="#E9C77E"/></svg></div>
+<sc-if value="{{delivery.on}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+<span style="padding: 10px 6px; font-size: 15px; font-weight: 700; color: #0E3B33;">Delivery</span>
+</button>
+<button class="btn" type="button" aria-pressed="{{onsite.on}}" onClick="{{onsite.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; overflow: hidden; cursor: pointer; text-align: center; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{onsite.border}}; box-shadow: {{onsite.shadow}};">
+<div style="height: 104px; width: 100%;"><svg width="100%" height="100%" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><rect width="160" height="100" fill="#F1E7D0"/><path d="M0 14Q40 34 80 14Q120 34 160 14" stroke="#0E3B33" stroke-width="1.5" fill="none"/>
+<circle cx="0" cy="14" r="3" fill="#C9963B"/><circle cx="40" cy="24" r="3.5" fill="#C9963B"/><circle cx="80" cy="14" r="3" fill="#C9963B"/><circle cx="120" cy="24" r="3.5" fill="#C9963B"/><circle cx="160" cy="14" r="3" fill="#C9963B"/>
+<rect x="14" y="66" width="132" height="6" rx="2" fill="#C9963B"/><rect x="18" y="72" width="124" height="28" fill="#145244"/>
+<path d="M30 66a15 15 0 0 1 30 0z" fill="#E9C77E" stroke="#C9963B" stroke-width="1.5"/><circle cx="45" cy="49" r="3" fill="#C9963B"/>
+<path d="M65 66a15 15 0 0 1 30 0z" fill="#E9C77E" stroke="#C9963B" stroke-width="1.5"/><circle cx="80" cy="49" r="3" fill="#C9963B"/>
+<path d="M100 66a15 15 0 0 1 30 0z" fill="#E9C77E" stroke="#C9963B" stroke-width="1.5"/><circle cx="115" cy="49" r="3" fill="#C9963B"/></svg></div>
+<sc-if value="{{onsite.on}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+<span style="padding: 10px 6px; font-size: 15px; font-weight: 700; color: #0E3B33;">Onsite Catering</span>
+</button>
+</div>
+</div>
+<sc-if value="{{isOnsite}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Layout</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<button class="btn" type="button" aria-pressed="{{buffet.on}}" onClick="{{buffet.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; overflow: hidden; cursor: pointer; text-align: center; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{buffet.border}}; box-shadow: {{buffet.shadow}};">
+<div style="height: 92px; width: 100%;"><svg width="100%" height="100%" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><rect width="160" height="100" fill="#F1E7D0"/>
+<rect x="0" y="0" width="160" height="14" fill="#EADFC8"/>
+<rect x="4" y="60" width="152" height="40" fill="#0E3B33"/><rect x="0" y="57" width="160" height="5" rx="1.5" fill="#C9963B"/>
+<path d="M15 36q-3-6 0-10M23 36q-3-6 0-10M31 36q-3-6 0-10" stroke="#C9B98F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<path d="M10 49q13-16 26 0z" fill="#B5652B"/><circle cx="18" cy="43" r="1.6" fill="#E9C77E"/><circle cx="25" cy="41" r="1.6" fill="#E9C77E"/><circle cx="30" cy="45" r="1.6" fill="#E9C77E"/>
+<rect x="8" y="49" width="30" height="8" rx="2" fill="#DDE2DE" stroke="#A9B0AC"/><rect x="8" y="49" width="30" height="2.5" fill="#C9963B"/>
+<path d="M9 53l0 0" /><path d="M49 36q-3-6 0-10M57 36q-3-6 0-10M65 36q-3-6 0-10" stroke="#C9B98F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<path d="M44 49q13-16 26 0z" fill="#6E9B4A"/><circle cx="52" cy="43" r="1.6" fill="#F4C25B"/><circle cx="59" cy="41" r="1.6" fill="#F4C25B"/><circle cx="64" cy="45" r="1.6" fill="#F4C25B"/>
+<rect x="42" y="49" width="30" height="8" rx="2" fill="#DDE2DE" stroke="#A9B0AC"/><rect x="42" y="49" width="30" height="2.5" fill="#C9963B"/>
+<path d="M43 53l0 0" /><path d="M83 36q-3-6 0-10M91 36q-3-6 0-10M99 36q-3-6 0-10" stroke="#C9B98F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<path d="M78 49q13-16 26 0z" fill="#D9A441"/><circle cx="86" cy="43" r="1.6" fill="#FBF6EA"/><circle cx="93" cy="41" r="1.6" fill="#FBF6EA"/><circle cx="98" cy="45" r="1.6" fill="#FBF6EA"/>
+<rect x="76" y="49" width="30" height="8" rx="2" fill="#DDE2DE" stroke="#A9B0AC"/><rect x="76" y="49" width="30" height="2.5" fill="#C9963B"/>
+<path d="M77 53l0 0" />
+<path d="M70 50l-5 -12" stroke="#7A5A34" stroke-width="2.5" stroke-linecap="round"/>
+<rect x="128" y="34" width="22" height="26" rx="9" fill="#C9963B"/><circle cx="139" cy="25" r="8" fill="#F2C9A0"/><path d="M131 24a8 8 0 0 1 16 0q-8-4-16 0z" fill="#1B2B27"/>
+<path d="M131 46L119 51" stroke="#C9963B" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="116" cy="52" rx="9" ry="3.2" fill="#FBF6EA" stroke="#C9B98F"/><ellipse cx="115" cy="50.8" rx="5" ry="1.6" fill="#B5652B"/><circle cx="119" cy="50.5" r="1.6" fill="#6E9B4A"/>
+<text x="80" y="84" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#E9C77E">SELF-SERVE</text></svg></div>
+<sc-if value="{{buffet.on}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+<span style="padding: 10px 6px; font-size: 15px; font-weight: 700; color: #0E3B33;">Buffet</span>
+</button>
+<button class="btn" type="button" aria-pressed="{{live.on}}" onClick="{{live.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; overflow: hidden; cursor: pointer; text-align: center; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{live.border}}; box-shadow: {{live.shadow}};">
+<div style="height: 92px; width: 100%;"><svg width="100%" height="100%" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><rect width="160" height="100" fill="#F1E7D0"/>
+<rect x="0" y="0" width="160" height="14" fill="#EADFC8"/>
+<rect x="8" y="10" width="48" height="15" rx="7.5" fill="#C9963B"/><circle cx="17" cy="17.5" r="3" fill="#B3261E"/><text x="23" y="21.5" font-family="DM Sans, sans-serif" font-size="10" font-weight="700" letter-spacing="1" fill="#0E3B33">LIVE</text>
+<rect x="0" y="62" width="160" height="38" fill="#0E3B33"/><rect x="0" y="58" width="160" height="5" fill="#C9963B"/>
+<rect x="46" y="34" width="30" height="26" rx="10" fill="#FBF6EA"/><circle cx="58" cy="47" r="1.6" fill="#C9963B"/><circle cx="64" cy="47" r="1.6" fill="#C9963B"/>
+<circle cx="61" cy="27" r="9" fill="#F2C9A0"/>
+<circle cx="53" cy="16" r="6" fill="#FBF6EA"/><circle cx="61" cy="12" r="7.5" fill="#FBF6EA"/><circle cx="69" cy="16" r="6" fill="#FBF6EA"/><rect x="53" y="16" width="16" height="7" fill="#FBF6EA"/>
+<path d="M72 44L96 50" stroke="#FBF6EA" stroke-width="7" stroke-linecap="round"/>
+<path d="M92 34Q88 26 94 20Q95 28 99 30Q100 24 104 22Q104 30 108 32Q112 28 112 24Q120 34 114 46L94 46z" fill="#E0752B"/>
+<path d="M98 44Q97 36 101 33Q102 38 105 39Q108 36 108 34Q112 40 108 44z" fill="#F4C25B"/>
+<path d="M90 48h32l-4 10h-24z" fill="#1B2B27"/><rect x="122" y="49" width="20" height="4" rx="2" fill="#1B2B27"/>
+<circle cx="96" cy="26" r="1.8" fill="#6E9B4A"/><circle cx="118" cy="28" r="1.8" fill="#E9C77E"/><circle cx="108" cy="18" r="1.8" fill="#B5652B"/>
+<rect x="10" y="88" width="24" height="16" rx="10" fill="#B5652B"/><circle cx="22" cy="80" r="8" fill="#F2C9A0"/><path d="M14 79a8 8 0 0 1 16 0q-8-3-16 0z" fill="#1B2B27"/>
+<rect x="130" y="88" width="24" height="16" rx="10" fill="#7A9BB0"/><circle cx="142" cy="80" r="8" fill="#F2C9A0"/><path d="M134 79a8 8 0 0 1 16 0q-8-3-16 0z" fill="#7A5A34"/></svg></div>
+<sc-if value="{{live.on}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+<span style="padding: 10px 6px; font-size: 15px; font-weight: 700; color: #0E3B33;">Live Cooking Station</span>
+</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{showVenue}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Venue</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<button class="btn" type="button" aria-pressed="{{indoor.on}}" onClick="{{indoor.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; overflow: hidden; cursor: pointer; text-align: center; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{indoor.border}}; box-shadow: {{indoor.shadow}};">
+<div style="height: 78px; width: 100%;"><svg width="100%" height="100%" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><rect width="160" height="100" fill="#F1E7D0"/><rect y="76" width="160" height="24" fill="#C9B98F"/>
+<path d="M14 76V40a20 20 0 0 1 40 0V76z" fill="#CFE3DC" stroke="#0E3B33" stroke-width="3"/><path d="M34 22V76M14 50h40" stroke="#0E3B33" stroke-width="2"/>
+<path d="M106 76V40a20 20 0 0 1 40 0V76z" fill="#CFE3DC" stroke="#0E3B33" stroke-width="3"/><path d="M126 22V76M106 50h40" stroke="#0E3B33" stroke-width="2"/>
+<path d="M80 0V22" stroke="#0E3B33" stroke-width="2"/><path d="M66 36a14 14 0 0 1 28 0z" fill="#C9963B"/><path d="M72 40h16" stroke="#E9C77E" stroke-width="3" stroke-linecap="round"/>
+<rect x="56" y="62" width="48" height="6" rx="2" fill="#0E3B33"/><rect x="77" y="68" width="6" height="22" fill="#0E3B33"/><rect x="66" y="88" width="28" height="4" rx="2" fill="#0E3B33"/></svg></div>
+<sc-if value="{{indoor.on}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+<span style="padding: 10px 6px; font-size: 15px; font-weight: 700; color: #0E3B33;">Indoor</span>
+</button>
+<button class="btn" type="button" aria-pressed="{{outdoor.on}}" onClick="{{outdoor.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; overflow: hidden; cursor: pointer; text-align: center; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{outdoor.border}}; box-shadow: {{outdoor.shadow}};">
+<div style="height: 78px; width: 100%;"><svg width="100%" height="100%" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><rect width="160" height="100" fill="#CFE3DC"/><circle cx="130" cy="22" r="12" fill="#E9C77E"/><ellipse cx="90" cy="16" rx="16" ry="5" fill="#FBF6EA"/>
+<rect y="72" width="160" height="28" fill="#6E9B4A"/>
+<rect x="22" y="46" width="6" height="30" fill="#7A5A34"/><circle cx="25" cy="38" r="16" fill="#145244"/><circle cx="13" cy="48" r="11" fill="#145244"/><circle cx="37" cy="48" r="11" fill="#145244"/>
+<path d="M62 58L92 38L122 58z" fill="#FBF6EA" stroke="#C9963B" stroke-width="2"/><path d="M66 58V76M118 58V76" stroke="#0E3B33" stroke-width="2.5"/>
+<rect x="74" y="66" width="36" height="4" rx="1" fill="#0E3B33"/><path d="M66 58Q92 68 118 58" stroke="#C9963B" stroke-width="1.5" fill="none"/></svg></div>
+<sc-if value="{{outdoor.on}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+<span style="padding: 10px 6px; font-size: 15px; font-weight: 700; color: #0E3B33;">Outdoor</span>
+</button>
+</div>
+</div>
+</sc-if>
+</div>
+
+<!-- Footer actions -->
+<div style="padding: 14px 24px 28px 24px; display: flex; align-items: center; gap: 14px;">
+<button class="btn" type="button" onClick="{{backSetup}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</button>
+<sc-if value="{{sReady}}" hint-placeholder-val="{{false}}">
+<button class="btn" type="button" onClick="{{nextFromSetup}}" style="flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); text-decoration: none; cursor: pointer; box-sizing: border-box;">
+<span>Save &amp; Next</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</sc-if>
+<sc-if value="{{sNotReady}}" hint-placeholder-val="{{true}}">
+<button class="btn" type="button" disabled="{{true}}" style="opacity: 0.45; flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); text-decoration: none; cursor: not-allowed;">
+<span>Save &amp; Next</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</sc-if>
+</div>
+
+
+</sc-if>
+<sc-if value="{{isPkgScreen}}" hint-placeholder-val="{{true}}">
+<!-- Stepper stripe -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 3 of 5">
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">3</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">4</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">5</div>
+</div>
+
+<!-- Content -->
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 8px 24px; display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">SELECT PACKAGES</h2>
+
+<!-- Cuisine -->
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Cuisine</span>
+<div style="display: flex; gap: 8px;">
+<sc-for list="{{cuisines}}" as="cu" hint-placeholder-count="3">
+<button class="btn" type="button" aria-pressed="{{cu.on}}" onClick="{{cu.pick}}" style="flex-grow: {{cu.grow}}; flex-basis: 0; min-width: 0; height: 42px; padding: 0 6px; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; border: 2px solid {{cu.border}}; background: {{cu.bg}}; color: {{cu.color}};">{{cu.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<!-- Package slider -->
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Suggested Packages</span>
+<span style="font-size: 11.5px; color: #5A6863; font-weight: 500; white-space: nowrap;">{{pkgCaption}}</span>
+</div>
+<div class="rail" style="display: flex; gap: 12px; overflow-x: auto; margin: 0 -24px; padding: 2px 24px 8px 24px;">
+<sc-for list="{{pkgs}}" as="pkg" hint-placeholder-count="4">
+<button class="btn snap" type="button" aria-pressed="{{pkg.on}}" onClick="{{pkg.pick}}" style="flex: 0 0 238px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 12px 16px 12px 16px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{pkg.border}}; box-shadow: {{pkg.shadow}};">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 22px;">
+<span style="font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; font-weight: 700; color: #5A6863;">{{pkg.name}}</span>
+<sc-if value="{{pkg.popular}}" hint-placeholder-val="{{false}}">
+<span style="padding: 4px 9px; border-radius: 999px; background: #C9963B; color: #0E3B33; font-size: 10px; letter-spacing: 1px; font-weight: 700;">MOST SELLING</span>
+</sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<sc-for list="{{pkg.rows}}" as="row" hint-placeholder-count="4">
+<div style="display: flex; justify-content: space-between; gap: 10px; font-size: 13px; line-height: 1.3;">
+<span style="color: #5A6863;">{{row.k}}</span>
+<span style="font-weight: 600; color: #1B2B27; text-align: right; white-space: pre-line;">{{row.v}}</span>
+</div>
+</sc-for>
+</div>
+<div style="height: 1px; background: #E4D9C2; margin-top: auto;"></div>
+<div style="display: flex; align-items: center; justify-content: space-between; min-height: 36px;">
+<div style="display: flex; align-items: baseline; gap: 6px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 34px; line-height: 1; color: #0E3B33;">{{pkg.price}}</span>
+<span style="font-size: 13px; font-weight: 600; color: #4A5A55;">Dh / person</span>
+</div>
+<sc-if value="{{pkg.on}}" hint-placeholder-val="{{false}}">
+<div style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+</div>
+</button>
+</sc-for>
+</div>
+</div>
+
+<!-- OR custom -->
+<button class="btn" type="button" aria-pressed="{{custom.on}}" onClick="{{custom.pick}}" style="display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 8px 14px 8px 12px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{custom.border}}; box-shadow: {{custom.shadow}};">
+<span style="flex-shrink: 0; padding: 4px 8px; border-radius: 999px; background: #EADFC8; color: #4A5A55; font-size: 12px; letter-spacing: 1.5px; font-weight: 700;">OR</span>
+<div style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 12px; background: #0E3B33; display: flex; align-items: center; justify-content: center;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2"></circle><circle cx="8" cy="17" r="2"></circle></svg>
+</div>
+<span style="flex-grow: 1; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.15; color: #0E3B33;">Design your custom menu</span>
+<sc-if value="{{custom.on}}" hint-placeholder-val="{{false}}">
+<div style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+<sc-if value="{{custom.off}}" hint-placeholder-val="{{true}}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+</sc-if>
+</button>
+</div>
+
+<!-- Approx price (pinned) -->
+<div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 12px 24px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+<span style="font-size: 12px; letter-spacing: 1.4px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Approx. total</span>
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 26px; line-height: 1.1; color: {{totalColor}};">{{totalText}}</span>
+<span style="font-size: 12px; color: #5A6863;">{{totalSub}}</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+<div style="display: flex; align-items: center; gap: 6px;">
+<button class="btn" type="button" aria-label="Decrease guests" onClick="{{decPax}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #0E3B33; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+<span style="min-width: 40px; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; color: #0E3B33;" aria-live="polite">{{pax}}</span>
+<button class="btn" type="button" aria-label="Increase guests" onClick="{{incPax}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #0E3B33; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
+<span style="font-size: 12px; color: #5A6863;">guests</span>
+</div>
+</div>
+
+<sc-if value="{{belowMin}}" hint-placeholder-val="{{false}}">
+<div role="alert" style="display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border-radius: 14px; background: #FFF3D6; border: 1.5px solid #E3B34B; color: #5C3F00;">
+<div style="display: flex; gap: 10px; align-items: center;">
+<svg style="flex-shrink: 0;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v.5"></path></svg>
+<span style="font-size: 14px; font-weight: 700; line-height: 20px;">Minimum order is 2,000 Dh</span>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+<button class="btn" type="button" onClick="{{bumpPax}}" style="height: 44px; padding: 0 12px; border-radius: 12px; border: 1.5px solid #0E3B33; background: #FFFFFF; color: #0E3B33; font-size: 13px; font-weight: 700; cursor: pointer;">Increase to {{needPax}} guests</button>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; line-height: 1.25; cursor: pointer;">
+<input type="checkbox" checked="{{consent}}" onChange="{{toggleConsent}}" style="width: 22px; height: 22px; flex-shrink: 0; accent-color: #0E3B33;">
+<span>I agree to pay the 2,000 Dh minimum</span>
+</label>
+</div>
+</div>
+</sc-if>
+</div>
+
+<!-- Footer actions -->
+<div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
+<button class="btn" type="button" onClick="{{backPkg}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</button>
+<sc-if value="{{ready}}" hint-placeholder-val="{{false}}">
+<button class="btn" type="button" onClick="{{nextFromPkg}}" style="flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); text-decoration: none; cursor: pointer; box-sizing: border-box;">
+<span>Save &amp; Next</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</sc-if>
+<sc-if value="{{notReady}}" hint-placeholder-val="{{true}}">
+<button class="btn" type="button" disabled="{{true}}" style="opacity: 0.45; flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); text-decoration: none; cursor: not-allowed;">
+<span>Save &amp; Next</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</sc-if>
+</div>
+
+</sc-if>
+<sc-if value="{{isItemsScreen}}" hint-placeholder-val="{{false}}">
+<!-- Stepper stripe -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 4 of 5">
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">4</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">5</div>
+</div>
+
+<!-- Title + tabs (fixed) -->
+<div style="padding: 12px 24px 0 24px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">SELECT YOUR ITEMS</h2>
+<span style="font-size: 13px; color: #5A6863; font-weight: 500;">{{context}}</span>
+</div>
+<div style="display: flex; gap: 8px;">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
+<button class="btn" type="button" aria-pressed="{{tb.on}}" onClick="{{tb.pick}}" style="flex: 1 1 0; min-width: 0; height: 52px; padding: 0 4px; border-radius: 14px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border: 2px solid {{tb.border}}; background: {{tb.bg}}; color: {{tb.color}};">
+<span style="font-size: 14px; font-weight: 700;">{{tb.label}}</span>
+<span style="font-size: 12px; font-weight: 600; color: {{tb.subColor}};">{{tb.count}}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{showRate}}" hint-placeholder-val="{{false}}">
+<div style="text-align: center; font-size: 13px; font-weight: 600; color: #8A5A00; background: #FFF3D6; border-radius: 10px; padding: 6px 10px;">{{rateText}}</div>
+</sc-if>
+<sc-if value="{{showFilter}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55; margin-right: 2px;">Show</span>
+<sc-for list="{{filters}}" as="fl" hint-placeholder-count="3">
+<button class="btn" type="button" aria-pressed="{{fl.on}}" onClick="{{fl.pick}}" style="height: 34px; padding: 0 14px; border-radius: 999px; cursor: pointer; font-size: 13px; font-weight: 700; color: #0E3B33; border: 2px solid {{fl.border}}; background: {{fl.bg}};">{{fl.label}}</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{showSubs}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; gap: 8px;">
+<sc-for list="{{subs}}" as="sb" hint-placeholder-count="2">
+<button class="btn" type="button" aria-pressed="{{sb.on}}" onClick="{{sb.pick}}" style="flex: 1 1 0; min-width: 0; height: 46px; padding: 0 4px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; color: #0E3B33; border: 2px solid {{sb.border}}; background: {{sb.bg}};">
+<span style="font-size: 13px; font-weight: 700; line-height: 1.2;">{{sb.label}}</span>
+<span style="font-size: 12px; font-weight: 600; line-height: 1.2; color: {{sb.countColor}};">{{sb.count}}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+
+<!-- Items (scrolls) -->
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 12px 24px; display: flex; flex-direction: column; gap: 18px;">
+<sc-if value="{{hasNote}}" hint-placeholder-val="{{false}}">
+<div role="status" style="padding: 10px 12px; border-radius: 12px; background: #D3E7DE; border: 1.5px solid #2F7A64; color: #0E3B33; font-size: 13px; font-weight: 600; line-height: 1.3;">{{note}}</div>
+</sc-if>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<sc-if value="{{g.showHeader}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; color: #0E3B33;">{{g.title}}</span>
+<span style="padding: 4px 11px; border-radius: 999px; font-size: 13px; font-weight: 700; white-space: nowrap; background: {{g.pillBg}}; color: {{g.pillColor}};">{{g.pillText}}</span>
+</div>
+</sc-if>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{g.items}}" as="it" hint-placeholder-count="4">
+<div style="position: relative; display: flex; flex-direction: column;">
+<button class="btn" type="button" aria-pressed="{{it.on}}" disabled="{{it.locked}}" onClick="{{it.pick}}" style="flex-grow: 1; position: relative; display: flex; flex-direction: column; padding: 0; overflow: hidden; text-align: left; cursor: pointer; border-radius: 16px; background: #FFFFFF; border: 2.5px solid {{it.border}}; box-shadow: {{it.shadow}}; opacity: {{it.opacity}};">
+<div style="position: relative; height: 76px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: {{it.tile}};">
+<sc-if value="{{it.iBowl}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"></path><path d="M9 4q-1.5 2 0 4M13 3q-1.5 2 0 4M17 4q-1.5 2 0 4M8 21h8"></path></svg></sc-if>
+<sc-if value="{{it.iDump}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15a9 8 0 0 1 18 0z"></path><path d="M8 9l1 3M12 8v4M16 9l-1 3M3 18.5h18"></path></svg></sc-if>
+<sc-if value="{{it.iRoll}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a4 4 0 0 1 4-4h8a4 4 0 0 1 0 8H8a4 4 0 0 1-4-4z"></path><circle cx="16" cy="12" r="2"></circle></svg></sc-if>
+<sc-if value="{{it.iSkew}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21L21 3"></path><circle cx="8" cy="16" r="2.6"></circle><circle cx="12.5" cy="11.5" r="2.6"></circle><circle cx="17" cy="7" r="2.6"></circle></svg></sc-if>
+<sc-if value="{{it.iBread}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="6.5"></ellipse><path d="M8 10q2 1.2 4 0M11 14q2 1.2 4 0"></path></svg></sc-if>
+<sc-if value="{{it.iSweet}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="6"></circle><path d="M9 10.5q3 2.2 6 0M4 20h16"></path></svg></sc-if>
+<sc-if value="{{it.hasDiet}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 6px; left: 6px; width: 16px; height: 16px; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid {{it.dietColor}}; display: flex; align-items: center; justify-content: center;"><div style="width: 8px; height: 8px; border-radius: 50%; background: {{it.dietColor}};"></div></div>
+</sc-if>
+<sc-if value="{{it.on}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+</div>
+<div style="padding: 8px 10px 10px 10px; display: flex; flex-direction: column; gap: 2px;">
+<span style="font-size: 13px; font-weight: 700; line-height: 1.25; color: #1B2B27; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">{{it.name}}</span>
+<span style="font-size: 11px; line-height: 1.25; color: #5A6863; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{it.caption}}</span>
+<sc-if value="{{it.hasNote}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 11.5px; font-style: italic; font-weight: 600; line-height: 1.25; color: #8A5A00; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Note: {{it.noteText}}</span>
+</sc-if>
+</div>
+</button>
+<sc-if value="{{it.on}}" hint-placeholder-val="{{false}}">
+<button class="btn" type="button" aria-label="{{it.noteLabel}} for {{it.name}}" onClick="{{it.openNote}}" style="position: absolute; left: 8px; top: 48px; height: 30px; padding: 0 10px 0 8px; border-radius: 999px; border: 1.5px solid #C9963B; cursor: pointer; background: {{it.noteBg}}; color: #0E3B33; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(14,59,51,0.25);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11a2.2 2.2 0 0 0-3-3L5 16z"></path></svg><span>{{it.noteLabel}}</span></button>
+</sc-if>
+<button class="btn" type="button" aria-label="Enlarge photo of {{it.name}}" onClick="{{it.zoom}}" style="position: absolute; right: 8px; top: 48px; width: 30px; height: 30px; border-radius: 50%; border: none; padding: 0; cursor: zoom-in; background: rgba(255,255,255,0.92); box-shadow: 0 1px 4px rgba(14,59,51,0.3); display: flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4.2-4.2M11 8v6M8 11h6"></path></svg></button>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<!-- Progress hint -->
+<div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 10px 24px; display: flex; flex-direction: column; gap: 7px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+<span style="font-size: 13px; font-weight: 600; color: {{hintColor}};">{{hint}}</span>
+<span style="font-size: 12px; font-weight: 600; color: #5A6863; white-space: nowrap;">{{progressText}}</span>
+</div>
+<sc-if value="{{showCustPrice}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;">
+<div style="display: flex; flex-direction: column; gap: 1px;">
+<span style="font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Per person</span>
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; color: #0E3B33;">{{custPP}}</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1px;">
+<span style="font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Approx. total</span>
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; color: #0E3B33;">{{custTotal}}</span>
+</div>
+</div>
+<span style="font-size: 12px; font-weight: 600; line-height: 1.3; color: {{custSubColor}}; margin-top: -4px;">{{custSub}}</span>
+</sc-if>
+<div style="height: 5px; border-radius: 999px; background: #E4D9C2; overflow: hidden;"><div style="height: 100%; border-radius: 999px; background: #C9963B; width: {{pct}}%;"></div></div>
+</div>
+
+<!-- Footer actions -->
+<div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
+<button class="btn" type="button" onClick="{{backItems}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</button>
+<button class="btn" type="button" onClick="{{nextFromItems}}" disabled="{{iNotReady}}" style="opacity: {{iBtnOpacity}}; flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28);">
+<span>Save &amp; Next</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</div>
+
+</sc-if>
+<sc-if value="{{isThemeScreen}}" hint-placeholder-val="{{false}}">
+<!-- Stepper stripe -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 5 of 5">
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">5</div>
+</div>
+
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 8px 24px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">EVENT THEME</h2>
+<span style="font-size: 13px; color: #5A6863; font-weight: 500;">First 3 free with your package · last 3 premium</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Choose a theme</span>
+<span style="font-size: 11.5px; color: #5A6863; font-weight: 500;">Optional · tap again to remove</span>
+</div>
+<div class="rail" style="display: flex; gap: 12px; overflow-x: auto; margin: 0 -24px; padding: 2px 24px 8px 24px;">
+<sc-for list="{{themes}}" as="t" hint-placeholder-count="6">
+<div class="snap" style="flex: 0 0 224px; position: relative; display: flex;">
+<button class="btn" type="button" aria-pressed="{{t.on}}" onClick="{{t.pick}}" style="flex-grow: 1; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; padding: 0; overflow: hidden; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{t.border}}; box-shadow: {{t.shadow}};">
+<div style="position: relative; height: 172px; flex-shrink: 0;">
+<svg width="100%" height="100%" viewBox="0 0 160 124" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><rect width="160" height="124" fill="{{t.c1}}"/><rect y="100" width="160" height="24" fill="{{t.c2}}"/><rect width="160" height="24" fill="{{t.c4}}" opacity="0.22"/>
+<g transform="translate(0 24)">
+<sc-if value="{{t.k1}}" hint-placeholder-val="{{false}}"><path d="M20 76V44a22 22 0 0 1 44 0V76z" fill="none" stroke="{{t.c3}}" stroke-width="3"/><path d="M96 76V44a22 22 0 0 1 44 0V76z" fill="none" stroke="{{t.c3}}" stroke-width="3"/><circle cx="20" cy="50" r="2.2" fill="{{t.c3}}"/><circle cx="25" cy="35" r="2.2" fill="{{t.c3}}"/><circle cx="42" cy="22" r="2.2" fill="{{t.c3}}"/><circle cx="59" cy="35" r="2.2" fill="{{t.c3}}"/><circle cx="64" cy="50" r="2.2" fill="{{t.c3}}"/><circle cx="96" cy="50" r="2.2" fill="{{t.c3}}"/><circle cx="101" cy="35" r="2.2" fill="{{t.c3}}"/><circle cx="118" cy="22" r="2.2" fill="{{t.c3}}"/><circle cx="135" cy="35" r="2.2" fill="{{t.c3}}"/><circle cx="140" cy="50" r="2.2" fill="{{t.c3}}"/><rect x="62" y="64" width="36" height="6" rx="2" fill="{{t.c4}}"/><rect x="78" y="70" width="4" height="12" fill="{{t.c4}}"/><rect x="72" y="52" width="3" height="12" fill="{{t.c3}}"/><rect x="85" y="52" width="3" height="12" fill="{{t.c3}}"/></sc-if>
+<sc-if value="{{t.k2}}" hint-placeholder-val="{{false}}"><circle cx="16" cy="44" r="16" fill="{{t.c3}}"/><circle cx="36" cy="30" r="13" fill="{{t.c3}}"/><circle cx="58" cy="22" r="10" fill="{{t.c4}}"/><circle cx="144" cy="44" r="16" fill="{{t.c3}}"/><circle cx="124" cy="30" r="13" fill="{{t.c3}}"/><circle cx="102" cy="22" r="10" fill="{{t.c4}}"/><path d="M60 0V26M100 0V26M80 0V18" stroke="{{t.c4}}" stroke-width="1.6"/><circle cx="80" cy="22" r="6" fill="{{t.c3}}"/><path d="M60 76V52a20 20 0 0 1 40 0V76z" fill="none" stroke="{{t.c4}}" stroke-width="3"/><rect x="66" y="66" width="28" height="5" rx="2" fill="{{t.c4}}"/></sc-if>
+<sc-if value="{{t.k3}}" hint-placeholder-val="{{false}}"><path d="M0 12Q40 44 80 12Q120 44 160 12" stroke="{{t.c3}}" stroke-width="4" fill="none" stroke-dasharray="1 6" stroke-linecap="round"/><path d="M0 30Q40 60 80 30Q120 60 160 30" stroke="{{t.c4}}" stroke-width="3" fill="none" stroke-dasharray="1 6" stroke-linecap="round"/><circle cx="20" cy="70" r="7" fill="{{t.c3}}"/><circle cx="34" cy="74" r="6" fill="{{t.c4}}"/><circle cx="126" cy="72" r="7" fill="{{t.c3}}"/><circle cx="141" cy="70" r="6" fill="{{t.c4}}"/><rect x="58" y="58" width="44" height="7" rx="2" fill="{{t.c4}}"/><rect x="78" y="65" width="4" height="13" fill="{{t.c4}}"/><circle cx="70" cy="52" r="4" fill="{{t.c3}}"/><circle cx="82" cy="50" r="4" fill="{{t.c3}}"/><circle cx="92" cy="53" r="4" fill="{{t.c3}}"/></sc-if>
+<sc-if value="{{t.k4}}" hint-placeholder-val="{{false}}"><path d="M46 76V48Q46 22 80 8Q114 22 114 48V76z" fill="{{t.c2}}" stroke="{{t.c3}}" stroke-width="3"/><path d="M60 76V52Q60 34 80 24Q100 34 100 52V76z" fill="none" stroke="{{t.c4}}" stroke-width="2"/><path d="M8 76V56Q8 44 20 36Q32 44 32 56V76z" fill="{{t.c2}}" stroke="{{t.c3}}" stroke-width="2"/><path d="M128 76V56Q128 44 140 36Q152 44 152 56V76z" fill="{{t.c2}}" stroke="{{t.c3}}" stroke-width="2"/><circle cx="80" cy="16" r="3" fill="{{t.c3}}"/><rect x="66" y="64" width="28" height="6" rx="2" fill="{{t.c3}}"/></sc-if>
+<sc-if value="{{t.k5}}" hint-placeholder-val="{{false}}"><circle cx="118" cy="26" r="13" fill="{{t.c3}}"/><circle cx="124" cy="22" r="12" fill="{{t.c1}}"/><circle cx="24" cy="18" r="1.8" fill="{{t.c3}}"/><circle cx="60" cy="12" r="1.5" fill="{{t.c3}}"/><circle cx="90" cy="26" r="1.8" fill="{{t.c3}}"/><circle cx="146" cy="10" r="1.5" fill="{{t.c3}}"/><circle cx="140" cy="48" r="1.5" fill="{{t.c3}}"/><path d="M34 0V20M74 0V30" stroke="{{t.c3}}" stroke-width="1.5"/><path d="M28 20h12l3 18H25z" fill="{{t.c3}}"/><path d="M68 30h12l3 18H65z" fill="{{t.c4}}"/><path d="M6 76V64Q20 46 34 64V76z" fill="{{t.c2}}" stroke="{{t.c3}}" stroke-width="1.5"/><rect x="60" y="64" width="40" height="6" rx="2" fill="{{t.c4}}"/></sc-if>
+<sc-if value="{{t.k6}}" hint-placeholder-val="{{false}}"><path d="M80 0V14" stroke="{{t.c3}}" stroke-width="2"/><path d="M50 34Q80 8 110 34" stroke="{{t.c3}}" stroke-width="2.5" fill="none"/><path d="M62 34V44M72 30V46M80 28V50M88 30V46M98 34V44" stroke="{{t.c3}}" stroke-width="1.5"/><circle cx="62" cy="46" r="2.6" fill="{{t.c4}}"/><circle cx="72" cy="48" r="2.6" fill="{{t.c4}}"/><circle cx="80" cy="52" r="3" fill="{{t.c4}}"/><circle cx="88" cy="48" r="2.6" fill="{{t.c4}}"/><circle cx="98" cy="46" r="2.6" fill="{{t.c4}}"/><circle cx="26" cy="66" r="8" fill="{{t.c4}}" stroke="{{t.c3}}"/><circle cx="40" cy="70" r="7" fill="{{t.c4}}" stroke="{{t.c3}}"/><circle cx="134" cy="66" r="8" fill="{{t.c4}}" stroke="{{t.c3}}"/><circle cx="120" cy="70" r="7" fill="{{t.c4}}" stroke="{{t.c3}}"/><rect x="62" y="66" width="36" height="6" rx="2" fill="{{t.c3}}"/></sc-if>
+</g>
+</svg>
+<span style="position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 999px; font-size: 10px; letter-spacing: 1px; font-weight: 700; background: {{t.tagBg}}; color: {{t.tagColor}};">{{t.tag}}</span>
+<sc-if value="{{t.on}}" hint-placeholder-val="{{false}}"><div style="position: absolute; top: 8px; right: 8px;"><div style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div></div></sc-if>
+</div>
+<div style="padding: 10px 12px 12px 12px; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.15; color: #0E3B33;">{{t.name}}</span>
+<span style="font-size: 12px; line-height: 1.3; color: #5A6863; min-height: 32px;">{{t.desc}}</span>
+<span style="font-size: 14px; font-weight: 700; color: {{t.priceColor}}; min-height: 30px; display: flex; align-items: center;">{{t.priceText}}</span>
+</div>
+</button>
+<button class="btn" type="button" aria-label="View details of {{t.name}}" onClick="{{t.open}}" style="position: absolute; right: 10px; bottom: 10px; height: 30px; padding: 0 10px 0 12px; border-radius: 999px; border: 1.5px solid #0E3B33; background: #FFFFFF; color: #0E3B33; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;"><span>Details</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></button>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="evnote" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Notes or instructions</label>
+<textarea id="evnote" class="fld" rows="3" maxlength="500" placeholder="Anything else we should know? Colour preferences, timing, allergies, special requests..." value="{{eventNote}}" onChange="{{setEventNote}}" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; line-height: 1.35; color: #1B2B27; resize: none;"></textarea>
+</div>
+</div>
+<div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+<div style="display: flex; flex-direction: column; gap: 1px; min-width: 0;">
+<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Theme</span>
+<span style="font-size: 14px; font-weight: 700; color: #0E3B33;">{{themeSumText}}</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1px;">
+<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Approx. total</span>
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; color: #0E3B33;">{{grandText}}</span>
+</div>
+</div>
+<div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
+<button class="btn" type="button" onClick="{{backTheme}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</button>
+<button class="btn" type="button" onClick="{{nextFromTheme}}" style="flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); cursor: pointer;">
+<span>Save &amp; Review</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</div>
+</sc-if>
+<sc-if value="{{isThemeDetail}}" hint-placeholder-val="{{false}}">
+<!-- Stepper stripe -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 5 of 5">
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">5</div>
+</div>
+
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 0 0 8px 0; display: flex; flex-direction: column; gap: 14px;">
+<div style="position: relative; height: 236px; flex-shrink: 0;">
+<svg width="100%" height="100%" viewBox="0 0 160 124" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Sample view of {{d.name}}" style="display:block"><defs><g id="tScene"><rect width="160" height="124" fill="{{d.c1}}"></rect><rect y="100" width="160" height="24" fill="{{d.c2}}"></rect><rect width="160" height="24" fill="{{d.c4}}" opacity="0.22"></rect><g transform="translate(0 24)">
+<sc-if value="{{d.k1}}" hint-placeholder-val="{{false}}"><path d="M20 76V44a22 22 0 0 1 44 0V76z" fill="none" stroke="{{d.c3}}" stroke-width="3"/><path d="M96 76V44a22 22 0 0 1 44 0V76z" fill="none" stroke="{{d.c3}}" stroke-width="3"/><circle cx="20" cy="50" r="2.2" fill="{{d.c3}}"/><circle cx="25" cy="35" r="2.2" fill="{{d.c3}}"/><circle cx="42" cy="22" r="2.2" fill="{{d.c3}}"/><circle cx="59" cy="35" r="2.2" fill="{{d.c3}}"/><circle cx="64" cy="50" r="2.2" fill="{{d.c3}}"/><circle cx="96" cy="50" r="2.2" fill="{{d.c3}}"/><circle cx="101" cy="35" r="2.2" fill="{{d.c3}}"/><circle cx="118" cy="22" r="2.2" fill="{{d.c3}}"/><circle cx="135" cy="35" r="2.2" fill="{{d.c3}}"/><circle cx="140" cy="50" r="2.2" fill="{{d.c3}}"/><rect x="62" y="64" width="36" height="6" rx="2" fill="{{d.c4}}"/><rect x="78" y="70" width="4" height="12" fill="{{d.c4}}"/><rect x="72" y="52" width="3" height="12" fill="{{d.c3}}"/><rect x="85" y="52" width="3" height="12" fill="{{d.c3}}"/></sc-if>
+<sc-if value="{{d.k2}}" hint-placeholder-val="{{false}}"><circle cx="16" cy="44" r="16" fill="{{d.c3}}"/><circle cx="36" cy="30" r="13" fill="{{d.c3}}"/><circle cx="58" cy="22" r="10" fill="{{d.c4}}"/><circle cx="144" cy="44" r="16" fill="{{d.c3}}"/><circle cx="124" cy="30" r="13" fill="{{d.c3}}"/><circle cx="102" cy="22" r="10" fill="{{d.c4}}"/><path d="M60 0V26M100 0V26M80 0V18" stroke="{{d.c4}}" stroke-width="1.6"/><circle cx="80" cy="22" r="6" fill="{{d.c3}}"/><path d="M60 76V52a20 20 0 0 1 40 0V76z" fill="none" stroke="{{d.c4}}" stroke-width="3"/><rect x="66" y="66" width="28" height="5" rx="2" fill="{{d.c4}}"/></sc-if>
+<sc-if value="{{d.k3}}" hint-placeholder-val="{{false}}"><path d="M0 12Q40 44 80 12Q120 44 160 12" stroke="{{d.c3}}" stroke-width="4" fill="none" stroke-dasharray="1 6" stroke-linecap="round"/><path d="M0 30Q40 60 80 30Q120 60 160 30" stroke="{{d.c4}}" stroke-width="3" fill="none" stroke-dasharray="1 6" stroke-linecap="round"/><circle cx="20" cy="70" r="7" fill="{{d.c3}}"/><circle cx="34" cy="74" r="6" fill="{{d.c4}}"/><circle cx="126" cy="72" r="7" fill="{{d.c3}}"/><circle cx="141" cy="70" r="6" fill="{{d.c4}}"/><rect x="58" y="58" width="44" height="7" rx="2" fill="{{d.c4}}"/><rect x="78" y="65" width="4" height="13" fill="{{d.c4}}"/><circle cx="70" cy="52" r="4" fill="{{d.c3}}"/><circle cx="82" cy="50" r="4" fill="{{d.c3}}"/><circle cx="92" cy="53" r="4" fill="{{d.c3}}"/></sc-if>
+<sc-if value="{{d.k4}}" hint-placeholder-val="{{false}}"><path d="M46 76V48Q46 22 80 8Q114 22 114 48V76z" fill="{{d.c2}}" stroke="{{d.c3}}" stroke-width="3"/><path d="M60 76V52Q60 34 80 24Q100 34 100 52V76z" fill="none" stroke="{{d.c4}}" stroke-width="2"/><path d="M8 76V56Q8 44 20 36Q32 44 32 56V76z" fill="{{d.c2}}" stroke="{{d.c3}}" stroke-width="2"/><path d="M128 76V56Q128 44 140 36Q152 44 152 56V76z" fill="{{d.c2}}" stroke="{{d.c3}}" stroke-width="2"/><circle cx="80" cy="16" r="3" fill="{{d.c3}}"/><rect x="66" y="64" width="28" height="6" rx="2" fill="{{d.c3}}"/></sc-if>
+<sc-if value="{{d.k5}}" hint-placeholder-val="{{false}}"><circle cx="118" cy="26" r="13" fill="{{d.c3}}"/><circle cx="124" cy="22" r="12" fill="{{d.c1}}"/><circle cx="24" cy="18" r="1.8" fill="{{d.c3}}"/><circle cx="60" cy="12" r="1.5" fill="{{d.c3}}"/><circle cx="90" cy="26" r="1.8" fill="{{d.c3}}"/><circle cx="146" cy="10" r="1.5" fill="{{d.c3}}"/><circle cx="140" cy="48" r="1.5" fill="{{d.c3}}"/><path d="M34 0V20M74 0V30" stroke="{{d.c3}}" stroke-width="1.5"/><path d="M28 20h12l3 18H25z" fill="{{d.c3}}"/><path d="M68 30h12l3 18H65z" fill="{{d.c4}}"/><path d="M6 76V64Q20 46 34 64V76z" fill="{{d.c2}}" stroke="{{d.c3}}" stroke-width="1.5"/><rect x="60" y="64" width="40" height="6" rx="2" fill="{{d.c4}}"/></sc-if>
+<sc-if value="{{d.k6}}" hint-placeholder-val="{{false}}"><path d="M80 0V14" stroke="{{d.c3}}" stroke-width="2"/><path d="M50 34Q80 8 110 34" stroke="{{d.c3}}" stroke-width="2.5" fill="none"/><path d="M62 34V44M72 30V46M80 28V50M88 30V46M98 34V44" stroke="{{d.c3}}" stroke-width="1.5"/><circle cx="62" cy="46" r="2.6" fill="{{d.c4}}"/><circle cx="72" cy="48" r="2.6" fill="{{d.c4}}"/><circle cx="80" cy="52" r="3" fill="{{d.c4}}"/><circle cx="88" cy="48" r="2.6" fill="{{d.c4}}"/><circle cx="98" cy="46" r="2.6" fill="{{d.c4}}"/><circle cx="26" cy="66" r="8" fill="{{d.c4}}" stroke="{{d.c3}}"/><circle cx="40" cy="70" r="7" fill="{{d.c4}}" stroke="{{d.c3}}"/><circle cx="134" cy="66" r="8" fill="{{d.c4}}" stroke="{{d.c3}}"/><circle cx="120" cy="70" r="7" fill="{{d.c4}}" stroke="{{d.c3}}"/><rect x="62" y="66" width="36" height="6" rx="2" fill="{{d.c3}}"/></sc-if>
+</g></g></defs><use href="#tScene"></use></svg>
+<span style="position: absolute; top: 12px; left: 16px; padding: 5px 11px; border-radius: 999px; font-size: 11px; letter-spacing: 1px; font-weight: 700; background: {{d.tagBg}}; color: {{d.tagColor}};">{{d.tag}}</span>
+</div>
+<div style="padding: 0 24px; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+<div style="display: flex; flex-direction: column; gap: 4px; min-width: 0;">
+<h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 26px; line-height: 1.1; color: #0E3B33;">{{d.name}}</h2>
+<span style="font-size: 14px; font-weight: 700; color: {{d.priceColor}};">{{d.priceLong}}</span>
+</div>
+</div>
+<span style="font-size: 15px; line-height: 1.45; color: #1B2B27;">{{d.long}}</span>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Photos</span>
+<div style="display: flex; gap: 8px;">
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><div style="height: 84px; border-radius: 12px; overflow: hidden; border: 1.5px solid #E4D9C2;"><svg width="100%" height="100%" viewBox="0 0 160 124" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><use href="#tScene"></use></svg></div><span style="font-size: 11.5px; font-weight: 600; color: #5A6863; text-align: center;">Full setup</span></div><div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><div style="height: 84px; border-radius: 12px; overflow: hidden; border: 1.5px solid #E4D9C2;"><svg width="100%" height="100%" viewBox="16 36 80 70" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><use href="#tScene"></use></svg></div><span style="font-size: 11.5px; font-weight: 600; color: #5A6863; text-align: center;">Backdrop</span></div><div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><div style="height: 84px; border-radius: 12px; overflow: hidden; border: 1.5px solid #E4D9C2;"><svg width="100%" height="100%" viewBox="80 60 80 64" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><use href="#tScene"></use></svg></div><span style="font-size: 11.5px; font-weight: 600; color: #5A6863; text-align: center;">Table styling</span></div></div>
+<span style="font-size: 12px; color: #8A928D;">Sample illustrations - real event photos will appear here</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">What is included</span>
+<sc-for list="{{d.incl}}" as="x" hint-placeholder-count="5">
+<div style="display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; line-height: 1.35; color: #1B2B27;"><svg style="flex-shrink: 0; margin-top: 2px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F7A64" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg><span>{{x.text}}</span></div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Best for</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{d.best}}" as="b" hint-placeholder-count="3"><span style="padding: 6px 12px; border-radius: 999px; background: #EADFC8; font-size: 13px; font-weight: 600; color: #0E3B33;">{{b.text}}</span></sc-for>
+</div>
+</div>
+<span style="font-size: 12.5px; color: #5A6863; line-height: 1.4;">{{d.priceNote}}</span>
+</div>
+</div>
+<div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
+<button class="btn" type="button" onClick="{{closeThemeDetail}}" aria-label="Back to themes" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</button>
+<button class="btn" type="button" onClick="{{d.choose}}" style="flex-grow: 1; height: 56px; border: {{d.btnBorder}}; border-radius: 18px; background: {{d.btnBg}}; color: {{d.btnColor}}; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.2); cursor: pointer;"><span>{{d.btnLabel}}</span></button>
+</div>
+</sc-if>
+<sc-if value="{{isThanks}}" hint-placeholder-val="{{false}}">
+<!-- Stepper stripe -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="All steps complete">
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 5 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</div>
+
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 22px 24px 8px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;">
+<div style="width: 84px; height: 84px; border-radius: 50%; background: #0E3B33; border: 3px solid #C9963B; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 26px rgba(14,59,51,0.3);">
+<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 30px; line-height: 1.1; color: #0E3B33;">{{thanksTitle}}</h2>
+<span style="font-size: 16px; line-height: 1.4; color: #1B2B27;">Your catering request is confirmed.</span>
+</div>
+<div style="width: 100%; box-sizing: border-box; background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; text-align: left;">
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #5A6863;">Reference</span><span style="font-weight: 700; color: #0E3B33;">{{rv.ref}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #5A6863;">Event</span><span style="font-weight: 600; color: #1B2B27; text-align: right;">{{rv.when}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #5A6863;">Guests</span><span style="font-weight: 600; color: #1B2B27;">{{rv.pax}}</span></div>
+<div style="height: 1px; background: #E4D9C2;"></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px;"><span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Approx. total</span><span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; color: #0E3B33;">{{rv.grand}}</span></div>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 10px; text-align: left; background: #D3E7DE; border: 1.5px solid #2F7A64; border-radius: 14px; padding: 12px 14px; width: 100%; box-sizing: border-box;">
+<svg style="flex-shrink: 0; margin-top: 1px;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F6B4E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
+<span style="font-size: 14px; line-height: 1.4; color: #0E3B33; font-weight: 600;">Your PDF copy has been downloaded. Please keep it for your records.</span>
+</div>
+<span style="font-size: 14px; line-height: 1.45; color: #5A6863;">Thank you for choosing us. Our team will contact you shortly on <b style="color: #1B2B27;">{{rv.contact}}</b> to finalise the details.</span>
+</div>
+<div style="padding: 12px 24px 24px 24px; display: flex; flex-direction: column; gap: 8px;">
+<sc-if value="{{hasPdfMsg}}" hint-placeholder-val="{{false}}"><span role="status" style="text-align: center; font-size: 13px; font-weight: 600; color: #1F6B4E;">{{pdfMsg}}</span></sc-if>
+<button class="btn" type="button" onClick="{{downloadPdf}}" style="height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); cursor: pointer;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
+<span>Download PDF again</span>
+</button>
+<button class="btn" type="button" onClick="{{backToReview}}" style="height: 44px; border: none; background: transparent; color: #0E3B33; font-size: 15px; font-weight: 700; text-decoration: underline; cursor: pointer;">Back to my order</button>
+</div>
+</sc-if>
+<sc-if value="{{isReviewScreen}}" hint-placeholder-val="{{false}}">
+<!-- Stepper stripe -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="All steps complete">
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 5 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</div>
+
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 12px 24px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">REVIEW &amp; CONFIRM</h2>
+<span style="font-size: 13px; color: #5A6863; font-weight: 500; text-align: center;">Ref {{rv.ref}} · tap Edit to change</span>
+</div>
+<div style="background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; color: #0E3B33;">Customer Details</span>
+<button class="btn" type="button" onClick="{{editDetails}}" aria-label="Edit Customer Details" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11a2.2 2.2 0 0 0-3-3L5 16z"></path></svg>Edit</button>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Name</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.name}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Contact</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.contact}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Emirates</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.emirate}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Event</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.when}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Guests</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.pax}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Pure Veg</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.veg}}</span></div>
+</div>
+<div style="background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; color: #0E3B33;">Setup</span>
+<button class="btn" type="button" onClick="{{editSetup}}" aria-label="Edit Setup" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11a2.2 2.2 0 0 0-3-3L5 16z"></path></svg>Edit</button>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Catering type</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.typeLabel}}</span></div>
+<sc-if value="{{isOnsite}}" hint-placeholder-val="{{false}}"><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Layout</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.layoutLabel}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Venue</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.venueLabel}}</span></div>
+</sc-if></div>
+<div style="background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; color: #0E3B33;">Menu</span>
+<button class="btn" type="button" onClick="{{editPkg}}" aria-label="Edit package Menu" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11a2.2 2.2 0 0 0-3-3L5 16z"></path></svg>Edit package</button>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Selection</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.pkgLabel}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Cuisine</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.cuisine}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Per person</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.ppText}}</span></div>
+<div style="height: 1px; background: #E4D9C2;"></div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Selected dishes</span>
+<button class="btn" type="button" onClick="{{editItems}}" aria-label="Edit dishes" style="height: 30px; padding: 0 10px; border-radius: 999px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 12px; font-weight: 700; cursor: pointer;">Edit dishes</button>
+</div>
+<sc-for list="{{rv.groups}}" as="g" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 3px;">
+<span style="font-size: 13px; font-weight: 700; color: #0E3B33;">{{g.title}}</span>
+<sc-for list="{{g.items}}" as="d" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 1px; padding-left: 10px; border-left: 2.5px solid #E9C77E;">
+<span style="font-size: 14px; color: #1B2B27; line-height: 1.3;">{{d.name}}</span>
+<sc-if value="{{d.hasNote}}" hint-placeholder-val="{{false}}"><span style="font-size: 12.5px; font-style: italic; font-weight: 600; color: #8A5A00; line-height: 1.3;">Note: {{d.note}}</span></sc-if>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; color: #0E3B33;">Theme &amp; Notes</span>
+<button class="btn" type="button" onClick="{{editTheme}}" aria-label="Edit Theme &amp; Notes" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11a2.2 2.2 0 0 0-3-3L5 16z"></path></svg>Edit</button>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Theme</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.themeLabel}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; color: #5A6863;">Notes</span><span style="font-size: 14px; font-weight: 600; color: #1B2B27; line-height: 1.35; white-space: pre-line;">{{rv.notesText}}</span></div></div>
+<div style="background: #EADFC8; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; color: #0E3B33;">Price summary</span>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">{{rv.menuRowLabel}}</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.menuRowValue}}</span></div>
+<sc-if value="{{rv.showMin}}" hint-placeholder-val="{{false}}"><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Minimum order top-up</span><span style="font-weight: 600; color: #1B2B27; text-align: right; color: #8A5A00;">{{rv.minValue}}</span></div>
+</sc-if><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">{{rv.themeRowLabel}}</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.themeRowValue}}</span></div>
+<div style="height: 1px; background: #C9B98F;"></div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Approx. total</span>
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 26px; color: #0E3B33;">{{rv.grand}}</span>
+</div>
+<span style="font-size: 12px; color: #5A6863; line-height: 1.3;">Approximate price. Final quote is confirmed by our team after review.</span>
+</div>
+</div>
+<div style="padding: 12px 24px 24px 24px; display: flex; flex-direction: column; gap: 8px;">
+<sc-if value="{{hasPdfMsg}}" hint-placeholder-val="{{false}}"><span role="status" style="text-align: center; font-size: 13px; font-weight: 600; color: #1F6B4E;">{{pdfMsg}}</span></sc-if>
+<div style="display: flex; align-items: center; gap: 14px;">
+<button class="btn" type="button" onClick="{{backReview}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</button>
+<button class="btn" type="button" onClick="{{downloadPdf}}" style="flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); cursor: pointer;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
+<span>Download &amp; Confirm</span>
+</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{zoomOpen}}" hint-placeholder-val="{{false}}">
+<div role="dialog" aria-modal="true" aria-label="{{z.name}}" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 50; background: rgba(14,59,51,0.9); display: flex; align-items: center; justify-content: center; padding: 20px;">
+<button type="button" class="btn" aria-label="Close" onClick="{{closeZoom}}" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; border: none; background: transparent; cursor: zoom-out;"></button>
+<div style="position: relative; width: 100%; box-sizing: border-box; border-radius: 24px; overflow: hidden; background: #FFFFFF; box-shadow: 0 20px 50px rgba(0,0,0,0.45);">
+<div style="position: relative; height: 270px; display: flex; align-items: center; justify-content: center; background: {{z.tile}};">
+<sc-if value="{{z.iBowl}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"></path><path d="M9 4q-1.5 2 0 4M13 3q-1.5 2 0 4M17 4q-1.5 2 0 4M8 21h8"></path></svg></sc-if>
+<sc-if value="{{z.iDump}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15a9 8 0 0 1 18 0z"></path><path d="M8 9l1 3M12 8v4M16 9l-1 3M3 18.5h18"></path></svg></sc-if>
+<sc-if value="{{z.iRoll}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a4 4 0 0 1 4-4h8a4 4 0 0 1 0 8H8a4 4 0 0 1-4-4z"></path><circle cx="16" cy="12" r="2"></circle></svg></sc-if>
+<sc-if value="{{z.iSkew}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21L21 3"></path><circle cx="8" cy="16" r="2.6"></circle><circle cx="12.5" cy="11.5" r="2.6"></circle><circle cx="17" cy="7" r="2.6"></circle></svg></sc-if>
+<sc-if value="{{z.iBread}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="6.5"></ellipse><path d="M8 10q2 1.2 4 0M11 14q2 1.2 4 0"></path></svg></sc-if>
+<sc-if value="{{z.iSweet}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="6"></circle><path d="M9 10.5q3 2.2 6 0M4 20h16"></path></svg></sc-if>
+<sc-if value="{{z.hasDiet}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 14px; left: 14px; width: 22px; height: 22px; box-sizing: border-box; border-radius: 4px; background: #FFFFFF; border: 2px solid {{z.dietColor}}; display: flex; align-items: center; justify-content: center;"><div style="width: 11px; height: 11px; border-radius: 50%; background: {{z.dietColor}};"></div></div>
+</sc-if>
+<button type="button" class="btn" aria-label="Close" onClick="{{closeZoom}}" style="position: absolute; top: 10px; right: 10px; width: 44px; height: 44px; border-radius: 50%; border: none; padding: 0; cursor: pointer; background: rgba(255,255,255,0.95); box-shadow: 0 1px 6px rgba(14,59,51,0.3); display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div style="padding: 16px 18px 18px 18px; display: flex; flex-direction: column; gap: 6px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; line-height: 1.15; color: #0E3B33;">{{z.name}}</span>
+<span style="font-size: 14px; color: #5A6863;">{{z.caption}}</span>
+<span style="font-size: 12px; color: #8A928D;">Sample image - real dish photo will appear here</span>
+<button type="button" class="btn" disabled="{{z.locked}}" onClick="{{zPick}}" style="margin-top: 8px; height: 50px; border-radius: 14px; border: 1.5px solid #0E3B33; cursor: pointer; background: {{zBtnBg}}; color: {{zBtnColor}}; font-size: 16px; font-weight: 700; opacity: {{zBtnOpacity}};">{{zBtnLabel}}</button>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{noteOpen}}" hint-placeholder-val="{{false}}">
+<div role="dialog" aria-modal="true" aria-label="Special instructions" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 60; background: rgba(14,59,51,0.7); display: flex; align-items: flex-end;">
+<button type="button" class="btn" aria-label="Close" onClick="{{closeNote}}" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; border: none; background: transparent;"></button>
+<div style="position: relative; width: 100%; box-sizing: border-box; background: #F7F1E6; border-radius: 24px 24px 0 0; padding: 18px 20px 24px 20px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 -10px 40px rgba(0,0,0,0.35);">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+<span style="font-size: 12px; letter-spacing: 1.4px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Special instructions</span>
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; line-height: 1.15; color: #0E3B33;">{{noteItemName}}</span>
+</div>
+<button type="button" class="btn" aria-label="Close" onClick="{{closeNote}}" style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid #DDD3BF; background: #FFFFFF; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{noteChips}}" as="ch" hint-placeholder-count="6">
+<button type="button" class="btn" aria-pressed="{{ch.on}}" onClick="{{ch.pick}}" style="height: 36px; padding: 0 12px; border-radius: 999px; cursor: pointer; font-size: 13px; font-weight: 600; color: #0E3B33; background: {{ch.bg}}; border: 1.5px solid {{ch.border}};">{{ch.label}}</button>
+</sc-for>
+</div>
+<textarea id="note" class="fld" rows="3" maxlength="200" placeholder="Type your own request, e.g. extra spicy, no onion..." value="{{noteDraft}}" onChange="{{setNoteDraft}}" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; line-height: 1.35; color: #1B2B27; resize: none;"></textarea>
+<div style="display: flex; gap: 10px;">
+<sc-if value="{{noteHasSaved}}" hint-placeholder-val="{{false}}">
+<button type="button" class="btn" onClick="{{clearNote}}" style="height: 50px; padding: 0 16px; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 15px; font-weight: 700; cursor: pointer;">Remove note</button>
+</sc-if>
+<button type="button" class="btn" onClick="{{saveNote}}" style="flex-grow: 1; height: 50px; border-radius: 14px; border: none; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; cursor: pointer;">Save note</button>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</template>
+
+<script>
+/* ------------------------------------------------------------------
+   Minimal runtime for the Design-canvas component format.
+   The artboard's markup and its component class are used verbatim;
+   this file only supplies what the canvas editor normally provides:
+   a DCLogic base class, <sc-if>/<sc-for>, {{hole}} substitution and
+   onClick/onChange/onBlur binding, with in-place patching so typing
+   and scroll position survive a re-render.
+   ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+
+  /* ---------- value lookup: dotted path, or a literal ---------- */
+  function lookup(path, scope) {
+    path = path.trim();
+    if (path === 'true') return true;
+    if (path === 'false') return false;
+    if (path === 'null') return null;
+    if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+    var parts = path.split('.'), cur = scope;
+    for (var i = 0; i < parts.length; i++) {
+      if (cur === null || cur === undefined) return undefined;
+      cur = cur[parts[i]];
+    }
+    return cur;
+  }
+
+  function hasHole(s) { return s.indexOf('{{') !== -1; }
+
+  /* a whole-value hole returns the raw value, keeping booleans and numbers intact */
+  function soleHole(s) {
+    var m = /^\s*\{\{([^}]+)\}\}\s*$/.exec(s);
+    return m ? m[1] : null;
+  }
+
+  function subst(s, scope) {
+    return s.replace(/\{\{([^}]+)\}\}/g, function (_, p) {
+      var v = lookup(p, scope);
+      return (v === null || v === undefined) ? '' : String(v);
+    });
+  }
+
+  var EVENTS = { onclick: 'click', onchange: 'input', onblur: 'blur', oninput: 'input', onfocus: 'focus' };
+  var BOOL = { disabled: 1, checked: 1, readonly: 1, required: 1, selected: 1, multiple: 1 };
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  /* ---------- render template -> detached DOM ---------- */
+  function renderInto(src, scope, out) {
+    for (var n = src.firstChild; n; n = n.nextSibling) renderNode(n, scope, out);
+  }
+
+  function renderNode(node, scope, out) {
+    if (node.nodeType === 3) {
+      var t = node.nodeValue;
+      out.push(document.createTextNode(hasHole(t) ? subst(t, scope) : t));
+      return;
+    }
+    if (node.nodeType !== 1) return;
+
+    var tag = node.tagName.toLowerCase();
+
+    if (tag === 'sc-if') {
+      if (lookup(soleHole(node.getAttribute('value') || '') || '', scope)) renderInto(node, scope, out);
+      return;
+    }
+
+    if (tag === 'sc-for') {
+      var list = lookup(soleHole(node.getAttribute('list') || '') || '', scope);
+      if (!list || !list.length) return;
+      var as = node.getAttribute('as');
+      for (var i = 0; i < list.length; i++) {
+        var childScope = Object.create(scope);
+        childScope[as] = list[i];
+        childScope.$index = i;
+        renderInto(node, childScope, out);
+      }
+      return;
+    }
+
+    var isSvg = node.namespaceURI === SVGNS;
+    var el = isSvg ? document.createElementNS(SVGNS, node.localName) : document.createElement(tag);
+
+    var handlers = null, deferValue;
+    var hasDefer = false;
+
+    for (var a = 0; a < node.attributes.length; a++) {
+      var at = node.attributes[a], name = at.name, raw = at.value;
+
+      if (EVENTS[name]) {
+        var fn = lookup(soleHole(raw) || '', scope);
+        if (typeof fn === 'function') {
+          if (!handlers) handlers = {};
+          handlers[EVENTS[name]] = fn;
+        }
+        continue;
+      }
+
+      var sole = soleHole(raw), val;
+      if (sole !== null) val = lookup(sole, scope);
+      else val = hasHole(raw) ? subst(raw, scope) : raw;
+
+      if (BOOL[name]) {
+        if (val === true || val === '' || val === name) el.setAttribute(name, '');
+        else if (val !== false && val !== null && val !== undefined && val !== 'false') el.setAttribute(name, String(val));
+        continue;
+      }
+
+      /* a select's value can only be applied once its options exist */
+      if (name === 'value' && (tag === 'select' || tag === 'textarea')) {
+        deferValue = val; hasDefer = true; continue;
+      }
+
+      if (val === null || val === undefined || val === false) continue;
+      el.setAttribute(name, String(val));
+      if (name === 'value' && tag === 'input') el.value = String(val);
+    }
+
+    if (handlers) bind(el, handlers);
+
+    var kids = [];
+    renderInto(node, scope, kids);
+    for (var k = 0; k < kids.length; k++) el.appendChild(kids[k]);
+
+    if (hasDefer) el.value = (deferValue === null || deferValue === undefined) ? '' : String(deferValue);
+
+    out.push(el);
+  }
+
+  /* one delegating listener per element per event type; the handler swaps on patch */
+  function bind(el, handlers) {
+    el.__dc = handlers;
+    if (!el.__dcBound) el.__dcBound = {};
+    for (var type in handlers) {
+      if (el.__dcBound[type]) continue;
+      el.__dcBound[type] = true;
+      (function (ty) {
+        el.addEventListener(ty, function (ev) {
+          var h = el.__dc && el.__dc[ty];
+          if (h) h(ev);
+        });
+      })(type);
+    }
+  }
+
+  /* ---------- patch the live DOM towards the freshly rendered tree ---------- */
+  function patch(oldNode, newNode) {
+    if (oldNode.nodeType !== newNode.nodeType ||
+        (oldNode.nodeType === 1 && oldNode.tagName !== newNode.tagName)) {
+      oldNode.parentNode.replaceChild(newNode, oldNode);
+      return;
+    }
+    if (oldNode.nodeType === 3) {
+      if (oldNode.nodeValue !== newNode.nodeValue) oldNode.nodeValue = newNode.nodeValue;
+      return;
+    }
+    if (oldNode.nodeType !== 1) return;
+
+    var i, at;
+    for (i = oldNode.attributes.length - 1; i >= 0; i--) {
+      at = oldNode.attributes[i];
+      if (!newNode.hasAttribute(at.name)) oldNode.removeAttribute(at.name);
+    }
+    for (i = 0; i < newNode.attributes.length; i++) {
+      at = newNode.attributes[i];
+      if (oldNode.getAttribute(at.name) !== at.value) oldNode.setAttribute(at.name, at.value);
+    }
+
+    if (newNode.__dc) bind(oldNode, newNode.__dc);
+
+    var tag = oldNode.localName;
+    if (tag === 'input' || tag === 'textarea') {
+      if (oldNode.value !== newNode.value) oldNode.value = newNode.value;
+      if (oldNode.type === 'checkbox') oldNode.checked = newNode.checked;
+    }
+
+    var o = oldNode.firstChild, n = newNode.firstChild, nextO, nextN;
+    while (o && n) {
+      nextO = o.nextSibling; nextN = n.nextSibling;
+      patch(o, n);
+      o = nextO; n = nextN;
+    }
+    while (n) { nextN = n.nextSibling; oldNode.appendChild(n); n = nextN; }
+    while (o) { nextO = o.nextSibling; oldNode.removeChild(o); o = nextO; }
+
+    if (tag === 'select' && oldNode.value !== newNode.value) oldNode.value = newNode.value;
+  }
+
+  /* ---------- DCLogic base ---------- */
+  var pending = null;
+  function DCLogic(props) {
+    this.props = props || {};
+    this.state = {};
+  }
+  DCLogic.prototype.setState = function (patchObj) {
+    var next = (typeof patchObj === 'function') ? patchObj(this.state) : patchObj;
+    Object.assign(this.state, next);
+    if (!pending) {
+      pending = Promise.resolve().then(function () {
+        pending = null;
+        window.__dcRender();
+      });
+    }
+  };
+  window.DCLogic = DCLogic;
+
+  /* ---------- mount ---------- */
+  window.__dcMount = function (Component, props, tplId, mountId) {
+    var tpl = document.getElementById(tplId);
+    var mount = document.getElementById(mountId);
+    var inst = new Component(props);
+    window.__dcInstance = inst;
+
+    window.__dcRender = function () {
+      var vals = inst.renderVals();
+      var frag = [];
+      renderInto(tpl.content, vals, frag);
+
+      if (!mount.firstChild) {
+        for (var i = 0; i < frag.length; i++) mount.appendChild(frag[i]);
+        return;
+      }
+      var o = mount.firstChild, k = 0, nextO;
+      while (o && k < frag.length) { nextO = o.nextSibling; patch(o, frag[k]); o = nextO; k++; }
+      while (k < frag.length) mount.appendChild(frag[k++]);
+      while (o) { nextO = o.nextSibling; mount.removeChild(o); o = nextO; }
+    };
+
+    window.__dcRender();
+  };
+})();
+</script>
+
+<script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    // Dummy photo tiles for now; real photos replace the glyph tile later.
+    this.ITEMS = [];
+    const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
+      const p = Array.isArray(n) ? n : [n, ''];
+      this.ITEMS.push({ name: p[0], note: p[1], cu: cu, cat: cat, diet: diet, sub: sub });
+    });
+    const SAUCE3 = 'Regular / Burnt Garlic / Schezwan';
+    const VCP = 'Veg / Chicken / Prawns';
+    // ---------- CHINESE ----------
+    add('ch', 'starter', 'veg', 'Dim sum', ['Vegetable Spring Roll', 'Vegetable Gyoza', 'Steamed Wonton Pickle Chilli', 'Vegetable Basil Dumplings', 'Edamame Dumpling With Truffle Oil', 'Vegetable Crystal Dumpling']);
+    add('ch', 'starter', 'veg', 'Bao', ['Vegetable Sanchoi Bao', 'Cottage Cheese Smoked Chilli Bao']);
+    add('ch', 'starter', 'veg', 'Sushi roll', ['Asparagus Tempura Roll', 'Crispy Spicy Avocado Roll', 'Philippine Mango Roll']);
+    add('ch', 'starter', 'veg', 'Wok starter', ['Asian Crispy Potato', 'Crispy Thai Lotus Stem With Curry Leaves', 'Crispy Vegetable Konji', 'Veg Manchurian Dry', 'Asian Paneer Chilli', 'Diced Tofu Smoked Chilli', 'Crispy Schezwan Chilli Baby Corn', 'Sauteed Zucchini, Baby Corn & Mushroom Ginger Chilli']);
+    add('ch', 'starter', 'nonveg', 'Dim sum', ['Crescent Chicken Dumplings', 'Chicken Gyoza', 'Prawn Har Gao', 'Chicken Siu Mai', 'Chicken Basil Dumplings', 'Chicken Spring Roll']);
+    add('ch', 'starter', 'nonveg', 'Bao', ['Prawn Tempura Bao', 'Chicken BBQ Bao']);
+    add('ch', 'starter', 'nonveg', 'Sushi roll', ['Prawn Tempura Roll', 'Salmon Roll']);
+    add('ch', 'starter', 'nonveg', 'Wok starter', ['Diced Chicken With Assorted Pepper & Ginger', 'Drums Of Heaven Hong Kong', 'Drums Of Heaven Shang Dong', 'Drums Of Heaven Hunan', 'Asian Chicken Chilli', 'Chicken Tai Pei', 'Dragon Chicken', 'Chicken Hunan Dry', 'Sea Bass Chilli Basil', 'Crispy Chicken', 'Fish Pepper Garlic', 'Asian Fried Chilli Fish', 'Dynamite Prawns', ['King Prawns', 'Sauce: Hunan / Kimlee / Butter Garlic']]);
+    add('ch', 'main', 'veg', 'Wok & curry', [['Mixed Vegetable', 'Sauce: Chilli Basil / Hot Garlic'], 'Wok Tossed Greens', 'Tofu In Smoked Chilli', 'Asian Paneer Chilli Sauce', 'Tofu Schezwan Chilli', 'Veg Croquettes Manchurian Sauce', ['Thai Curry', 'Red / Green'], 'Corn Potato In Asian Chilli']);
+    add('ch', 'main', 'nonveg', 'Wok & curry', ['Asian Chicken Chilli In Jiang Sauce', 'Smoked Chicken', 'Hot Pot Chicken With Mushroom', 'Chilli Basil Chicken', 'Diced Chicken In Hot Garlic Sauce', 'Lemon Honey Glazed Chicken', ['Thai Curry (Chicken or Prawns)', 'Red / Green'], 'Fish In Hot Garlic Sauce', ['Sea Bass', 'Sauce: Chilli Basil / Schezwan Chilli'], ['King Prawns', 'Sauce: Chilli Basil / Hot Garlic / Oyster'], ['Lobster', 'Sauce: Hot Basil / Sichuan Chilli / Seafood Coriander'], ['Wok Tossed Greens', 'With Chicken / Fish / Prawns']]);
+    add('ch', 'rice', null, 'Rice', ['Steamed Rice', 'Steamed Jasmine Rice', ['Vegetable Fried Rice', SAUCE3], ['Egg Fried Rice', SAUCE3], ['Chicken Fried Rice', SAUCE3], ['Prawns Fried Rice', SAUCE3], ['Black Pepper Fried Rice', VCP], ['Nasi Goreng Rice', VCP]]);
+    add('ch', 'noodle', null, 'Noodles', [['Wok Tossed Hakka Noodles', 'Regular / Schezwan - ' + VCP]]);
+    add('ch', 'dessert', null, 'Dessert', ['Sizzling Brownie With Ice Cream', 'Chocolate Rolls', 'Steamed Coconut Dumpling With Honey Sesame Sauce', 'Caramel Custard', 'Rambutan With Vanilla Ice Cream']);
+    // ---------- INDIAN ----------
+    add('in', 'starter', 'veg', 'Tandoor', ['Bharwani Tandoori Kumbh', 'Malai Paneer Tikka', 'Veg Seekh Kebab', 'Malai Broccoli', 'Veg Harabhara Kebab', 'Punjabi Paneer Tikka', 'Malai Soya Chaap', 'Tandoori Soya Chaap', 'Aatishi Aaloo']);
+    add('in', 'starter', 'veg', 'Kathi roll', ['Soya Chaap Roll', 'Paneer Tikka Roll']);
+    add('in', 'starter', 'nonveg', 'Tandoor - Chicken', ['Firangi Chicken Tikka', 'Achari Chicken Tikka', 'Kasturi Chicken Tikka', 'Murgh Malai Tikka', 'Tandoori Chicken (Full)', 'Tandoori Chicken (Half)', 'Chicken Seekh Kebab']);
+    add('in', 'starter', 'nonveg', 'Tandoor - Mutton', ['Lakhnowi Tunday Kabab', 'Dum Pukht Kakori', 'Mutton Boti Kebab']);
+    add('in', 'starter', 'nonveg', 'Tandoor - Seafood', ['Loshani Jhinga Kalimirch', 'Ajwani Fish Tikka']);
+    add('in', 'starter', 'nonveg', 'Kathi roll', ['Chicken Tikka Roll', 'Mutton Boti Roll', 'Egg Roll']);
+    add('in', 'main', 'veg', 'Curry & dal', ['Paneer Tikka Masala', 'Palak Paneer', 'Mirch Masala Soya Chaap', 'Matar Mushroom', 'Kadhai Paneer', 'Dal Makhani', 'Double Dal Tadka', 'Dil Khush Kofta', 'Subz Diwani Handi']);
+    add('in', 'main', 'nonveg', 'Curry - Chicken', ['Butter Chicken', 'Chicken Labab Dar', 'Bhatti Ka Dum Murgh', 'Murgh Masaalam', 'Chicken Tikka Masala']);
+    add('in', 'main', 'nonveg', 'Curry - Egg', ['Egg Masala']);
+    add('in', 'main', 'nonveg', 'Curry - Mutton', ['Lahori Gosht', 'Mutton Kheema Pav', 'Mutton Rogan Josh', 'Bhuna Tawa Maas', 'Dum Handi Ka Gosht']);
+    add('in', 'rice', null, 'Rice', ['Jeera Rice', 'Dal Khichdi', 'Steamed Rice']);
+    add('in', 'biryani', null, 'Biryani - Veg', ['Subz Veg Biryani', 'Soya Chaap Biryani', 'Paneer Tikka Biryani']);
+    add('in', 'biryani', null, 'Biryani - Chicken', ['Chicken Tikka Biryani', 'Awadhi Murgh Dum Biryani', 'Egg Masala Biryani']);
+    add('in', 'biryani', null, 'Biryani - Mutton', ['Nalli Biryani', 'Raan Biryani (Half)', 'Raan Biryani (Special)', 'Dum Gosht Ki Biryani', 'Yakhni Dum Gosht Biryani']);
+    add('in', 'bread', null, 'Indian bread', [['Tandoori Roti', 'Butter / Plain'], ['Pyaaz Mirch Ki Roti', 'Butter / Plain'], ['Laccha Paratha', 'Butter / Plain'], ['Mint Laccha Paratha', 'Butter / Plain'], ['Ajwani Laccha Paratha', 'Butter / Plain'], ['Tandoori Naan', 'Butter / Plain'], ['Romali Roti', 'Butter / Plain'], ['Garlic Naan', 'Butter / Plain'], ['Chilli Garlic Naan', 'Butter / Plain']]);
+    add('in', 'dessert', null, 'Dessert', ['Gulab Jamun', 'Kesar Da Phirni']);
+    this.ITEMS.forEach((x, i) => { x.id = 'i' + i; });
+    // Diet tags for staples (rice / biryani), so Pure Veg can hide the non-veg ones
+    const NV = ['Egg Fried Rice', 'Chicken Fried Rice', 'Prawns Fried Rice', 'Chicken Tikka Biryani', 'Awadhi Murgh Dum Biryani', 'Egg Masala Biryani', 'Nalli Biryani', 'Raan Biryani (Half)', 'Raan Biryani (Special)', 'Dum Gosht Ki Biryani', 'Yakhni Dum Gosht Biryani'];
+    const VG = ['Steamed Rice', 'Steamed Jasmine Rice', 'Vegetable Fried Rice', 'Jeera Rice', 'Dal Khichdi', 'Subz Veg Biryani', 'Soya Chaap Biryani', 'Paneer Tikka Biryani'];
+    this.ITEMS.forEach((x) => {
+      if (x.diet) return;
+      if (NV.indexOf(x.name) >= 0) x.diet = 'nonveg';
+      else if (VG.indexOf(x.name) >= 0 || x.cat === 'bread') x.diet = 'veg';
+    });
+    // Per-person prices, from the menu sheet: [package 1..4]
+    this.PRICES = {
+      ic: { buffet: [109, 129, 149, 159], delivery: [49, 69, 99, 110], live: [110, 130, 150, 175] },
+      in: { buffet: [119, 139, 159, 179], delivery: [59, 79, 99, 119], live: [139, 159, 169, 189] },
+      ch: { buffet: [99, 119, 139, 149], delivery: [59, 79, 99, 119], live: [139, 159, 169, 189] }
+    };
+    // Total dishes in each package (starters + mains + staples + dessert), used to price custom menus
+    this.COMP = [[3, 2, 2, 1], [4, 4, 2, 2], [5, 5, 4, 2], [6, 6, 4, 2]]; // starters, mains, staples, dessert per package
+    this.CAT_W = [1, 1.5, 0.8, 0.7]; // relative cost weight of one dish: starter, main, staple, dessert
+    this.CUSTOM_MARKUP = 1.10;
+    // Event themes: first 3 included with the package, last 3 are premium (dummy prices, flat per event)
+    this.THEMES = [
+      { id: 't1', name: 'Classic Ivory', desc: 'Ivory and gold, timeless elegance', price: 0, c: ['#F6EFDD', '#E7DAB8', '#C9963B', '#8A6A2A'] },
+      { id: 't2', name: 'Garden Green', desc: 'Fresh foliage, calm and natural', price: 0, c: ['#DCEBDD', '#B9D3B5', '#4E8B5A', '#145244'] },
+      { id: 't3', name: 'Festive Marigold', desc: 'Warm marigold and orange, joyful', price: 0, c: ['#FCE9C4', '#F2CE86', '#E58A1F', '#B5502B'] },
+      { id: 't4', name: 'Royal Mughal', desc: 'Deep maroon, gold arches, royal feel', price: 900, c: ['#5A1A25', '#3E1119', '#E9C77E', '#C9963B'] },
+      { id: 't5', name: 'Arabian Nights', desc: 'Lanterns, crescent moon and starlight', price: 1200, c: ['#14264A', '#0C1830', '#F0C868', '#C9963B'] },
+      { id: 't6', name: 'Crystal Luxe', desc: 'Chandeliers, crystal and white florals', price: 1800, c: ['#EEF1F5', '#D5DBE5', '#8FA3BF', '#FFFFFF'] }
+    ];
+    this.THEME_INFO = {
+      t1: { long: 'A timeless ivory and gold setup with soft fairy lights, classic arches and elegant table styling. Suits almost any celebration.', incl: ['Ivory and gold backdrop with arch frames', 'Fairy-light canopy', 'Elegant table centrepieces with candles', 'Matching table linen and napkins', 'Welcome signboard'], best: ['Weddings', 'Anniversaries', 'Corporate dinners'] },
+      t2: { long: 'Fresh green foliage, hanging vines and natural textures create a calm, relaxed garden-party mood.', incl: ['Foliage wall and leafy arch', 'Hanging greenery accents', 'Wood and greenery table centrepieces', 'Natural linen table runners', 'Welcome signboard'], best: ['Birthdays', 'Baby showers', 'Outdoor lunches'] },
+      t3: { long: 'Bright marigold garlands, warm orange tones and traditional accents for a joyful, festive feel.', incl: ['Marigold garland hangings', 'Warm-coloured drapes', 'Brass diya and floral centrepieces', 'Traditional table decor', 'Welcome signboard'], best: ['Festivals', 'Engagements', 'Family gatherings'] },
+      t4: { long: 'Deep maroon drapes, gold-framed Mughal arches and rich detailing for a truly royal evening.', incl: ['Maroon and gold stage backdrop', 'Gold-framed Mughal arches', 'Premium drapes and floor styling', 'Brass and gold table centrepieces', 'Custom signage and entrance decor'], best: ['Weddings', 'Receptions', 'Grand celebrations'] },
+      t5: { long: 'Lanterns, a crescent moon and starlit ceiling effects create a magical Arabian night atmosphere.', incl: ['Hanging lantern installation', 'Crescent and star backdrop', 'Deep-blue draping and starlit lighting', 'Gold lantern table centrepieces', 'Custom signage and entrance decor'], best: ['Ramadan gatherings', 'Eid parties', 'Gala dinners'] },
+      t6: { long: 'Crystal chandeliers, white florals and soft silver tones for a luxurious, modern look.', incl: ['Crystal chandelier installation', 'White floral arrangements', 'Silver and white table styling', 'Mirror-top table centrepieces', 'Custom signage and entrance decor'], best: ['Weddings', 'Award nights', 'Luxury launches'] }
+    };
+    const d0 = new Date();
+    const p2 = (n) => (n < 10 ? '0' : '') + n;
+    this.REF = 'CM-' + String(d0.getFullYear()).slice(2) + p2(d0.getMonth() + 1) + p2(d0.getDate()) + '-' + (1000 + Math.floor(Math.random() * 9000));
+    // Choices allowed per package, from the menu sheet
+    this.Q = {
+      '1': { sv: 1, snv: 2, mv: 1, mnv: 1, rn: 1, bb: 1, ds: 1 },
+      '2': { sv: 2, snv: 2, mv: 2, mnv: 2, rn: 1, bb: 1, ds: 2 },
+      '3': { sv: 2, snv: 3, mv: 2, mnv: 3, rn: 2, bb: 2, ds: 2 },
+      '4': { sv: 3, snv: 3, mv: 3, mnv: 3, rn: 2, bb: 2, ds: 2 }
+    };
+  }
+  // Category rates for custom menus. Package price = base (salads, sides, service) + dishes x category rate.
+  // Fitted from the 4 package prices: weighted dishes per package vs price (least squares), then +10%.
+  catRates() {
+    const st = this.state;
+    const setup = st.type === 'delivery' ? 'delivery' : (st.layout === 'live' ? 'live' : 'buffet');
+    const P = this.PRICES[st.cuisine][setup];
+    const w = this.CAT_W, X = this.COMP.map((c) => c[0] * w[0] + c[1] * w[1] + c[2] * w[2] + c[3] * w[3]);
+    const mx = X.reduce((a, b) => a + b, 0) / 4, my = P.reduce((a, b) => a + b, 0) / 4;
+    let sxy = 0, sxx = 0;
+    for (let k = 0; k < 4; k++) { sxy += (X[k] - mx) * (P[k] - my); sxx += (X[k] - mx) * (X[k] - mx); }
+    const unit = sxy / sxx, base = Math.max(my - unit * mx, 0);
+    const r = (v) => Math.round(Math.round(v * this.CUSTOM_MARKUP * 1e6) / 1e6 + 1e-9);
+    return { base: r(base), starters: r(unit * w[0]), mains: r(unit * w[1]), staples: r(unit * w[2]), dessert: r(unit * w[3]) };
+  }
+  customPP(n) {
+    const c = this.catRates();
+    return c.base + n.starters * c.starters + n.mains * c.mains + n.staples * c.staples + n.dessert * c.dessert;
+  }
+  pkgVals() {
+    const MIN = 2000;
+    const st = this.state;
+    const setup = st.type === 'delivery' ? 'delivery' : (st.layout === 'live' ? 'live' : 'buffet');
+    const popular = (this.props.popular ?? 2) - 1;
+    const pax = st.pax;
+    const pv = st.pureVeg;
+    const fmt = (n) => n.toLocaleString('en-US');
+
+    const PRICES = this.PRICES;
+    const TIERS = [
+      { st: '1 Veg · 2 Non Veg', stv: '3 Veg', mc: '1 Veg · 1 Non Veg', mcv: '2 Veg', rice: 'Rice / Noodles', bir: 'Biryani / Breads', ds: '1 selection' },
+      { st: '2 Veg · 2 Non Veg', stv: '4 Veg', mc: '2 Veg · 2 Non Veg', mcv: '4 Veg', rice: 'Rice / Noodles', bir: 'Biryani / Breads', ds: '2 selections' },
+      { st: '2 Veg · 3 Non Veg', stv: '5 Veg', mc: '2 Veg · 3 Non Veg', mcv: '5 Veg', rice: 'Rice + Noodles', bir: 'Biryani + Breads', ds: '2 selections' },
+      { st: '3 Veg · 3 Non Veg', stv: '6 Veg', mc: '3 Veg · 3 Non Veg', mcv: '6 Veg', rice: 'Rice + Noodles', bir: 'Biryani + Breads', ds: '2 selections' }
+    ];
+    const CUISINES = [
+      { id: 'ic', label: 'Indian & Chinese', grow: 1.7 },
+      { id: 'in', label: 'Indian', grow: 1 },
+      { id: 'ch', label: 'Chinese', grow: 1 }
+    ];
+    const prices = PRICES[st.cuisine][setup];
+    const sel = (on) => ({
+      border: on ? '#C9963B' : '#E4D9C2',
+      shadow: on ? '0 6px 16px rgba(201,150,59,0.35)' : '0 1px 2px rgba(14,59,51,0.06)'
+    });
+
+    const pkgs = TIERS.map((t, i) => {
+      const on = st.pkg === i;
+      return Object.assign({
+        name: 'Package ' + (i + 1),
+        price: prices[i],
+        popular: i === popular,
+        on: on,
+        pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false }),
+        rows: [
+          { k: 'Starters', v: pv ? t.stv : t.st },
+          { k: 'Main course', v: pv ? t.mcv : t.mc },
+          { k: 'Staples', v: t.rice + '\n' + t.bir },
+          { k: 'Dessert', v: t.ds }
+        ]
+      }, sel(on));
+    });
+
+    const isCustom = st.pkg === 'custom';
+    const hasPkg = typeof st.pkg === 'number';
+    const price = hasPkg ? prices[st.pkg] : 0;
+    const raw = price * pax;
+    const belowMin = hasPkg && raw < MIN;
+    const applied = belowMin && st.consent;
+    let totalText = '—', totalSub = 'Select a package to see the price', totalColor = '#0E3B33';
+    if (isCustom) { totalText = 'Custom menu'; totalSub = 'Base ' + this.catRates().base + ' Dh + price of each dish you pick'; }
+    if (hasPkg) {
+      totalText = fmt(applied ? MIN : raw) + ' Dh';
+      totalSub = applied ? 'Minimum order applied (' + pax + ' × ' + price + ' = ' + fmt(raw) + ' Dh)' : pax + ' guests × ' + price + ' Dh';
+      if (belowMin && !st.consent) totalColor = '#8A3B12';
+    }
+    const ready = isCustom || (hasPkg && (!belowMin || st.consent));
+
+    return {
+      cuisines: CUISINES.map((c) => {
+        const on = st.cuisine === c.id;
+        return {
+          label: c.label, grow: c.grow, on: on,
+          bg: on ? '#D3E7DE' : '#FFFFFF',
+          color: '#0E3B33',
+          border: on ? '#2F7A64' : '#DDD3BF',
+          pick: () => this.setState({ cuisine: c.id, consent: false })
+        };
+      }),
+      pkgs: pkgs,
+      custom: Object.assign({ on: isCustom, off: !isCustom, pick: () => this.setState({ pkg: isCustom ? null : 'custom', consent: false }) }, sel(isCustom)),
+      pax: pax,
+      pkgCaption: pv ? 'Pure Veg menu · salads & sides incl.' : 'Salads & sides included',
+      belowMin: belowMin,
+      needPax: hasPkg ? Math.ceil(MIN / price) : pax,
+      bumpPax: () => this.setState({ pax: Math.ceil(MIN / price), consent: false }),
+      consent: st.consent,
+      toggleConsent: () => this.setState({ consent: !st.consent }),
+      totalText: totalText,
+      totalSub: totalSub,
+      totalColor: totalColor,
+      ready: ready,
+      notReady: !ready,
+      btnOpacity: 1
+    };
+  }
+
+  itemsVals() {
+    const st = this.state;
+    const cuisine = st.cuisine;
+    const tier = st.pkg === 'custom' ? 'custom' : String((typeof st.pkg === 'number' ? st.pkg : 1) + 1);
+    const isCustom = tier === 'custom';
+    const Q = this.Q;
+    const pv = st.pureVeg;
+    const q = isCustom ? null : Q[tier];
+    const both = isCustom || tier === '3' || tier === '4';
+    const cuLabel = { ic: 'Indian & Chinese', in: 'Indian', ch: 'Chinese' }[cuisine];
+    const pool = this.ITEMS.filter((x) => (cuisine === 'ic' || x.cu === cuisine) && !(pv && x.diet === 'nonveg'));
+
+    const DEFS = {
+      starters: [
+        { id: 'sv', title: 'Veg Starters', short: 'Veg', match: (x) => x.cat === 'starter' && x.diet === 'veg', need: q && (pv ? q.sv + q.snv : q.sv) },
+        { id: 'snv', title: 'Non-Veg Starters', short: 'Non-Veg', match: (x) => x.cat === 'starter' && x.diet === 'nonveg', need: q && q.snv }
+      ],
+      mains: [
+        { id: 'mv', title: 'Veg Main Course', short: 'Veg', match: (x) => x.cat === 'main' && x.diet === 'veg', need: q && (pv ? q.mv + q.mnv : q.mv) },
+        { id: 'mnv', title: 'Non-Veg Main Course', short: 'Non-Veg', match: (x) => x.cat === 'main' && x.diet === 'nonveg', need: q && q.mnv }
+      ],
+      staples: [
+        { id: 'rn', short: 'Rice / Noodles', title: both ? 'Rice & Noodles' : 'Rice or Noodles', match: (x) => x.cat === 'rice' || x.cat === 'noodle', need: q && q.rn },
+        { id: 'bb', short: 'Biryani / Breads', title: both ? 'Biryani & Breads' : 'Biryani or Breads', match: (x) => x.cat === 'biryani' || x.cat === 'bread', need: q && q.bb }
+      ],
+      dessert: [
+        { id: 'ds', title: 'Desserts', match: (x) => x.cat === 'dessert', need: q && q.ds }
+      ]
+    };
+    const TABS = [
+      { id: 'starters', label: 'Starters' },
+      { id: 'mains', label: 'Mains' },
+      { id: 'staples', label: 'Staples' },
+      { id: 'dessert', label: 'Dessert' }
+    ];
+
+    const TILE = { iBowl: '#EEE0C4', iDump: '#F3E6C9', iRoll: '#E4EBD5', iSkew: '#F3DCCB', iBread: '#F1E3C0', iSweet: '#F3DCE0' };
+    const iconOf = (x) => {
+      if (x.cat === 'dessert') return 'iSweet';
+      if (x.cat === 'bread') return 'iBread';
+      if (x.sub.indexOf('Dim sum') === 0 || x.sub.indexOf('Bao') === 0) return 'iDump';
+      if (x.sub.indexOf('Sushi') === 0 || x.sub.indexOf('Kathi') === 0) return 'iRoll';
+      if (x.sub.indexOf('Tandoor') === 0) return 'iSkew';
+      return 'iBowl';
+    };
+
+    // Build every group of every tab, with counts
+    const built = {};
+    let totalNeed = 0, totalDone = 0, totalPicked = 0;
+    TABS.forEach((tb) => {
+      built[tb.id] = [];
+      DEFS[tb.id].forEach((d) => {
+        const gp = pool.filter(d.match);
+        if (!gp.length) return; // nothing on the menu for this cuisine
+        const count = gp.filter((x) => st.sel[x.id]).length;
+        const need = isCustom ? null : Math.min(d.need, gp.length);
+        built[tb.id].push({ def: d, items: gp, count: count, need: need });
+      });
+    });
+
+    const tabInfo = TABS.map((tb) => {
+      const gs = built[tb.id];
+      const need = gs.reduce((a, g) => a + (g.need || 0), 0);
+      const done = gs.reduce((a, g) => a + (isCustom ? g.count : Math.min(g.count, g.need)), 0);
+      totalNeed += need; totalDone += done;
+      const complete = !isCustom && need > 0 && done >= need;
+      return { tb: tb, need: need, done: done, complete: complete };
+    });
+    Object.keys(built).forEach((k) => built[k].forEach((g) => { totalPicked += g.count; }));
+
+    const tabs = tabInfo.map((t) => {
+      const on = st.tab === t.tb.id;
+      return {
+        label: t.tb.label, on: on,
+        count: isCustom ? (t.done + ' picked') : (t.done + ' of ' + t.need),
+        bg: on ? '#0E3B33' : '#FFFFFF',
+        color: on ? '#FBF6EA' : '#0E3B33',
+        subColor: on ? '#E9C77E' : (t.complete ? '#1F6B4E' : '#5A6863'),
+        border: on ? '#0E3B33' : (t.complete ? '#2F7A64' : '#DDD3BF'),
+        pick: () => this.setState({ tab: t.tb.id, sub: 0, note: '' })
+      };
+    });
+
+    const showFilter = cuisine === 'ic';
+    const filters = [['all', 'All'], ['in', 'Indian'], ['ch', 'Chinese']].map((f) => {
+      const on = st.fcu === f[0];
+      return {
+        label: f[1], on: on,
+        bg: on ? '#D3E7DE' : '#FFFFFF',
+        border: on ? '#2F7A64' : '#DDD3BF',
+        pick: () => this.setState({ fcu: f[0] })
+      };
+    });
+
+    const tabGroups = built[st.tab] || [];
+    const subIdx = Math.min(st.sub || 0, Math.max(tabGroups.length - 1, 0));
+    const showSubs = tabGroups.length > 1;
+    const subs = tabGroups.map((g, i) => {
+      const on = i === subIdx;
+      const done = !isCustom && g.count >= g.need;
+      return {
+        label: g.def.short,
+        count: isCustom ? (g.count + ' picked') : (g.count + ' of ' + g.need),
+        on: on,
+        bg: on ? '#D3E7DE' : '#FFFFFF',
+        border: on ? '#2F7A64' : (done ? '#2F7A64' : '#DDD3BF'),
+        countColor: done ? '#1F6B4E' : '#5A6863',
+        pick: () => this.setState({ sub: i, note: '' })
+      };
+    });
+    const shownGroups = showSubs ? [tabGroups[subIdx]] : tabGroups;
+    const objById = {};
+    const groups = shownGroups.map((g) => {
+      const full = !isCustom && g.count >= g.need;
+      const visible = g.items.filter((x) => cuisine !== 'ic' || st.fcu === 'all' || x.cu === st.fcu);
+      return {
+        showHeader: !showSubs,
+        title: g.def.title,
+        pillText: isCustom ? (g.count + ' picked') : (g.count + ' of ' + g.need + (full ? ' - Done' : '')),
+        pillBg: full ? '#D3E7DE' : '#EADFC8',
+        pillColor: '#0E3B33',
+        items: visible.map((x) => {
+          const on = !!st.sel[x.id];
+          const locked = !on && full;
+          const icon = iconOf(x);
+          const o = {
+            name: x.name,
+            caption: [cuisine === 'ic' ? (x.cu === 'in' ? 'Indian' : 'Chinese') : '', (pv ? (x.note || '').replace('Veg / Chicken / Prawns', 'Veg') : x.note) || x.sub, (pv && !x.diet && x.cat !== 'dessert') ? 'made Veg' : ''].filter(Boolean).join(' · '),
+            tile: TILE[icon],
+            hasDiet: !!x.diet,
+            dietColor: x.diet === 'veg' ? '#2E7D32' : '#A8461B',
+            on: on,
+            locked: locked,
+            opacity: locked ? 0.45 : 1,
+            border: on ? '#C9963B' : '#E4D9C2',
+            shadow: on ? '0 6px 16px rgba(201,150,59,0.35)' : '0 1px 2px rgba(14,59,51,0.06)',
+            pick: () => {
+              const sel = Object.assign({}, this.state.sel);
+              const adding = !sel[x.id];
+              if (adding) sel[x.id] = true; else delete sel[x.id];
+              let extra = { note: '' };
+              if (!adding) { const nn = Object.assign({}, this.state.notes); delete nn[x.id]; extra.notes = nn; }
+              // group just filled: jump to the other group of this tab that still needs items
+              if (!isCustom && adding && g.items.filter((y) => sel[y.id]).length >= g.need) {
+                const idx = tabGroups.findIndex((h, i) => i !== subIdx && h.items.filter((y) => sel[y.id]).length < h.need);
+                if (idx >= 0) {
+                  extra = { sub: idx, note: g.def.short + ' done. Now choose ' + tabGroups[idx].need + ' ' + tabGroups[idx].def.short + '.' };
+                }
+              }
+              this.setState(Object.assign({ sel: sel }, extra));
+            }
+          };
+          ['iBowl', 'iDump', 'iRoll', 'iSkew', 'iBread', 'iSweet'].forEach((k) => { o[k] = (k === icon); });
+          o.zoom = () => this.setState({ zoom: x.id });
+          const nt = (st.notes[x.id] || '').trim();
+          o.hasNote = on && !!nt;
+          o.noteText = nt;
+          o.noteLabel = nt ? 'Edit note' : 'Add note';
+          o.noteBg = nt ? '#F3D48F' : 'rgba(255,255,255,0.95)';
+          o.openNote = () => this.setState({ noteFor: x.id, noteDraft: st.notes[x.id] || '' });
+          objById[x.id] = o;
+          return o;
+        })
+      };
+    });
+
+    const CHIPS = ['Extra spicy', 'Less spicy', 'Mild', 'No onion / garlic', 'Less oil', 'Extra gravy', 'Jain'];
+    const nItem = st.noteFor ? this.ITEMS.find((y) => y.id === st.noteFor) : null;
+    const draft = st.noteDraft || '';
+    const noteChips = CHIPS.map((c) => {
+      const has = draft.toLowerCase().indexOf(c.toLowerCase()) >= 0;
+      return {
+        label: c, on: has,
+        bg: has ? '#D3E7DE' : '#FFFFFF', border: has ? '#2F7A64' : '#DDD3BF',
+        pick: () => {
+          const cur = this.state.noteDraft || '';
+          const i = cur.toLowerCase().indexOf(c.toLowerCase());
+          let next;
+          if (i >= 0) next = (cur.slice(0, i) + cur.slice(i + c.length)).replace(/^[\s,]+|[\s,]+$/g, '').replace(/\s*,\s*,/g, ',');
+          else next = cur.trim() ? cur.trim().replace(/[,\s]+$/, '') + ', ' + c : c;
+          this.setState({ noteDraft: next });
+        }
+      };
+    });
+    const zo = st.zoom ? (objById[st.zoom] || null) : null;
+    const zLabel = zo ? (zo.on ? 'Remove from my menu' : (zo.locked ? 'Limit reached for this group' : 'Add to my menu')) : '';
+    const remaining = totalNeed - totalDone;
+    const ready = isCustom ? totalPicked > 0 : remaining === 0;
+    let hint, hintColor = '#5A6863';
+    if (isCustom) {
+      hint = totalPicked > 0 ? 'Add as many items as you like' : 'Pick the items you would like';
+    } else if (ready) {
+      hint = 'All items chosen - you are all set'; hintColor = '#1F6B4E';
+    } else {
+      hint = 'Choose ' + remaining + ' more item' + (remaining === 1 ? '' : 's') + ' to continue';
+    }
+    let custTotal = '', custSub = '', custPP = '', custSubColor = '#5A6863';
+    if (isCustom) {
+      const fmt = (n) => n.toLocaleString('en-US');
+      const pax = st.pax;
+      if (!totalPicked) { custTotal = '-'; custPP = '-'; custSub = 'Pick dishes to see the approx. price'; }
+      else {
+        const pp = this.customPP({ starters: tabInfo[0].done, mains: tabInfo[1].done, staples: tabInfo[2].done, dessert: tabInfo[3].done });
+        const raw = pp * pax;
+        custPP = pp + ' Dh';
+        custTotal = fmt(raw) + ' Dh';
+        custSub = pax + ' guests × ' + pp + ' Dh · ' + totalPicked + ' dishes';
+        if (raw < 2000) { custSub += ' — below the 2,000 Dh minimum, 2,000 Dh will be charged'; custSubColor = '#8A5A00'; }
+      }
+    }
+    return {
+      context: (isCustom ? 'Custom menu' : 'Package ' + tier) + ' · ' + cuLabel + (pv ? ' · Pure Veg' : ''),
+      tabs: tabs,
+      showFilter: showFilter,
+      filters: filters,
+      groups: groups,
+      showSubs: showSubs,
+      hasNote: !!st.note,
+      note: st.note,
+      subs: subs,
+      hint: hint,
+      hintColor: hintColor,
+      progressText: isCustom ? (totalPicked + ' picked') : (totalDone + ' of ' + totalNeed),
+      pct: isCustom ? (totalPicked > 0 ? 100 : 0) : (totalNeed ? Math.round(100 * totalDone / totalNeed) : 0),
+      showCustPrice: isCustom,
+      noteOpen: !!nItem,
+      noteItemName: nItem ? nItem.name : '',
+      noteChips: noteChips,
+      noteDraft: draft,
+      noteHasSaved: !!(nItem && (st.notes[nItem.id] || '').trim()),
+      setNoteDraft: (e) => this.setState({ noteDraft: String(e.target.value).slice(0, 200) }),
+      saveNote: () => {
+        const nn = Object.assign({}, this.state.notes); const v = (this.state.noteDraft || '').trim();
+        if (v) nn[st.noteFor] = v; else delete nn[st.noteFor];
+        this.setState({ notes: nn, noteFor: null, noteDraft: '' });
+      },
+      clearNote: () => { const nn = Object.assign({}, this.state.notes); delete nn[st.noteFor]; this.setState({ notes: nn, noteFor: null, noteDraft: '' }); },
+      closeNote: () => this.setState({ noteFor: null, noteDraft: '' }),
+      zoomOpen: !!zo,
+      z: zo || { name: '', caption: '', tile: '#EEE0C4', hasDiet: false, dietColor: '#2E7D32', locked: false },
+      closeZoom: () => this.setState({ zoom: null }),
+      zPick: () => { if (zo) { zo.pick(); this.setState({ zoom: null }); } },
+      zBtnLabel: zLabel,
+      zBtnBg: zo && zo.on ? '#FFFFFF' : '#0E3B33',
+      zBtnColor: zo && zo.on ? '#0E3B33' : '#FBF6EA',
+      zBtnOpacity: zo && zo.locked ? 0.45 : 1,
+      showRate: isCustom,
+      rateText: (() => { const c = this.catRates(); const t = st.tab; const k = { starters: ['starter', c.starters], mains: ['main course dish', c.mains], staples: ['staple', c.staples], dessert: ['dessert', c.dessert] }[t]; return 'Each ' + k[0] + ' adds ' + k[1] + ' Dh / person'; })(),
+      custTotal: custTotal,
+      custPP: custPP,
+      custSub: custSub,
+      custSubColor: custSubColor,
+      iNotReady: !ready,
+      iBtnOpacity: ready ? 1 : 0.45
+    };
+  }
+
+  // ---------- everything the theme, review and PDF screens need ----------
+  summary() {
+    const st = this.state;
+    const MIN = 2000;
+    const fmt = (n) => n.toLocaleString('en-US');
+    const setup = st.type === 'delivery' ? 'delivery' : (st.layout === 'live' ? 'live' : 'buffet');
+    const P = this.PRICES[st.cuisine][setup];
+    const cuisine = { ic: 'Indian & Chinese', in: 'Indian', ch: 'Chinese' }[st.cuisine];
+    const isCustom = st.pkg === 'custom', hasPkg = typeof st.pkg === 'number';
+    const g = { starters: [], mains: [], staples: [], dessert: [] };
+    this.ITEMS.forEach((x) => {
+      if (!st.sel[x.id]) return;
+      const k = x.cat === 'starter' ? 'starters' : x.cat === 'main' ? 'mains' : x.cat === 'dessert' ? 'dessert' : 'staples';
+      const note = (st.notes[x.id] || '').trim();
+      g[k].push({ name: x.name, note: note, hasNote: !!note });
+    });
+    const groups = [['Starters', g.starters], ['Main course', g.mains], ['Staples', g.staples], ['Dessert', g.dessert]].filter((a) => a[1].length).map((a) => ({ title: a[0] + ' (' + a[1].length + ')', items: a[1] }));
+    let pp = 0;
+    if (hasPkg) pp = P[st.pkg];
+    else if (isCustom) pp = this.customPP({ starters: g.starters.length, mains: g.mains.length, staples: g.staples.length, dessert: g.dessert.length });
+    const raw = pp * st.pax;
+    const menuTotal = pp > 0 ? Math.max(raw, MIN) : 0;
+    const th = this.THEMES.find((t) => t.id === st.theme) || null;
+    const themePrice = th ? th.price : 0;
+    const grand = menuTotal + themePrice;
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let dateText = 'Not provided';
+    const dm = /^(\d{4})-(\d{2})-(\d{2})$/.exec(st.date || '');
+    if (dm) dateText = parseInt(dm[3], 10) + ' ' + MON[parseInt(dm[2], 10) - 1] + ' ' + dm[1];
+    const when = dateText + (st.time ? ', ' + st.time : '');
+    return {
+      ref: this.REF, fmt: fmt,
+      name: (st.name || '').trim() || 'Not provided',
+      contact: (st.phone || '').trim() ? st.cc + ' ' + st.phone.trim() : 'Not provided',
+      emirate: st.emirate || 'Not selected',
+      when: when, pax: String(st.pax), veg: st.pureVeg ? 'Yes' : 'No',
+      typeLabel: st.type === 'delivery' ? 'Delivery' : (st.type === 'onsite' ? 'Onsite Catering' : 'Not selected'),
+      layoutLabel: st.layout === 'live' ? 'Live Cooking Station' : (st.layout === 'buffet' ? 'Buffet' : 'Not selected'),
+      venueLabel: st.venue === 'indoor' ? 'Indoor' : (st.venue === 'outdoor' ? 'Outdoor' : 'Not selected'),
+      isOnsite: st.type === 'onsite',
+      pkgLabel: isCustom ? 'Custom menu' : (hasPkg ? 'Package ' + (st.pkg + 1) : 'Not selected'),
+      cuisine: cuisine + (st.pureVeg ? ' (Pure Veg)' : ''),
+      ppText: pp > 0 ? pp + ' Dh' : '-',
+      groups: groups,
+      themeLabel: th ? th.name + (th.price ? ' (+ ' + fmt(th.price) + ' Dh)' : ' (Free)') : 'No theme',
+      notesText: (st.eventNote || '').trim() || 'None',
+      menuRowLabel: pp > 0 ? 'Menu: ' + st.pax + ' guests x ' + pp + ' Dh' : 'Menu',
+      menuRowValue: pp > 0 ? fmt(raw) + ' Dh' : '-',
+      showMin: pp > 0 && raw < MIN,
+      minValue: '+ ' + fmt(Math.max(MIN - raw, 0)) + ' Dh',
+      themeRowLabel: th ? 'Theme: ' + th.name : 'Theme',
+      themeRowValue: th ? (th.price ? '+ ' + fmt(th.price) + ' Dh' : 'Free') : 'None',
+      grand: fmt(grand) + ' Dh', grandNum: grand, menuTotal: menuTotal, themePrice: themePrice, th: th
+    };
+  }
+  buildPdf() {
+    const S = this.summary();
+    const W1 = [278, 278, 355, 556, 556, 889, 667, 191, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584, 584, 556, 1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 278, 278, 278, 469, 556, 333, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500, 334, 260, 334, 584], W2 = [278, 333, 474, 556, 556, 889, 722, 238, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 333, 333, 584, 584, 584, 611, 975, 722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 333, 278, 333, 584, 556, 333, 556, 611, 556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889, 611, 611, 611, 611, 389, 556, 333, 611, 556, 778, 556, 556, 500, 389, 280, 389, 584];
+    const wOf = (t, size, bold) => { const tb = bold ? W2 : W1; let w = 0; for (let i = 0; i < t.length; i++) { const c = t.charCodeAt(i) - 32; w += (c >= 0 && c < 95 ? tb[c] : 556); } return w * size / 1000; };
+    const clean = (t) => String(t == null ? '' : t).replace(/[\u00b7\u2022]/g, '-').replace(/\u00d7/g, 'x').replace(/[\u2013\u2014]/g, '-').replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/[\r\t]/g, ' ').replace(/[^\x20-\x7E\n]/g, '');
+    const esc = (t) => t.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+    const PW = 595, PH = 842, M = 40, CW = PW - 2 * M;
+    const pages = []; let ops = [], y = 0;
+    const col = (hex) => { const n = parseInt(hex.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => (v / 255).toFixed(3)).join(' '); };
+    const rect = (x, yt, w, h, hex) => ops.push(col(hex) + ' rg ' + x.toFixed(1) + ' ' + (PH - yt - h).toFixed(1) + ' ' + w.toFixed(1) + ' ' + h.toFixed(1) + ' re f');
+    const text = (x, yb, t, size, bold, hex) => ops.push('BT /' + (bold ? 'F2' : 'F1') + ' ' + size + ' Tf ' + col(hex) + ' rg ' + x.toFixed(1) + ' ' + (PH - yb).toFixed(1) + ' Td (' + esc(clean(t)) + ') Tj ET');
+    const rtext = (xr, yb, t, size, bold, hex) => text(xr - wOf(clean(t), size, bold), yb, t, size, bold, hex);
+    const wrap = (t, maxW, size, bold) => {
+      const out = [];
+      clean(t).split('\n').forEach((para) => {
+        let line = '';
+        para.split(' ').forEach((w) => {
+          const tryLine = line ? line + ' ' + w : w;
+          if (wOf(tryLine, size, bold) <= maxW || !line) line = tryLine; else { out.push(line); line = w; }
+        });
+        out.push(line);
+      });
+      return out;
+    };
+    const newPage = () => { if (ops.length) pages.push(ops); ops = []; rect(0, 0, PW, 6, '#0E3B33'); y = 40; };
+    const ensure = (h) => { if (y + h > PH - 50) newPage(); };
+    // header band (first page)
+    rect(0, 0, PW, 96, '#0E3B33'); rect(0, 96, PW, 3, '#C9963B');
+    text(M, 46, 'Build your Menu!', 26, true, '#FBF6EA');
+    text(M, 68, 'CATERING ORDER SUMMARY', 10.5, true, '#E9C77E');
+    rtext(PW - M, 46, 'Ref: ' + S.ref, 12, true, '#FBF6EA');
+    const dn = new Date();
+    rtext(PW - M, 66, 'Generated ' + dn.getDate() + '/' + (dn.getMonth() + 1) + '/' + dn.getFullYear(), 10, false, '#C9D6D1');
+    y = 122;
+    const section = (title) => { ensure(48); text(M, y + 10, title.toUpperCase(), 11, true, '#0E3B33'); rect(M, y + 16, CW, 1.4, '#C9963B'); y += 30; };
+    const kv = (k, v) => {
+      const lines = wrap(v, CW - 130, 11, true);
+      ensure(lines.length * 15 + 4);
+      text(M, y, k, 11, false, '#5A6863');
+      lines.forEach((l, i) => text(M + 130, y + i * 15, l, 11, true, '#1B2B27'));
+      y += lines.length * 15 + 4;
+    };
+    section('Customer details');
+    kv('Name', S.name); kv('Contact', S.contact); kv('Emirates', S.emirate); kv('Event date & time', S.when); kv('Guests', S.pax); kv('Pure Veg', S.veg);
+    y += 8; section('Setup');
+    kv('Catering type', S.typeLabel);
+    if (S.isOnsite) { kv('Layout', S.layoutLabel); kv('Venue', S.venueLabel); }
+    y += 8; section('Menu');
+    kv('Selection', S.pkgLabel); kv('Cuisine', S.cuisine); kv('Price per person', S.ppText);
+    y += 4;
+    S.groups.forEach((gr) => {
+      ensure(34); text(M, y + 4, gr.title, 11.5, true, '#0E3B33'); y += 20;
+      gr.items.forEach((d) => {
+        const l1 = wrap(d.name, CW - 24, 11, false);
+        const ln = d.hasNote ? wrap('Note: ' + d.note, CW - 34, 10, true) : [];
+        ensure(l1.length * 14 + ln.length * 13 + 4);
+        rect(M + 4, y - 7.5, 3.5, 3.5, '#C9963B');
+        l1.forEach((l, i) => text(M + 16, y + i * 14, l, 11, false, '#1B2B27'));
+        y += l1.length * 14;
+        ln.forEach((l, i) => text(M + 26, y + i * 13, l, 10, true, '#8A5A00'));
+        y += ln.length * 13 + 3;
+      });
+      y += 6;
+    });
+    y += 4; section('Theme & notes');
+    kv('Theme', S.themeLabel); kv('Notes', S.notesText);
+    y += 8; ensure(150);
+    section('Price summary');
+    const row = (a, b, bold, hex) => { ensure(20); text(M, y, a, 11, bold, hex || '#1B2B27'); rtext(PW - M, y, b, 11, bold, hex || '#1B2B27'); y += 19; };
+    row(S.menuRowLabel, S.menuRowValue, false);
+    if (S.showMin) row('Minimum order top-up', S.minValue, false, '#8A5A00');
+    row(S.themeRowLabel, S.themeRowValue, false);
+    y += 4; ensure(50);
+    rect(M, y, CW, 38, '#EADFC8');
+    text(M + 12, y + 24, 'APPROX. TOTAL', 11, true, '#4A5A55');
+    rtext(PW - M - 12, y + 26, S.grand, 17, true, '#0E3B33');
+    y += 52; ensure(40);
+    wrap('This is an approximate price. The final quote is confirmed by our team after review.', CW, 9.5, false).forEach((l, i) => text(M, y + i * 12, l, 9.5, false, '#5A6863'));
+    if (ops.length) pages.push(ops);
+    const total = pages.length;
+    pages.forEach((p, i) => {
+      const save = ops; ops = p;
+      rect(M, PH - 40, CW, 0.8, '#DDD3BF');
+      text(M, PH - 26, 'Build your Menu! - Ref ' + S.ref, 9, false, '#5A6863');
+      rtext(PW - M, PH - 26, 'Page ' + (i + 1) + ' of ' + total, 9, false, '#5A6863');
+      ops = save;
+    });
+    let out = '%PDF-1.4\n'; const offs = [];
+    const add = (body) => { offs.push(out.length); out += offs.length + ' 0 obj\n' + body + '\nendobj\n'; };
+    add('<< /Type /Catalog /Pages 2 0 R >>');
+    add('<< /Type /Pages /Kids [' + pages.map((_, i) => (6 + i * 2) + ' 0 R').join(' ') + '] /Count ' + total + ' >>');
+    add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+    add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+    pages.forEach((p, i) => {
+      const body = p.join('\n');
+      add('<< /Length ' + body.length + ' >>\nstream\n' + body + '\nendstream');
+      add('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + PW + ' ' + PH + '] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ' + (5 + i * 2) + ' 0 R >>');
+    });
+    const xr = out.length;
+    out += 'xref\n0 ' + (offs.length + 1) + '\n0000000000 65535 f \n' + offs.map((o) => String(o).padStart(10, '0') + ' 00000 n \n').join('');
+    out += 'trailer\n<< /Size ' + (offs.length + 1) + ' /Root 1 0 R >>\nstartxref\n' + xr + '\n%%EOF';
+    const u8 = new Uint8Array(out.length);
+    for (let i = 0; i < out.length; i++) u8[i] = out.charCodeAt(i) & 255;
+    return new Blob([u8], { type: 'application/pdf' });
+  }
+  async downloadPdf() {
+    const filename = 'Catering-Order-' + this.REF + '.pdf';
+    let blob;
+    try { blob = this.buildPdf(); } catch (e) { this.setState({ pdfMsg: 'Could not create the PDF. Please try again.' }); return; }
+    this.setState({ pdfMsg: 'Confirming and preparing your PDF...' });
+    let dl = null;
+    try { dl = (window.claude && window.claude.use) ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
+    try {
+      if (dl) {
+        await dl.save({ filename: filename, data: blob });
+        this.setState({ screen: 'thanks', pdfMsg: '' });
+      } else {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = filename;
+        document.body.appendChild(a); a.click(); a.remove();
+        this.setState({ screen: 'thanks', pdfMsg: '' });
+      }
+    } catch (e) {
+      this.setState({ pdfMsg: (e && e.code === 'declined') ? 'Not confirmed yet - download was cancelled' : 'Download was blocked here. Please open the link in your browser and try again.' });
+    }
+  }
+  renderVals() {
+    const st = this.state;
+    const screen = st.screen || this.props.start || 'details';
+    const isOnsite = st.type === 'onsite';
+    const sReady = st.type === 'delivery' || (isOnsite && !!st.layout && !!st.venue);
+    const opt = (on, pick) => ({
+      on: on, pick: pick,
+      border: on ? '#C9963B' : '#E4D9C2',
+      shadow: on ? '0 6px 16px rgba(201,150,59,0.35)' : '0 1px 2px rgba(14,59,51,0.06)'
+    });
+    const pvOpt = (on, val) => ({
+      on: on,
+      pick: () => this.setState({ pureVeg: val }),
+      bg: on ? '#0E3B33' : '#FFFFFF',
+      color: on ? '#FBF6EA' : '#0E3B33',
+      border: on ? '#0E3B33' : '#DDD3BF'
+    });
+    const pax = st.pax;
+    const ret = st.returnTo;
+    const go = (scr, clearRet, setRet) => this.setState({ screen: scr, returnTo: setRet ? 'review' : (clearRet && scr === 'review' ? null : st.returnTo), pdfMsg: '' });
+    const openItems = (fromReview) => {
+      const key = st.cuisine + '|' + st.pkg + '|' + (st.pureVeg ? 'pv' : 'all');
+      this.setState({ screen: 'items', returnTo: fromReview ? 'review' : st.returnTo, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: st.selKey === key ? st.sel : {}, notes: st.selKey === key ? st.notes : {}, noteFor: null, zoom: null, selKey: key });
+    };
+    const S = this.summary();
+    const themes = this.THEMES.map((t) => {
+      const on = st.theme === t.id, free = t.price === 0;
+      return {
+        name: t.name, desc: t.desc, c1: t.c[0], c2: t.c[1], c3: t.c[2], c4: t.c[3],
+        k1: t.id === 't1', k2: t.id === 't2', k3: t.id === 't3', k4: t.id === 't4', k5: t.id === 't5', k6: t.id === 't6',
+        tag: free ? 'FREE' : 'PREMIUM', tagBg: free ? '#D3E7DE' : '#C9963B', tagColor: '#0E3B33',
+        priceText: free ? 'Free' : '+ ' + S.fmt(t.price) + ' Dh',
+        priceColor: free ? '#1F6B4E' : '#8A5A00',
+        on: on, border: on ? '#C9963B' : '#E4D9C2',
+        shadow: on ? '0 6px 16px rgba(201,150,59,0.35)' : '0 1px 2px rgba(14,59,51,0.06)',
+        pick: () => this.setState({ theme: on ? null : t.id }),
+        open: () => this.setState({ screen: 'themeDetail', themeView: t.id })
+      };
+    });
+    const dt = this.THEMES.find((t) => t.id === st.themeView) || this.THEMES[3];
+    const di = this.THEME_INFO[dt.id];
+    const dOn = st.theme === dt.id, dFree = dt.price === 0;
+    const dObj = {
+      name: dt.name, c1: dt.c[0], c2: dt.c[1], c3: dt.c[2], c4: dt.c[3],
+      k1: dt.id === 't1', k2: dt.id === 't2', k3: dt.id === 't3', k4: dt.id === 't4', k5: dt.id === 't5', k6: dt.id === 't6',
+      tag: dFree ? 'FREE WITH PACKAGE' : 'PREMIUM', tagBg: dFree ? '#D3E7DE' : '#C9963B', tagColor: '#0E3B33',
+      priceLong: dFree ? 'Free with your package' : '+ ' + S.fmt(dt.price) + ' Dh per event',
+      priceColor: dFree ? '#1F6B4E' : '#8A5A00',
+      priceNote: dFree ? 'Included with your package at no extra charge.' : 'Premium theme: a flat charge per event, added to your approx. total. Final price is confirmed by our team.',
+      long: di.long, incl: di.incl.map((x) => ({ text: x })), best: di.best.map((x) => ({ text: x })),
+      btnLabel: dOn ? 'Selected - tap to remove' : (dFree ? 'Select this theme' : 'Select theme · + ' + S.fmt(dt.price) + ' Dh'),
+      btnBg: dOn ? '#FFFFFF' : '#0E3B33', btnColor: dOn ? '#0E3B33' : '#FBF6EA', btnBorder: dOn ? '1.5px solid #0E3B33' : 'none',
+      choose: () => this.setState({ theme: dOn ? null : dt.id, screen: 'theme' })
+    };
+    return Object.assign({
+      isDetails: screen === 'details',
+      isSetup: screen === 'setup',
+      isPkgScreen: screen === 'pkg',
+      isItemsScreen: screen === 'items',
+      isThemeScreen: screen === 'theme',
+      isReviewScreen: screen === 'review',
+      isThanks: screen === 'thanks',
+      thanksTitle: (st.name || '').trim() ? 'Thank you, ' + st.name.trim().split(/\s+/)[0] + '!' : 'Thank you!',
+      backToReview: () => this.setState({ screen: 'review', pdfMsg: '' }),
+      // navigation: while editing from the review page, every "Save & Next" / Back returns there
+      nextFromDetails: () => go(ret ? 'review' : 'setup', true),
+      backSetup: () => go(ret ? 'review' : 'details', true),
+      nextFromSetup: () => go(ret ? 'review' : 'pkg', true),
+      backPkg: () => go(ret ? 'review' : 'setup', true),
+      nextFromPkg: () => openItems(),
+      backItems: () => go(ret ? 'review' : 'pkg', true),
+      nextFromItems: () => go(ret ? 'review' : 'theme', true),
+      backTheme: () => go(ret ? 'review' : 'items', true),
+      nextFromTheme: () => go('review', true),
+      backReview: () => go('theme', true),
+      editDetails: () => go('details', false, true),
+      editSetup: () => go('setup', false, true),
+      editPkg: () => go('pkg', false, true),
+      editItems: () => openItems(true),
+      editTheme: () => go('theme', false, true),
+      themes: themes,
+      d: dObj,
+      isThemeDetail: screen === 'themeDetail',
+      closeThemeDetail: () => this.setState({ screen: 'theme' }),
+      eventNote: st.eventNote,
+      setEventNote: (e) => this.setState({ eventNote: String(e.target.value).slice(0, 500) }),
+      themeSumText: S.th ? S.th.name + (S.th.price ? ' · + ' + S.fmt(S.th.price) + ' Dh' : ' · Free') : 'None selected',
+      grandText: S.grandNum > 0 ? S.grand : '-',
+      rv: S,
+      hasPdfMsg: !!st.pdfMsg,
+      pdfMsg: st.pdfMsg,
+      downloadPdf: () => this.downloadPdf(),
+      // details
+      name: st.name, cc: st.cc, phone: st.phone, emirate: st.emirate, date: st.date, time: st.time,
+      setName: (e) => this.setState({ name: e.target.value }),
+      setCc: (e) => this.setState({ cc: e.target.value }),
+      setPhone: (e) => this.setState({ phone: e.target.value }),
+      setEmirate: (e) => this.setState({ emirate: e.target.value }),
+      setDate: (e) => this.setState({ date: e.target.value }),
+      setTime: (e) => this.setState({ time: e.target.value }),
+      paxText: st.paxEdit !== null ? st.paxEdit : String(pax),
+      typePax: (e) => {
+        const d = String(e.target.value).replace(/[^0-9]/g, '').slice(0, 4);
+        const n = parseInt(d, 10);
+        this.setState({ paxEdit: d, pax: n > 0 ? Math.min(n, 5000) : pax, consent: false });
+      },
+      blurPax: () => this.setState({ paxEdit: null }),
+      incPax: () => this.setState({ pax: Math.min(pax + 1, 5000), paxEdit: null, consent: false }),
+      decPax: () => this.setState({ pax: Math.max(pax - 1, 1), paxEdit: null, consent: false }),
+      pvYes: pvOpt(st.pureVeg, true),
+      pvNo: pvOpt(!st.pureVeg, false),
+      // setup
+      isOnsite: isOnsite,
+      showVenue: isOnsite && !!st.layout,
+      sReady: sReady,
+      sNotReady: !sReady,
+      delivery: opt(st.type === 'delivery', () => this.setState({ type: 'delivery', layout: null, venue: null, consent: false })),
+      onsite: opt(isOnsite, () => this.setState({ type: 'onsite', consent: false })),
+      buffet: opt(st.layout === 'buffet', () => this.setState({ layout: 'buffet', consent: false })),
+      live: opt(st.layout === 'live', () => this.setState({ layout: 'live', consent: false })),
+      indoor: opt(st.venue === 'indoor', () => this.setState({ venue: 'indoor' })),
+      outdoor: opt(st.venue === 'outdoor', () => this.setState({ venue: 'outdoor' }))
+    }, this.pkgVals(), this.itemsVals());
+  }
+}
+</script>
+
+<script>
+window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
+</script>
+</body>
+</html>
