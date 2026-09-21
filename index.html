@@ -21,7 +21,7 @@ input,select,button,textarea{font-family:inherit}
 .rail::-webkit-scrollbar{display:none}
 .snap{scroll-snap-align:start}
 .btn[disabled]{cursor:not-allowed}
-/* The only change from the 390x844 artboard: the outer frame becomes fluid. */
+/* The outer frame is fluid: full height of the phone, 390px wide at most. */
 html,body{height:100%}
 body{box-sizing:border-box;display:flex;justify-content:center;align-items:stretch;color:#1B2B27}
 #app{display:contents}
@@ -30,7 +30,6 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </head>
 <body>
 <div id="app"></div>
-
 <template id="tpl">
 <div class="app-shell" style="position: relative; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F1E6; color: #1B2B27; overflow: hidden;">
 
@@ -232,7 +231,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 </div>
 <sc-if value="{{isOnsite}}" hint-placeholder-val="{{false}}">
-<div style="display: flex; flex-direction: column; gap: 8px;">
+<div data-anchor="layout" style="display: flex; flex-direction: column; gap: 8px; scroll-margin: 12px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Layout</span>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
 <button class="btn" type="button" aria-pressed="{{buffet.on}}" onClick="{{buffet.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; overflow: hidden; cursor: pointer; text-align: center; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{buffet.border}}; box-shadow: {{buffet.shadow}};">
@@ -283,7 +282,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 </sc-if>
 <sc-if value="{{showVenue}}" hint-placeholder-val="{{false}}">
-<div style="display: flex; flex-direction: column; gap: 8px;">
+<div data-anchor="venue" style="display: flex; flex-direction: column; gap: 8px; scroll-margin: 12px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Venue</span>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
 <button class="btn" type="button" aria-pressed="{{indoor.on}}" onClick="{{indoor.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; overflow: hidden; cursor: pointer; text-align: center; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{indoor.border}}; box-shadow: {{indoor.shadow}};">
@@ -349,51 +348,58 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 
 <!-- Content -->
-<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 8px 24px; display: flex; flex-direction: column; gap: 12px;">
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 4px 24px; display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">SELECT PACKAGES</h2>
 
-<!-- Cuisine -->
-<div style="display: flex; flex-direction: column; gap: 6px;">
-<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Cuisine</span>
-<div style="display: flex; gap: 8px;">
+<!-- Step 1: cuisine. Picking one hides this step and shows the packages. -->
+<sc-if value="{{pkgCuisineStep}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Choose your cuisine</span>
 <sc-for list="{{cuisines}}" as="cu" hint-placeholder-count="3">
-<button class="btn" type="button" aria-pressed="{{cu.on}}" onClick="{{cu.pick}}" style="flex-grow: {{cu.grow}}; flex-basis: 0; min-width: 0; height: 42px; padding: 0 6px; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; border: 2px solid {{cu.border}}; background: {{cu.bg}}; color: {{cu.color}};">{{cu.label}}</button>
+<button class="btn" type="button" aria-pressed="{{cu.on}}" onClick="{{cu.pick}}" style="display: flex; align-items: center; gap: 14px; width: 100%; box-sizing: border-box; min-height: 76px; padding: 12px 16px 12px 18px; text-align: left; cursor: pointer; border-radius: 18px; background: {{cu.bg}}; border: 2.5px solid {{cu.border}}; box-shadow: 0 1px 2px rgba(14,59,51,0.06);">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; line-height: 1.15; color: #0E3B33;">{{cu.label}}</span>
+<span style="font-size: 13px; font-weight: 600; color: #5A6863;">{{cu.from}}</span>
+</div>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+</button>
 </sc-for>
 </div>
+</sc-if>
+
+<!-- Step 2: packages. The chosen cuisine collapses to one line with a Change link. -->
+<sc-if value="{{pkgPackageStep}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding: 0 2px 0 14px; border-radius: 14px; background: #EADFC8;">
+<div style="display: flex; flex-direction: column; gap: 1px; min-width: 0; padding: 5px 0;">
+<span style="font-size: 15px; font-weight: 700; line-height: 1.2; color: #0E3B33;">{{cuisineLabel}}</span>
+<span style="font-size: 12px; font-weight: 500; line-height: 1.2; color: #4A5A55;">{{pkgCaption}}</span>
+</div>
+<button class="btn" type="button" onClick="{{changeCuisine}}" style="flex-shrink: 0; height: 44px; padding: 0 12px; border: none; border-radius: 12px; background: transparent; color: #0E3B33; font-size: 14px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">Change</button>
 </div>
 
 <!-- Package slider -->
-<div style="display: flex; flex-direction: column; gap: 6px;">
-<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
-<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Suggested Packages</span>
-<span style="font-size: 11.5px; color: #5A6863; font-weight: 500; white-space: nowrap;">{{pkgCaption}}</span>
-</div>
+<div style="display: flex; flex-direction: column;">
 <div class="rail" style="display: flex; gap: 12px; overflow-x: auto; margin: 0 -24px; padding: 2px 24px 8px 24px;">
 <sc-for list="{{pkgs}}" as="pkg" hint-placeholder-count="4">
-<button class="btn snap" type="button" aria-pressed="{{pkg.on}}" onClick="{{pkg.pick}}" style="flex: 0 0 238px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 12px 16px 12px 16px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{pkg.border}}; box-shadow: {{pkg.shadow}};">
+<button class="btn snap" type="button" aria-pressed="{{pkg.on}}" onClick="{{pkg.pick}}" style="flex: 0 0 238px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; padding: 10px 14px 10px 14px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{pkg.border}}; box-shadow: {{pkg.shadow}};">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 22px;">
 <span style="font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; font-weight: 700; color: #5A6863;">{{pkg.name}}</span>
 <sc-if value="{{pkg.popular}}" hint-placeholder-val="{{false}}">
 <span style="padding: 4px 9px; border-radius: 999px; background: #C9963B; color: #0E3B33; font-size: 10px; letter-spacing: 1px; font-weight: 700;">MOST SELLING</span>
 </sc-if>
 </div>
-<div style="display: flex; flex-direction: column; gap: 6px;">
-<sc-for list="{{pkg.rows}}" as="row" hint-placeholder-count="4">
-<div style="display: flex; justify-content: space-between; gap: 10px; font-size: 13px; line-height: 1.3;">
-<span style="color: #5A6863;">{{row.k}}</span>
-<span style="font-weight: 600; color: #1B2B27; text-align: right; white-space: pre-line;">{{row.v}}</span>
-</div>
-</sc-for>
-</div>
-<div style="height: 1px; background: #E4D9C2; margin-top: auto;"></div>
-<div style="display: flex; align-items: center; justify-content: space-between; min-height: 36px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 30px;">
 <div style="display: flex; align-items: baseline; gap: 6px;">
-<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 34px; line-height: 1; color: #0E3B33;">{{pkg.price}}</span>
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 28px; line-height: 1; color: #0E3B33;">{{pkg.price}}</span>
 <span style="font-size: 13px; font-weight: 600; color: #4A5A55;">Dh / person</span>
 </div>
 <sc-if value="{{pkg.on}}" hint-placeholder-val="{{false}}">
 <div style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 </sc-if>
+</div>
+<div style="display: flex; flex-direction: column; font-size: 13px; line-height: 1.35; font-weight: 600; color: #1B2B27;">
+<span>{{pkg.sumA}}</span>
+<span>{{pkg.sumB}}</span>
 </div>
 </button>
 </sc-for>
@@ -414,23 +420,23 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
 </sc-if>
 </button>
+</sc-if>
 </div>
 
+<sc-if value="{{pkgPackageStep}}" hint-placeholder-val="{{false}}">
 <!-- Approx price (pinned) -->
-<div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 12px 24px; display: flex; flex-direction: column; gap: 10px;">
+<div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 10px 24px; display: flex; flex-direction: column; gap: 10px;">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
 <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
-<span style="font-size: 12px; letter-spacing: 1.4px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Approx. total</span>
 <span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 26px; line-height: 1.1; color: {{totalColor}};">{{totalText}}</span>
 <span style="font-size: 12px; color: #5A6863;">{{totalSub}}</span>
 </div>
 <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
 <div style="display: flex; align-items: center; gap: 6px;">
 <button class="btn" type="button" aria-label="Decrease guests" onClick="{{decPax}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #0E3B33; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
-<span style="min-width: 40px; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; color: #0E3B33;" aria-live="polite">{{pax}}</span>
+<span style="min-width: 48px; display: flex; flex-direction: column; align-items: center; line-height: 1;" aria-live="polite"><span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; color: #0E3B33;">{{pax}}</span><span style="margin-top: 3px; font-size: 11px; color: #5A6863;">guests</span></span>
 <button class="btn" type="button" aria-label="Increase guests" onClick="{{incPax}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #0E3B33; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
 </div>
-<span style="font-size: 12px; color: #5A6863;">guests</span>
 </div>
 </div>
 
@@ -450,6 +456,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 </sc-if>
 </div>
+</sc-if>
 
 <!-- Footer actions -->
 <div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
@@ -941,7 +948,6 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </sc-if>
 </div>
 </template>
-
 <script>
 /* ------------------------------------------------------------------
    Minimal runtime for the Design-canvas component format.
@@ -1161,24 +1167,25 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
       if (!mount.firstChild) {
         for (var i = 0; i < frag.length; i++) mount.appendChild(frag[i]);
-        return;
+      } else {
+        var o = mount.firstChild, k = 0, nextO;
+        while (o && k < frag.length) { nextO = o.nextSibling; patch(o, frag[k]); o = nextO; k++; }
+        while (k < frag.length) mount.appendChild(frag[k++]);
+        while (o) { nextO = o.nextSibling; mount.removeChild(o); o = nextO; }
       }
-      var o = mount.firstChild, k = 0, nextO;
-      while (o && k < frag.length) { nextO = o.nextSibling; patch(o, frag[k]); o = nextO; k++; }
-      while (k < frag.length) mount.appendChild(frag[k++]);
-      while (o) { nextO = o.nextSibling; mount.removeChild(o); o = nextO; }
+      /* lets the component act on the updated DOM, e.g. scroll to a newly revealed section */
+      if (typeof inst.didRender === 'function') inst.didRender();
     };
 
     window.__dcRender();
   };
 })();
 </script>
-
 <script>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, cuisinePicked: false, cuisineSet: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
     // Dummy photo tiles for now; real photos replace the glyph tile later.
     this.ITEMS = [];
     const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
@@ -1318,6 +1325,8 @@ class Component extends DCLogic {
         popular: i === popular,
         on: on,
         pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false }),
+        sumA: this.COMP[i][0] + ' starters · ' + this.COMP[i][1] + ' mains',
+        sumB: this.COMP[i][2] + ' staples · ' + this.COMP[i][3] + (this.COMP[i][3] === 1 ? ' dessert' : ' desserts'),
         rows: [
           { k: 'Starters', v: pv ? t.stv : t.st },
           { k: 'Main course', v: pv ? t.mcv : t.mc },
@@ -1333,7 +1342,7 @@ class Component extends DCLogic {
     const raw = price * pax;
     const belowMin = hasPkg && raw < MIN;
     const applied = belowMin && st.consent;
-    let totalText = '—', totalSub = 'Select a package to see the price', totalColor = '#0E3B33';
+    let totalText = '—', totalSub = 'Pick a package to see the price', totalColor = '#0E3B33';
     if (isCustom) { totalText = 'Custom menu'; totalSub = 'Base ' + this.catRates().base + ' Dh + price of each dish you pick'; }
     if (hasPkg) {
       totalText = fmt(applied ? MIN : raw) + ' Dh';
@@ -1345,15 +1354,21 @@ class Component extends DCLogic {
     return {
       cuisines: CUISINES.map((c) => {
         const on = st.cuisine === c.id;
+        const shown = on && st.cuisineSet;
         return {
-          label: c.label, grow: c.grow, on: on,
-          bg: on ? '#D3E7DE' : '#FFFFFF',
+          label: c.label, grow: c.grow, on: shown,
+          from: 'from ' + PRICES[c.id][setup][0] + ' Dh / person',
+          bg: shown ? '#D3E7DE' : '#FFFFFF',
           color: '#0E3B33',
-          border: on ? '#2F7A64' : '#DDD3BF',
-          pick: () => this.setState({ cuisine: c.id, consent: false })
+          border: shown ? '#2F7A64' : '#DDD3BF',
+          pick: () => this.setState({ cuisine: c.id, cuisinePicked: true, cuisineSet: true, consent: false })
         };
       }),
       pkgs: pkgs,
+      pkgCuisineStep: !st.cuisinePicked,
+      pkgPackageStep: !!st.cuisinePicked,
+      cuisineLabel: CUISINES.filter((c) => c.id === st.cuisine)[0].label,
+      changeCuisine: () => this.setState({ cuisinePicked: false }),
       custom: Object.assign({ on: isCustom, off: !isCustom, pick: () => this.setState({ pkg: isCustom ? null : 'custom', consent: false }) }, sel(isCustom)),
       pax: pax,
       pkgCaption: pv ? 'Pure Veg menu · salads & sides incl.' : 'Salads & sides included',
@@ -1809,6 +1824,15 @@ class Component extends DCLogic {
       this.setState({ pdfMsg: (e && e.code === 'declined') ? 'Not confirmed yet - download was cancelled' : 'Download was blocked here. Please open the link in your browser and try again.' });
     }
   }
+  didRender() {
+    const target = this._scrollTo;
+    if (!target) return;
+    this._scrollTo = null;
+    const el = document.querySelector('[data-anchor="' + target + '"]');
+    if (!el) return;
+    const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({ block: 'nearest', behavior: calm ? 'auto' : 'smooth' });
+  }
   renderVals() {
     const st = this.state;
     const screen = st.screen || this.props.start || 'details';
@@ -1926,16 +1950,15 @@ class Component extends DCLogic {
       sReady: sReady,
       sNotReady: !sReady,
       delivery: opt(st.type === 'delivery', () => this.setState({ type: 'delivery', layout: null, venue: null, consent: false })),
-      onsite: opt(isOnsite, () => this.setState({ type: 'onsite', consent: false })),
-      buffet: opt(st.layout === 'buffet', () => this.setState({ layout: 'buffet', consent: false })),
-      live: opt(st.layout === 'live', () => this.setState({ layout: 'live', consent: false })),
+      onsite: opt(isOnsite, () => { this._scrollTo = 'layout'; this.setState({ type: 'onsite', consent: false }); }),
+      buffet: opt(st.layout === 'buffet', () => { this._scrollTo = 'venue'; this.setState({ layout: 'buffet', consent: false }); }),
+      live: opt(st.layout === 'live', () => { this._scrollTo = 'venue'; this.setState({ layout: 'live', consent: false }); }),
       indoor: opt(st.venue === 'indoor', () => this.setState({ venue: 'indoor' })),
       outdoor: opt(st.venue === 'outdoor', () => this.setState({ venue: 'outdoor' }))
     }, this.pkgVals(), this.itemsVals());
   }
 }
 </script>
-
 <script>
 window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
 </script>
