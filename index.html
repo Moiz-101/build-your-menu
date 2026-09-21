@@ -348,7 +348,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 
 <!-- Content -->
-<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 4px 24px; display: flex; flex-direction: column; gap: 12px;">
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 4px 24px; display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">SELECT PACKAGES</h2>
 
 <!-- Step 1: cuisine. Picking one hides this step and shows the packages. -->
@@ -388,6 +388,15 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <span style="padding: 4px 9px; border-radius: 999px; background: #C9963B; color: #0E3B33; font-size: 10px; letter-spacing: 1px; font-weight: 700;">MOST SELLING</span>
 </sc-if>
 </div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px 10px; padding-top: 2px;">
+<sc-for list="{{pkg.counts}}" as="ct" hint-placeholder-count="4">
+<div style="display: flex; align-items: baseline; gap: 5px; min-width: 0;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.25; color: #0E3B33;">{{ct.n}}</span>
+<span style="font-size: 12.5px; font-weight: 600; color: #4A5A55;">{{ct.label}}</span>
+</div>
+</sc-for>
+</div>
+<div style="height: 1px; background: #E4D9C2; margin-top: 4px;"></div>
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 30px;">
 <div style="display: flex; align-items: baseline; gap: 6px;">
 <span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 28px; line-height: 1; color: #0E3B33;">{{pkg.price}}</span>
@@ -396,10 +405,6 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <sc-if value="{{pkg.on}}" hint-placeholder-val="{{false}}">
 <div style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 </sc-if>
-</div>
-<div style="display: flex; flex-direction: column; font-size: 13px; line-height: 1.35; font-weight: 600; color: #1B2B27;">
-<span>{{pkg.sumA}}</span>
-<span>{{pkg.sumB}}</span>
 </div>
 </button>
 </sc-for>
@@ -493,44 +498,47 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 
 <!-- Title + tabs (fixed) -->
-<div style="padding: 12px 24px 0 24px; display: flex; flex-direction: column; gap: 10px;">
-<div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+<div style="padding: 10px 24px 0 24px; display: flex; flex-direction: column; gap: 8px;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">SELECT YOUR ITEMS</h2>
-<span style="font-size: 13px; color: #5A6863; font-weight: 500;">{{context}}</span>
-</div>
 <div style="display: flex; gap: 8px;">
 <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
-<button class="btn" type="button" aria-pressed="{{tb.on}}" onClick="{{tb.pick}}" style="flex: 1 1 0; min-width: 0; height: 52px; padding: 0 4px; border-radius: 14px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border: 2px solid {{tb.border}}; background: {{tb.bg}}; color: {{tb.color}};">
-<span style="font-size: 14px; font-weight: 700;">{{tb.label}}</span>
-<span style="font-size: 12px; font-weight: 600; color: {{tb.subColor}};">{{tb.count}}</span>
+<button class="btn" type="button" aria-pressed="{{tb.on}}" onClick="{{tb.pick}}" style="flex: 1 1 0; min-width: 0; height: 44px; padding: 0 4px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; border: 2px solid {{tb.border}}; background: {{tb.bg}}; color: {{tb.color}};">
+<span style="font-size: 13px; font-weight: 700; line-height: 1.2;">{{tb.label}}</span>
+<span style="font-size: 11px; font-weight: 600; line-height: 1.2; color: {{tb.subColor}};">{{tb.count}}</span>
 </button>
 </sc-for>
 </div>
 <sc-if value="{{showRate}}" hint-placeholder-val="{{false}}">
 <div style="text-align: center; font-size: 13px; font-weight: 600; color: #8A5A00; background: #FFF3D6; border-radius: 10px; padding: 6px 10px;">{{rateText}}</div>
 </sc-if>
-<sc-if value="{{showFilter}}" hint-placeholder-val="{{true}}">
+<sc-if value="{{showToolRow}}" hint-placeholder-val="{{true}}">
 <div style="display: flex; align-items: center; gap: 8px;">
-<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55; margin-right: 2px;">Show</span>
-<sc-for list="{{filters}}" as="fl" hint-placeholder-count="3">
-<button class="btn" type="button" aria-pressed="{{fl.on}}" onClick="{{fl.pick}}" style="height: 34px; padding: 0 14px; border-radius: 999px; cursor: pointer; font-size: 13px; font-weight: 700; color: #0E3B33; border: 2px solid {{fl.border}}; background: {{fl.bg}};">{{fl.label}}</button>
+<sc-if value="{{showSubs}}" hint-placeholder-val="{{true}}">
+<div role="group" aria-label="Veg or Non-Veg" style="flex: 1 1 0; min-width: 0; display: flex; gap: 3px; padding: 3px; border-radius: 14px; background: #EADFC8;">
+<sc-for list="{{subs}}" as="sb" hint-placeholder-count="2">
+<button class="btn" type="button" aria-pressed="{{sb.on}}" onClick="{{sb.pick}}" style="flex: 1 1 0; min-width: 0; height: 38px; padding: 0 4px; border: none; border-radius: 11px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #0E3B33; background: {{sb.segBg}}; box-shadow: {{sb.segShadow}};">
+<span style="font-size: 13px; font-weight: 700; line-height: 1.2;">{{sb.label}}</span>
+<span style="display: flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; line-height: 1.2; color: {{sb.countColor}};"><sc-if value="{{sb.done}}" hint-placeholder-val="{{false}}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1F6B4E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></sc-if>{{sb.count}}</span>
+</button>
 </sc-for>
 </div>
 </sc-if>
-<sc-if value="{{showSubs}}" hint-placeholder-val="{{true}}">
-<div style="display: flex; gap: 8px;">
-<sc-for list="{{subs}}" as="sb" hint-placeholder-count="2">
-<button class="btn" type="button" aria-pressed="{{sb.on}}" onClick="{{sb.pick}}" style="flex: 1 1 0; min-width: 0; height: 46px; padding: 0 4px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; color: #0E3B33; border: 2px solid {{sb.border}}; background: {{sb.bg}};">
-<span style="font-size: 13px; font-weight: 700; line-height: 1.2;">{{sb.label}}</span>
-<span style="font-size: 12px; font-weight: 600; line-height: 1.2; color: {{sb.countColor}};">{{sb.count}}</span>
-</button>
-</sc-for>
+<sc-if value="{{showFilter}}" hint-placeholder-val="{{true}}">
+<div style="position: relative; flex-shrink: 0; width: 128px;">
+<select class="fld" aria-label="Show cuisine" value="{{fcu}}" onChange="{{setFilter}}" style="appearance: none; -webkit-appearance: none; width: 100%; box-sizing: border-box; height: 44px; padding: 0 30px 0 12px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 14px; font-weight: 700; color: #0E3B33;">
+<option value="all">All cuisines</option>
+<option value="in">Indian</option>
+<option value="ch">Chinese</option>
+</select>
+<svg style="position: absolute; right: 12px; top: 16px; pointer-events: none;" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</div>
+</sc-if>
 </div>
 </sc-if>
 </div>
 
 <!-- Items (scrolls) -->
-<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 12px 24px; display: flex; flex-direction: column; gap: 18px;">
+<div data-anchor="items-list" style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 12px 24px; display: flex; flex-direction: column; gap: 18px;">
 <sc-if value="{{hasNote}}" hint-placeholder-val="{{false}}">
 <div role="status" style="padding: 10px 12px; border-radius: 12px; background: #D3E7DE; border: 1.5px solid #2F7A64; color: #0E3B33; font-size: 13px; font-weight: 600; line-height: 1.3;">{{note}}</div>
 </sc-if>
@@ -580,7 +588,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 
 <!-- Progress hint -->
-<div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 10px 24px; display: flex; flex-direction: column; gap: 7px;">
+<div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 8px 24px; display: flex; flex-direction: column; gap: 6px;">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
 <span style="font-size: 13px; font-weight: 600; color: {{hintColor}};">{{hint}}</span>
 <span style="font-size: 12px; font-weight: 600; color: #5A6863; white-space: nowrap;">{{progressText}}</span>
@@ -1060,6 +1068,8 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
         deferValue = val; hasDefer = true; continue;
       }
 
+      /* aria-* states must say "false" out loud; other attributes are simply left off */
+      if ((val === false || val === true) && name.indexOf('aria-') === 0) { el.setAttribute(name, String(val)); continue; }
       if (val === null || val === undefined || val === false) continue;
       el.setAttribute(name, String(val));
       if (name === 'value' && tag === 'input') el.value = String(val);
@@ -1325,8 +1335,12 @@ class Component extends DCLogic {
         popular: i === popular,
         on: on,
         pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false }),
-        sumA: this.COMP[i][0] + ' starters · ' + this.COMP[i][1] + ' mains',
-        sumB: this.COMP[i][2] + ' staples · ' + this.COMP[i][3] + (this.COMP[i][3] === 1 ? ' dessert' : ' desserts'),
+        counts: [
+          { n: this.COMP[i][0], label: 'Starters' },
+          { n: this.COMP[i][1], label: 'Mains' },
+          { n: this.COMP[i][2], label: 'Staples' },
+          { n: this.COMP[i][3], label: this.COMP[i][3] === 1 ? 'Dessert' : 'Desserts' }
+        ],
         rows: [
           { k: 'Starters', v: pv ? t.stv : t.st },
           { k: 'Main course', v: pv ? t.mcv : t.mc },
@@ -1465,7 +1479,7 @@ class Component extends DCLogic {
         color: on ? '#FBF6EA' : '#0E3B33',
         subColor: on ? '#E9C77E' : (t.complete ? '#1F6B4E' : '#5A6863'),
         border: on ? '#0E3B33' : (t.complete ? '#2F7A64' : '#DDD3BF'),
-        pick: () => this.setState({ tab: t.tb.id, sub: 0, note: '' })
+        pick: () => { this._scrollTo = 'itemsTop'; this.setState({ tab: t.tb.id, sub: 0, note: '' }); }
       };
     });
 
@@ -1493,7 +1507,10 @@ class Component extends DCLogic {
         bg: on ? '#D3E7DE' : '#FFFFFF',
         border: on ? '#2F7A64' : (done ? '#2F7A64' : '#DDD3BF'),
         countColor: done ? '#1F6B4E' : '#5A6863',
-        pick: () => this.setState({ sub: i, note: '' })
+        done: done,
+        segBg: on ? '#FFFFFF' : 'transparent',
+        segShadow: on ? '0 1px 3px rgba(14,59,51,0.18)' : 'none',
+        pick: () => { this._scrollTo = 'itemsTop'; this.setState({ sub: i, note: '' }); }
       };
     });
     const shownGroups = showSubs ? [tabGroups[subIdx]] : tabGroups;
@@ -1526,16 +1543,34 @@ class Component extends DCLogic {
               const sel = Object.assign({}, this.state.sel);
               const adding = !sel[x.id];
               if (adding) sel[x.id] = true; else delete sel[x.id];
-              let extra = { note: '' };
+              const extra = { note: '' };
               if (!adding) { const nn = Object.assign({}, this.state.notes); delete nn[x.id]; extra.notes = nn; }
-              // group just filled: jump to the other group of this tab that still needs items
-              if (!isCustom && adding && g.items.filter((y) => sel[y.id]).length >= g.need) {
-                const idx = tabGroups.findIndex((h, i) => i !== subIdx && h.items.filter((y) => sel[y.id]).length < h.need);
-                if (idx >= 0) {
-                  extra = { sub: idx, note: g.def.short + ' done. Now choose ' + tabGroups[idx].need + ' ' + tabGroups[idx].def.short + '.' };
-                }
-              }
               this.setState(Object.assign({ sel: sel }, extra));
+              // group just filled: after a short pause (so the tick is seen) move on to what still needs items
+              if (isCustom || !adding || g.items.filter((y) => sel[y.id]).length < g.need) return;
+              const open = (h) => h.items.filter((y) => sel[y.id]).length < h.need;
+              let move = null;
+              const idx = tabGroups.findIndex((h, i) => i !== subIdx && open(h));
+              if (idx >= 0) {
+                move = { sub: idx, note: g.def.short + ' done. Now choose ' + tabGroups[idx].need + ' ' + tabGroups[idx].def.short + '.' };
+              } else {
+                const here = TABS.findIndex((t) => t.id === st.tab);
+                const order = TABS.slice(here + 1).concat(TABS.slice(0, here));
+                for (let k = 0; k < order.length && !move; k++) {
+                  const gs = built[order[k].id];
+                  const gi = gs.findIndex(open);
+                  if (gi >= 0) move = { tab: order[k].id, sub: gi, note: TABS[here].label + ' done. Now choose ' + gs[gi].need + ' ' + gs[gi].def.title + '.' };
+                }
+                if (!move) move = { note: 'All dishes chosen. Tap Save & Next to continue.' };
+              }
+              clearTimeout(this._advanceTimer);
+              this._advanceTimer = setTimeout(() => {
+                if (this.state.screen !== 'items') return;
+                // the dish may have been un-ticked during the pause: then stay put
+                if (g.items.filter((y) => this.state.sel[y.id]).length < g.need) return;
+                this._scrollTo = 'itemsTop';
+                this.setState(move);
+              }, 550);
             }
           };
           ['iBowl', 'iDump', 'iRoll', 'iSkew', 'iBread', 'iSweet'].forEach((k) => { o[k] = (k === icon); });
@@ -1601,6 +1636,9 @@ class Component extends DCLogic {
       tabs: tabs,
       showFilter: showFilter,
       filters: filters,
+      fcu: st.fcu,
+      setFilter: (e) => { this._scrollTo = 'itemsTop'; this.setState({ fcu: e.target.value }); },
+      showToolRow: showFilter || showSubs,
       groups: groups,
       showSubs: showSubs,
       hasNote: !!st.note,
@@ -1828,9 +1866,14 @@ class Component extends DCLogic {
     const target = this._scrollTo;
     if (!target) return;
     this._scrollTo = null;
+    const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (target === 'itemsTop') {
+      const list = document.querySelector('[data-anchor="items-list"]');
+      if (list) list.scrollTo({ top: 0, behavior: calm ? 'auto' : 'smooth' });
+      return;
+    }
     const el = document.querySelector('[data-anchor="' + target + '"]');
     if (!el) return;
-    const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     el.scrollIntoView({ block: 'nearest', behavior: calm ? 'auto' : 'smooth' });
   }
   renderVals() {
