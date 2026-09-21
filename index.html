@@ -34,39 +34,33 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <div class="app-shell" style="position: relative; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F1E6; color: #1B2B27; overflow: hidden;">
 
 <!-- Header -->
-<div style="background: #0E3B33; padding: 28px 24px 22px 24px; display: flex; flex-direction: column;">
-<div style="display: flex; align-items: center; gap: 16px;">
-<div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-<div style="width: 56px; height: 56px; border-radius: 50%; border: 2px solid #C9963B; display: flex; align-items: center; justify-content: center; background: #145244;">
-<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-5 0-8 0-12"></path><path d="M12 12c-4 0-6-2-6-6 4 0 6 2 6 6z"></path><path d="M12 15c4 0 6-2 6-6-4 0-6 2-6 6z"></path></svg>
+<div style="background: #0E3B33; padding: 10px 24px; display: flex; align-items: center; gap: 12px;">
+<div style="width: 40px; height: 40px; flex-shrink: 0; box-sizing: border-box; border-radius: 50%; border: 2px solid #C9963B; display: flex; align-items: center; justify-content: center; background: #145244;" aria-label="Logo" role="img">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-5 0-8 0-12"></path><path d="M12 12c-4 0-6-2-6-6 4 0 6 2 6 6z"></path><path d="M12 15c4 0 6-2 6-6-4 0-6 2-6 6z"></path></svg>
 </div>
-<span style="font-size: 10px; letter-spacing: 2px; font-weight: 600; color: #E9C77E;">LOGO</span>
+<div style="display: flex; flex-direction: column; gap: 1px; min-width: 0;">
+<span style="font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #C9D6D1; font-weight: 500; line-height: 1.2;">Catering</span>
+<h1 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 500; font-size: 23px; line-height: 1.1; color: #FBF6EA;">Build your Menu!</h1>
 </div>
-<div style="display: flex; flex-direction: column; gap: 2px;">
-<span style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #C9D6D1; font-weight: 500;">Catering</span>
-<h1 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 500; font-size: 34px; line-height: 1.05; color: #FBF6EA;">Build your Menu!</h1>
-</div>
-</div>
-
 </div>
 
 <sc-if value="{{isDetails}}" hint-placeholder-val="{{true}}">
 <!-- Stepper stripe -->
-<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 1 of 5">
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">1</div>
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 1 of 5">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">1</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">2</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">2</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">3</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">3</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">4</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">4</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">5</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
 
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 18px 24px 8px 24px; display: flex; flex-direction: column; gap: 14px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center;">
-<h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; color: #0E3B33;">Customer Details</h2>
+<h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; color: #0E3B33;">Customer Details</h2>
 </div>
 
 <!-- Name -->
@@ -172,11 +166,11 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <button class="btn" type="button" aria-pressed="{{pvNo.on}}" onClick="{{pvNo.pick}}" style="width: 72px; height: 42px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 700; border: 1.5px solid {{pvNo.border}}; background: {{pvNo.bg}}; color: {{pvNo.color}};">No</button>
 </div>
 </div>
-</div><div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
-<button class="btn" type="button" aria-label="Back" disabled="{{true}}" style="opacity: 0.35; cursor: not-allowed; width: 56px; height: 56px; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</div><div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
+<button class="btn" type="button" aria-label="Back" disabled="{{true}}" style="opacity: 0.35; cursor: not-allowed; width: 46px; height: 46px; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </button>
-<button class="btn" type="button" onClick="{{nextFromDetails}}" style="flex-grow: 1; height: 56px; text-decoration: none; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28);">
+<button class="btn" type="button" onClick="{{nextFromDetails}}" style="flex-grow: 1; height: 46px; text-decoration: none; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24);">
 <span>Save &amp; Next</span>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
@@ -186,21 +180,21 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </sc-if>
 <sc-if value="{{isSetup}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe -->
-<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 2 of 5">
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 2 of 5">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">2</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">2</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">3</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">3</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">4</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">4</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">5</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
 
 <!-- Content -->
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 20px 24px 8px 24px; display: flex; flex-direction: column; gap: 16px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">SETUP</h2>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">SETUP</h2>
 <div style="display: flex; flex-direction: column; gap: 8px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Catering Type</span>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
@@ -313,18 +307,18 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 
 <!-- Footer actions -->
-<div style="padding: 14px 24px 28px 24px; display: flex; align-items: center; gap: 14px;">
-<button class="btn" type="button" onClick="{{backSetup}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+<div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
+<button class="btn" type="button" onClick="{{backSetup}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </button>
 <sc-if value="{{sReady}}" hint-placeholder-val="{{false}}">
-<button class="btn" type="button" onClick="{{nextFromSetup}}" style="flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); text-decoration: none; cursor: pointer; box-sizing: border-box;">
+<button class="btn" type="button" onClick="{{nextFromSetup}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); text-decoration: none; cursor: pointer; box-sizing: border-box;">
 <span>Save &amp; Next</span>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
 </sc-if>
 <sc-if value="{{sNotReady}}" hint-placeholder-val="{{true}}">
-<button class="btn" type="button" disabled="{{true}}" style="opacity: 0.45; flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); text-decoration: none; cursor: not-allowed;">
+<button class="btn" type="button" disabled="{{true}}" style="opacity: 0.45; flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); text-decoration: none; cursor: not-allowed;">
 <span>Save &amp; Next</span>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
@@ -335,71 +329,59 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </sc-if>
 <sc-if value="{{isPkgScreen}}" hint-placeholder-val="{{true}}">
 <!-- Stepper stripe -->
-<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 3 of 5">
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 3 of 5">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">3</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">3</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">4</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">4</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">5</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
 
 <!-- Content -->
-<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 4px 24px; display: flex; flex-direction: column; gap: 12px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">SELECT PACKAGES</h2>
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 6px 24px; display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">SELECT PACKAGES</h2>
 
-<!-- Step 1: cuisine. Picking one hides this step and shows the packages. -->
-<sc-if value="{{pkgCuisineStep}}" hint-placeholder-val="{{true}}">
-<div style="display: flex; flex-direction: column; gap: 10px;">
-<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Choose your cuisine</span>
+<!-- Cuisine -->
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Cuisine</span>
+<div style="display: flex; gap: 8px;">
 <sc-for list="{{cuisines}}" as="cu" hint-placeholder-count="3">
-<button class="btn" type="button" aria-pressed="{{cu.on}}" onClick="{{cu.pick}}" style="display: flex; align-items: center; gap: 14px; width: 100%; box-sizing: border-box; min-height: 76px; padding: 12px 16px 12px 18px; text-align: left; cursor: pointer; border-radius: 18px; background: {{cu.bg}}; border: 2.5px solid {{cu.border}}; box-shadow: 0 1px 2px rgba(14,59,51,0.06);">
-<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0;">
-<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; line-height: 1.15; color: #0E3B33;">{{cu.label}}</span>
-<span style="font-size: 13px; font-weight: 600; color: #5A6863;">{{cu.from}}</span>
-</div>
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
-</button>
+<button class="btn" type="button" aria-pressed="{{cu.on}}" onClick="{{cu.pick}}" style="flex-grow: {{cu.grow}}; flex-basis: 0; min-width: 0; height: 42px; padding: 0 6px; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; border: 2px solid {{cu.border}}; background: {{cu.bg}}; color: {{cu.color}};">{{cu.label}}</button>
 </sc-for>
 </div>
-</sc-if>
-
-<!-- Step 2: packages. The chosen cuisine collapses to one line with a Change link. -->
-<sc-if value="{{pkgPackageStep}}" hint-placeholder-val="{{false}}">
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding: 0 2px 0 14px; border-radius: 14px; background: #EADFC8;">
-<div style="display: flex; flex-direction: column; gap: 1px; min-width: 0; padding: 5px 0;">
-<span style="font-size: 15px; font-weight: 700; line-height: 1.2; color: #0E3B33;">{{cuisineLabel}}</span>
-<span style="font-size: 12px; font-weight: 500; line-height: 1.2; color: #4A5A55;">{{pkgCaption}}</span>
-</div>
-<button class="btn" type="button" onClick="{{changeCuisine}}" style="flex-shrink: 0; height: 44px; padding: 0 12px; border: none; border-radius: 12px; background: transparent; color: #0E3B33; font-size: 14px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;">Change</button>
 </div>
 
 <!-- Package slider -->
-<div style="display: flex; flex-direction: column;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Suggested Packages</span>
+<span style="font-size: 11.5px; color: #5A6863; font-weight: 500; white-space: nowrap;">{{pkgCaption}}</span>
+</div>
 <div class="rail" style="display: flex; gap: 12px; overflow-x: auto; margin: 0 -24px; padding: 2px 24px 8px 24px;">
 <sc-for list="{{pkgs}}" as="pkg" hint-placeholder-count="4">
-<button class="btn snap" type="button" aria-pressed="{{pkg.on}}" onClick="{{pkg.pick}}" style="flex: 0 0 238px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; padding: 10px 14px 10px 14px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{pkg.border}}; box-shadow: {{pkg.shadow}};">
+<button class="btn snap" type="button" aria-pressed="{{pkg.on}}" onClick="{{pkg.pick}}" style="flex: 0 0 238px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 12px 16px 12px 16px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{pkg.border}}; box-shadow: {{pkg.shadow}};">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 22px;">
 <span style="font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; font-weight: 700; color: #5A6863;">{{pkg.name}}</span>
 <sc-if value="{{pkg.popular}}" hint-placeholder-val="{{false}}">
 <span style="padding: 4px 9px; border-radius: 999px; background: #C9963B; color: #0E3B33; font-size: 10px; letter-spacing: 1px; font-weight: 700;">MOST SELLING</span>
 </sc-if>
 </div>
-<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px 10px; padding-top: 2px;">
-<sc-for list="{{pkg.counts}}" as="ct" hint-placeholder-count="4">
-<div style="display: flex; align-items: baseline; gap: 5px; min-width: 0;">
-<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.25; color: #0E3B33;">{{ct.n}}</span>
-<span style="font-size: 12.5px; font-weight: 600; color: #4A5A55;">{{ct.label}}</span>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<sc-for list="{{pkg.rows}}" as="row" hint-placeholder-count="4">
+<div style="display: flex; justify-content: space-between; gap: 10px; font-size: 13px; line-height: 1.3;">
+<span style="color: #5A6863;">{{row.k}}</span>
+<span style="font-weight: 600; color: #1B2B27; text-align: right; white-space: pre-line;">{{row.v}}</span>
 </div>
 </sc-for>
 </div>
-<div style="height: 1px; background: #E4D9C2; margin-top: 4px;"></div>
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 30px;">
+<div style="height: 1px; background: #E4D9C2; margin-top: auto;"></div>
+<div style="display: flex; align-items: center; justify-content: space-between; min-height: 36px;">
 <div style="display: flex; align-items: baseline; gap: 6px;">
-<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 28px; line-height: 1; color: #0E3B33;">{{pkg.price}}</span>
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 34px; line-height: 1; color: #0E3B33;">{{pkg.price}}</span>
 <span style="font-size: 13px; font-weight: 600; color: #4A5A55;">Dh / person</span>
 </div>
 <sc-if value="{{pkg.on}}" hint-placeholder-val="{{false}}">
@@ -425,10 +407,8 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
 </sc-if>
 </button>
-</sc-if>
 </div>
 
-<sc-if value="{{pkgPackageStep}}" hint-placeholder-val="{{false}}">
 <!-- Approx price (pinned) -->
 <div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 10px 24px; display: flex; flex-direction: column; gap: 10px;">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
@@ -461,21 +441,20 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 </sc-if>
 </div>
-</sc-if>
 
 <!-- Footer actions -->
-<div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
-<button class="btn" type="button" onClick="{{backPkg}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+<div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
+<button class="btn" type="button" onClick="{{backPkg}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </button>
 <sc-if value="{{ready}}" hint-placeholder-val="{{false}}">
-<button class="btn" type="button" onClick="{{nextFromPkg}}" style="flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); text-decoration: none; cursor: pointer; box-sizing: border-box;">
+<button class="btn" type="button" onClick="{{nextFromPkg}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); text-decoration: none; cursor: pointer; box-sizing: border-box;">
 <span>Save &amp; Next</span>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
 </sc-if>
 <sc-if value="{{notReady}}" hint-placeholder-val="{{true}}">
-<button class="btn" type="button" disabled="{{true}}" style="opacity: 0.45; flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); text-decoration: none; cursor: not-allowed;">
+<button class="btn" type="button" disabled="{{true}}" style="opacity: 0.45; flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); text-decoration: none; cursor: not-allowed;">
 <span>Save &amp; Next</span>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
@@ -485,21 +464,21 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </sc-if>
 <sc-if value="{{isItemsScreen}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe -->
-<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 4 of 5">
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 4 of 5">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">4</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">4</div>
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center;">5</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
 
 <!-- Title + tabs (fixed) -->
 <div style="padding: 10px 24px 0 24px; display: flex; flex-direction: column; gap: 8px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">SELECT YOUR ITEMS</h2>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">SELECT YOUR ITEMS</h2>
 <div style="display: flex; gap: 8px;">
 <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
 <button class="btn" type="button" aria-pressed="{{tb.on}}" onClick="{{tb.pick}}" style="flex: 1 1 0; min-width: 0; height: 44px; padding: 0 4px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; border: 2px solid {{tb.border}}; background: {{tb.bg}}; color: {{tb.color}};">
@@ -610,11 +589,11 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 
 <!-- Footer actions -->
-<div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
-<button class="btn" type="button" onClick="{{backItems}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+<div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
+<button class="btn" type="button" onClick="{{backItems}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </button>
-<button class="btn" type="button" onClick="{{nextFromItems}}" disabled="{{iNotReady}}" style="opacity: {{iBtnOpacity}}; flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28);">
+<button class="btn" type="button" onClick="{{nextFromItems}}" disabled="{{iNotReady}}" style="opacity: {{iBtnOpacity}}; flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24);">
 <span>Save &amp; Next</span>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
@@ -623,21 +602,21 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </sc-if>
 <sc-if value="{{isThemeScreen}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe -->
-<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 5 of 5">
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 5 of 5">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">5</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">5</div>
 </div>
 
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 8px 24px; display: flex; flex-direction: column; gap: 12px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">EVENT THEME</h2>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">EVENT THEME</h2>
 <span style="font-size: 13px; color: #5A6863; font-weight: 500;">First 3 free with your package · last 3 premium</span>
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px;">
@@ -689,11 +668,11 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; color: #0E3B33;">{{grandText}}</span>
 </div>
 </div>
-<div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
-<button class="btn" type="button" onClick="{{backTheme}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+<div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
+<button class="btn" type="button" onClick="{{backTheme}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </button>
-<button class="btn" type="button" onClick="{{nextFromTheme}}" style="flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); cursor: pointer;">
+<button class="btn" type="button" onClick="{{nextFromTheme}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); cursor: pointer;">
 <span>Save &amp; Review</span>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
@@ -701,16 +680,16 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </sc-if>
 <sc-if value="{{isThemeDetail}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe -->
-<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="Step 5 of 5">
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 5 of 5">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 3px rgba(201,150,59,0.5);">5</div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">5</div>
 </div>
 
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 0 0 8px 0; display: flex; flex-direction: column; gap: 14px;">
@@ -754,25 +733,25 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <span style="font-size: 12.5px; color: #5A6863; line-height: 1.4;">{{d.priceNote}}</span>
 </div>
 </div>
-<div style="padding: 12px 24px 24px 24px; display: flex; align-items: center; gap: 14px;">
-<button class="btn" type="button" onClick="{{closeThemeDetail}}" aria-label="Back to themes" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+<div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
+<button class="btn" type="button" onClick="{{closeThemeDetail}}" aria-label="Back to themes" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </button>
-<button class="btn" type="button" onClick="{{d.choose}}" style="flex-grow: 1; height: 56px; border: {{d.btnBorder}}; border-radius: 18px; background: {{d.btnBg}}; color: {{d.btnColor}}; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.2); cursor: pointer;"><span>{{d.btnLabel}}</span></button>
+<button class="btn" type="button" onClick="{{d.choose}}" style="flex-grow: 1; height: 46px; border: {{d.btnBorder}}; border-radius: 14px; background: {{d.btnBg}}; color: {{d.btnColor}}; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.2); cursor: pointer;"><span>{{d.btnLabel}}</span></button>
 </div>
 </sc-if>
 <sc-if value="{{isThanks}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe -->
-<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="All steps complete">
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="All steps complete">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 5 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 5 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 </div>
 
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 22px 24px 8px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;">
@@ -798,7 +777,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 <div style="padding: 12px 24px 24px 24px; display: flex; flex-direction: column; gap: 8px;">
 <sc-if value="{{hasPdfMsg}}" hint-placeholder-val="{{false}}"><span role="status" style="text-align: center; font-size: 13px; font-weight: 600; color: #1F6B4E;">{{pdfMsg}}</span></sc-if>
-<button class="btn" type="button" onClick="{{downloadPdf}}" style="height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); cursor: pointer;">
+<button class="btn" type="button" onClick="{{downloadPdf}}" style="height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); cursor: pointer;">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
 <span>Download PDF again</span>
 </button>
@@ -807,21 +786,21 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </sc-if>
 <sc-if value="{{isReviewScreen}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe -->
-<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 8px 28px; display: flex; align-items: center;" aria-label="All steps complete">
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="All steps complete">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 2 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 3 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 4 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
-<div style="width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 5 done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 5 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 </div>
 
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 12px 24px; display: flex; flex-direction: column; gap: 12px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; letter-spacing: 3px; color: #0E3B33;">REVIEW &amp; CONFIRM</h2>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">REVIEW &amp; CONFIRM</h2>
 <span style="font-size: 13px; color: #5A6863; font-weight: 500; text-align: center;">Ref {{rv.ref}} · tap Edit to change</span>
 </div>
 <div style="background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
@@ -893,10 +872,10 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <div style="padding: 12px 24px 24px 24px; display: flex; flex-direction: column; gap: 8px;">
 <sc-if value="{{hasPdfMsg}}" hint-placeholder-val="{{false}}"><span role="status" style="text-align: center; font-size: 13px; font-weight: 600; color: #1F6B4E;">{{pdfMsg}}</span></sc-if>
 <div style="display: flex; align-items: center; gap: 14px;">
-<button class="btn" type="button" onClick="{{backReview}}" aria-label="Back" style="width: 56px; height: 56px; box-sizing: border-box; flex-shrink: 0; border-radius: 18px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+<button class="btn" type="button" onClick="{{backReview}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </button>
-<button class="btn" type="button" onClick="{{downloadPdf}}" style="flex-grow: 1; height: 56px; border: none; border-radius: 18px; background: #0E3B33; color: #FBF6EA; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(14,59,51,0.28); cursor: pointer;">
+<button class="btn" type="button" onClick="{{downloadPdf}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); cursor: pointer;">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
 <span>Download &amp; Confirm</span>
 </button>
@@ -1195,7 +1174,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, cuisinePicked: false, cuisineSet: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
     // Dummy photo tiles for now; real photos replace the glyph tile later.
     this.ITEMS = [];
     const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
@@ -1335,12 +1314,6 @@ class Component extends DCLogic {
         popular: i === popular,
         on: on,
         pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false }),
-        counts: [
-          { n: this.COMP[i][0], label: 'Starters' },
-          { n: this.COMP[i][1], label: 'Mains' },
-          { n: this.COMP[i][2], label: 'Staples' },
-          { n: this.COMP[i][3], label: this.COMP[i][3] === 1 ? 'Dessert' : 'Desserts' }
-        ],
         rows: [
           { k: 'Starters', v: pv ? t.stv : t.st },
           { k: 'Main course', v: pv ? t.mcv : t.mc },
@@ -1368,21 +1341,15 @@ class Component extends DCLogic {
     return {
       cuisines: CUISINES.map((c) => {
         const on = st.cuisine === c.id;
-        const shown = on && st.cuisineSet;
         return {
-          label: c.label, grow: c.grow, on: shown,
-          from: 'from ' + PRICES[c.id][setup][0] + ' Dh / person',
-          bg: shown ? '#D3E7DE' : '#FFFFFF',
+          label: c.label, grow: c.grow, on: on,
+          bg: on ? '#D3E7DE' : '#FFFFFF',
           color: '#0E3B33',
-          border: shown ? '#2F7A64' : '#DDD3BF',
-          pick: () => this.setState({ cuisine: c.id, cuisinePicked: true, cuisineSet: true, consent: false })
+          border: on ? '#2F7A64' : '#DDD3BF',
+          pick: () => this.setState({ cuisine: c.id, consent: false })
         };
       }),
       pkgs: pkgs,
-      pkgCuisineStep: !st.cuisinePicked,
-      pkgPackageStep: !!st.cuisinePicked,
-      cuisineLabel: CUISINES.filter((c) => c.id === st.cuisine)[0].label,
-      changeCuisine: () => this.setState({ cuisinePicked: false }),
       custom: Object.assign({ on: isCustom, off: !isCustom, pick: () => this.setState({ pkg: isCustom ? null : 'custom', consent: false }) }, sel(isCustom)),
       pax: pax,
       pkgCaption: pv ? 'Pure Veg menu · salads & sides incl.' : 'Salads & sides included',
