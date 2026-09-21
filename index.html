@@ -342,7 +342,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 
 <!-- Content -->
-<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 6px 24px; display: flex; flex-direction: column; gap: 12px;">
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 6px 24px; display: flex; flex-direction: column; gap: 10px;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">SELECT PACKAGES</h2>
 
 <!-- Cuisine -->
@@ -414,7 +414,12 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
 <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
 <span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 26px; line-height: 1.1; color: {{totalColor}};">{{totalText}}</span>
+<sc-if value="{{totalSubShown}}" hint-placeholder-val="{{true}}">
 <span style="font-size: 12px; color: #5A6863;">{{totalSub}}</span>
+</sc-if>
+<sc-if value="{{minOpen}}" hint-placeholder-val="{{false}}">
+<button class="btn" type="button" onClick="{{bumpPax}}" style="align-self: flex-start; min-height: 22px; padding: 0; border: none; background: transparent; color: #8A3B12; font-size: 12.5px; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; text-align: left;">{{minHint}}</button>
+</sc-if>
 </div>
 <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
 <div style="display: flex; align-items: center; gap: 6px;">
@@ -424,22 +429,6 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 </div>
 </div>
-
-<sc-if value="{{belowMin}}" hint-placeholder-val="{{false}}">
-<div role="alert" style="display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border-radius: 14px; background: #FFF3D6; border: 1.5px solid #E3B34B; color: #5C3F00;">
-<div style="display: flex; gap: 10px; align-items: center;">
-<svg style="flex-shrink: 0;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v.5"></path></svg>
-<span style="font-size: 14px; font-weight: 700; line-height: 20px;">Minimum order is 2,000 Dh</span>
-</div>
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
-<button class="btn" type="button" onClick="{{bumpPax}}" style="height: 44px; padding: 0 12px; border-radius: 12px; border: 1.5px solid #0E3B33; background: #FFFFFF; color: #0E3B33; font-size: 13px; font-weight: 700; cursor: pointer;">Increase to {{needPax}} guests</button>
-<label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; line-height: 1.25; cursor: pointer;">
-<input type="checkbox" checked="{{consent}}" onChange="{{toggleConsent}}" style="width: 22px; height: 22px; flex-shrink: 0; accent-color: #0E3B33;">
-<span>I agree to pay the 2,000 Dh minimum</span>
-</label>
-</div>
-</div>
-</sc-if>
 </div>
 
 <!-- Footer actions -->
@@ -450,6 +439,12 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <sc-if value="{{ready}}" hint-placeholder-val="{{false}}">
 <button class="btn" type="button" onClick="{{nextFromPkg}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); text-decoration: none; cursor: pointer; box-sizing: border-box;">
 <span>Save &amp; Next</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</sc-if>
+<sc-if value="{{minOpen}}" hint-placeholder-val="{{false}}">
+<button class="btn" type="button" onClick="{{acceptMinNext}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); text-decoration: none; cursor: pointer; box-sizing: border-box;">
+<span>Pay 2,000 Dh min. &amp; Next</span>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
 </sc-if>
@@ -1333,7 +1328,7 @@ class Component extends DCLogic {
     if (isCustom) { totalText = 'Custom menu'; totalSub = 'Base ' + this.catRates().base + ' Dh + price of each dish you pick'; }
     if (hasPkg) {
       totalText = fmt(applied ? MIN : raw) + ' Dh';
-      totalSub = applied ? 'Minimum order applied (' + pax + ' × ' + price + ' = ' + fmt(raw) + ' Dh)' : pax + ' guests × ' + price + ' Dh';
+      totalSub = applied ? 'Minimum applied (was ' + fmt(raw) + ' Dh)' : pax + ' guests × ' + price + ' Dh';
       if (belowMin && !st.consent) totalColor = '#8A3B12';
     }
     const ready = isCustom || (hasPkg && (!belowMin || st.consent));
@@ -1362,7 +1357,11 @@ class Component extends DCLogic {
       totalSub: totalSub,
       totalColor: totalColor,
       ready: ready,
-      notReady: !ready,
+      // under the minimum and not yet accepted: short hint under the total, and the main button accepts it
+      minOpen: belowMin && !st.consent,
+      totalSubShown: !(belowMin && !st.consent),
+      minHint: hasPkg ? 'Min. 2,000 Dh · Add ' + (Math.ceil(MIN / price) - pax) + (Math.ceil(MIN / price) - pax === 1 ? ' guest' : ' guests') : '',
+      notReady: !ready && !(belowMin && !st.consent),
       btnOpacity: 1
     };
   }
@@ -1913,6 +1912,7 @@ class Component extends DCLogic {
       nextFromSetup: () => go(ret ? 'review' : 'pkg', true),
       backPkg: () => go(ret ? 'review' : 'setup', true),
       nextFromPkg: () => openItems(),
+      acceptMinNext: () => { this.setState({ consent: true }); openItems(); },
       backItems: () => go(ret ? 'review' : 'pkg', true),
       nextFromItems: () => go(ret ? 'review' : 'theme', true),
       backTheme: () => go(ret ? 'review' : 'items', true),
