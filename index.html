@@ -60,7 +60,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 18px 24px 8px 24px; display: flex; flex-direction: column; gap: 14px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center;">
-<h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; color: #0E3B33;">Customer Details</h2>
+<h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; color: #0E3B33;">Customer Details</h2>
 </div>
 
 <!-- Name -->
@@ -194,7 +194,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <!-- Content -->
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 20px 24px 8px 24px; display: flex; flex-direction: column; gap: 16px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">SETUP</h2>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">SETUP</h2>
 <div style="display: flex; flex-direction: column; gap: 8px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Catering Type</span>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
@@ -343,7 +343,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <!-- Content -->
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 6px 24px; display: flex; flex-direction: column; gap: 10px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">SELECT PACKAGES</h2>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">SELECT PACKAGES</h2>
 
 <!-- Cuisine -->
 <div style="display: flex; flex-direction: column; gap: 6px;">
@@ -467,7 +467,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <!-- Title + tabs (fixed) -->
 <div style="padding: 10px 24px 0 24px; display: flex; flex-direction: column; gap: 8px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">SELECT YOUR ITEMS</h2>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">SELECT YOUR ITEMS</h2>
 <div style="display: flex; gap: 8px;">
 <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
 <button class="btn" type="button" aria-pressed="{{tb.on}}" onClick="{{tb.pick}}" style="flex: 1 1 0; min-width: 0; height: 44px; padding: 0 4px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; border: 2px solid {{tb.border}}; background: {{tb.bg}}; color: {{tb.color}};">
@@ -579,9 +579,15 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <span style="font-size: 13px; font-weight: 600; color: #5A6863;">Pick dishes to see the price</span>
 </sc-if>
 <sc-if value="{{custWarnShown}}" hint-placeholder-val="{{false}}">
-<div role="alert" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; background: #FDECEA; border: 1.5px solid #C62828;">
-<span style="flex-grow: 1; min-width: 0; font-size: 12.5px; font-weight: 700; line-height: 1.3; color: #9B1C1C;">{{custWarnText}}</span>
+<div role="alert" style="display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; border-radius: 12px; background: #FDECEA; border: 1.5px solid #C62828;">
+<span style="font-size: 12.5px; font-weight: 700; line-height: 1.3; color: #9B1C1C;">{{custWarnText}}</span>
+<div style="display: flex; align-items: center; gap: 10px;">
 <button class="btn" type="button" onClick="{{custBump}}" style="flex-shrink: 0; height: 36px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #9B1C1C; background: #FFFFFF; color: #9B1C1C; font-size: 12.5px; font-weight: 700; cursor: pointer;">{{custBumpLabel}}</button>
+<label style="display: flex; align-items: center; gap: 7px; min-height: 36px; font-size: 12.5px; font-weight: 700; line-height: 1.25; color: #9B1C1C; cursor: pointer;">
+<input type="checkbox" checked="{{custMinOk}}" onChange="{{toggleCustMin}}" style="width: 20px; height: 20px; flex-shrink: 0; margin: 0; accent-color: #9B1C1C;">
+<span>I'll pay the 2,000 Dh minimum</span>
+</label>
+</div>
 </div>
 </sc-if>
 <sc-if value="{{showProgress}}" hint-placeholder-val="{{true}}">
@@ -617,13 +623,11 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 8px 24px; display: flex; flex-direction: column; gap: 12px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">EVENT THEME</h2>
-<span style="font-size: 13px; color: #5A6863; font-weight: 500;">First 3 free with your package · last 3 premium</span>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">EVENT THEME</h2>
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px;">
 <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Choose a theme</span>
-<span style="font-size: 11.5px; color: #5A6863; font-weight: 500;">Optional · tap again to remove</span>
 </div>
 <div class="rail" style="display: flex; gap: 12px; overflow-x: auto; margin: 0 -24px; padding: 2px 24px 8px 24px;">
 <sc-for list="{{themes}}" as="t" hint-placeholder-count="6">
@@ -801,7 +805,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 12px 24px; display: flex; flex-direction: column; gap: 12px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: 2.5px; color: #0E3B33;">REVIEW &amp; CONFIRM</h2>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">REVIEW &amp; CONFIRM</h2>
 <span style="font-size: 13px; color: #5A6863; font-weight: 500; text-align: center;">Ref {{rv.ref}} · tap Edit to change</span>
 </div>
 <div style="background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
@@ -1175,7 +1179,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
     // Dummy photo tiles for now; real photos replace the glyph tile later.
     this.ITEMS = [];
     const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
@@ -1518,7 +1522,7 @@ class Component extends DCLogic {
               const sel = Object.assign({}, this.state.sel);
               const adding = !sel[x.id];
               if (adding) sel[x.id] = true; else delete sel[x.id];
-              const extra = { note: '', minWarn: false };
+              const extra = { note: '', minWarn: false, custMinOk: false };
               if (!adding) { const nn = Object.assign({}, this.state.notes); delete nn[x.id]; extra.notes = nn; }
               this.setState(Object.assign({ sel: sel }, extra));
               // group just filled: after a short pause (so the tick is seen) move on to what still needs items
@@ -1636,7 +1640,9 @@ class Component extends DCLogic {
       custWarnShown: isCustom && custBelowMin && !!st.minWarn,
       custWarnText: 'Total is below the 2,000 Dh minimum. Add guests or dishes.',
       custBumpLabel: 'Make it ' + custNeedPax + ' guests',
-      custBump: () => this.setState({ pax: custNeedPax, minWarn: false }),
+      custBump: () => this.setState({ pax: custNeedPax, minWarn: false, custMinOk: false }),
+      custMinOk: !!st.custMinOk,
+      toggleCustMin: () => this.setState({ custMinOk: !this.state.custMinOk }),
       noteOpen: !!nItem,
       noteItemName: nItem ? nItem.name : '',
       noteChips: noteChips,
@@ -1939,7 +1945,7 @@ class Component extends DCLogic {
       },
       backItems: () => go(ret ? 'review' : 'pkg', true),
       nextFromItems: () => {
-        if (this.itemsVals().custBelowMin) { this.setState({ minWarn: true }); return; }
+        if (this.itemsVals().custBelowMin && !st.custMinOk) { this.setState({ minWarn: true }); return; }
         go(ret ? 'review' : 'theme', true);
       },
       backTheme: () => go(ret ? 'review' : 'items', true),
