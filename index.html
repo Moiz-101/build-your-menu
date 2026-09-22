@@ -563,24 +563,36 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <!-- Progress hint -->
 <div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 8px 24px; display: flex; flex-direction: column; gap: 6px;">
+<sc-if value="{{showProgress}}" hint-placeholder-val="{{true}}">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
 <span style="font-size: 13px; font-weight: 600; color: {{hintColor}};">{{hint}}</span>
 <span style="font-size: 12px; font-weight: 600; color: #5A6863; white-space: nowrap;">{{progressText}}</span>
 </div>
-<sc-if value="{{showCustPrice}}" hint-placeholder-val="{{false}}">
-<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;">
-<div style="display: flex; flex-direction: column; gap: 1px;">
-<span style="font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Per person</span>
-<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; color: #0E3B33;">{{custPP}}</span>
-</div>
-<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1px;">
-<span style="font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Approx. total</span>
-<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; color: #0E3B33;">{{custTotal}}</span>
-</div>
-</div>
-<span style="font-size: 12px; font-weight: 600; line-height: 1.3; color: {{custSubColor}}; margin-top: -4px;">{{custSub}}</span>
 </sc-if>
+<sc-if value="{{custHasPrice}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; white-space: nowrap;">
+<div style="display: flex; align-items: baseline; gap: 5px;">
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 21px; line-height: 1.1; color: #0E3B33;">{{custPP}}</span>
+<span style="font-size: 12.5px; font-weight: 600; color: #4A5A55;">per person</span>
+</div>
+<div style="display: flex; align-items: baseline; gap: 5px;">
+<span style="font-size: 12.5px; font-weight: 600; color: #4A5A55;">Approx. total</span>
+<span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 21px; line-height: 1.1; color: {{custTotalColor}};">{{custTotal}}</span>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{custNoPrice}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 13px; font-weight: 600; color: #5A6863;">Pick dishes to see the price</span>
+</sc-if>
+<sc-if value="{{custWarnShown}}" hint-placeholder-val="{{false}}">
+<div role="alert" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; background: #FDECEA; border: 1.5px solid #C62828;">
+<span style="flex-grow: 1; min-width: 0; font-size: 12.5px; font-weight: 700; line-height: 1.3; color: #9B1C1C;">{{custWarnText}}</span>
+<button class="btn" type="button" onClick="{{custBump}}" style="flex-shrink: 0; height: 36px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #9B1C1C; background: #FFFFFF; color: #9B1C1C; font-size: 12.5px; font-weight: 700; cursor: pointer;">{{custBumpLabel}}</button>
+</div>
+</sc-if>
+<sc-if value="{{showProgress}}" hint-placeholder-val="{{true}}">
 <div style="height: 5px; border-radius: 999px; background: #E4D9C2; overflow: hidden;"><div style="height: 100%; border-radius: 999px; background: #C9963B; width: {{pct}}%;"></div></div>
+</sc-if>
 </div>
 
 <!-- Footer actions -->
@@ -1169,7 +1181,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
     // Dummy photo tiles for now; real photos replace the glyph tile later.
     this.ITEMS = [];
     const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
@@ -1509,7 +1521,7 @@ class Component extends DCLogic {
               const sel = Object.assign({}, this.state.sel);
               const adding = !sel[x.id];
               if (adding) sel[x.id] = true; else delete sel[x.id];
-              const extra = { note: '' };
+              const extra = { note: '', minWarn: false };
               if (!adding) { const nn = Object.assign({}, this.state.notes); delete nn[x.id]; extra.notes = nn; }
               this.setState(Object.assign({ sel: sel }, extra));
               // group just filled: after a short pause (so the tick is seen) move on to what still needs items
@@ -1584,6 +1596,7 @@ class Component extends DCLogic {
       hint = 'Choose ' + remaining + ' more item' + (remaining === 1 ? '' : 's') + ' to continue';
     }
     let custTotal = '', custSub = '', custPP = '', custSubColor = '#5A6863';
+    let custBelowMin = false, custNeedPax = 0, custTotalColor = '#0E3B33';
     if (isCustom) {
       const fmt = (n) => n.toLocaleString('en-US');
       const pax = st.pax;
@@ -1594,7 +1607,10 @@ class Component extends DCLogic {
         custPP = pp + ' Dh';
         custTotal = fmt(raw) + ' Dh';
         custSub = pax + ' guests × ' + pp + ' Dh · ' + totalPicked + ' dishes';
-        if (raw < 2000) { custSub += ' — below the 2,000 Dh minimum, 2,000 Dh will be charged'; custSubColor = '#8A5A00'; }
+        if (raw < 2000) {
+          custSub += ' — below the 2,000 Dh minimum'; custSubColor = '#8A5A00';
+          custBelowMin = true; custNeedPax = Math.ceil(2000 / pp); custTotalColor = '#8A3B12';
+        }
       }
     }
     return {
@@ -1615,6 +1631,15 @@ class Component extends DCLogic {
       progressText: isCustom ? (totalPicked + ' picked') : (totalDone + ' of ' + totalNeed),
       pct: isCustom ? (totalPicked > 0 ? 100 : 0) : (totalNeed ? Math.round(100 * totalDone / totalNeed) : 0),
       showCustPrice: isCustom,
+      showProgress: !isCustom,
+      custHasPrice: isCustom && totalPicked > 0,
+      custNoPrice: isCustom && !totalPicked,
+      custBelowMin: custBelowMin,
+      custTotalColor: custTotalColor,
+      custWarnShown: isCustom && custBelowMin && !!st.minWarn,
+      custWarnText: 'Total is below the 2,000 Dh minimum. Add guests or dishes.',
+      custBumpLabel: 'Make it ' + custNeedPax + ' guests',
+      custBump: () => this.setState({ pax: custNeedPax, minWarn: false }),
       noteOpen: !!nItem,
       noteItemName: nItem ? nItem.name : '',
       noteChips: noteChips,
@@ -1864,7 +1889,7 @@ class Component extends DCLogic {
     const go = (scr, clearRet, setRet) => this.setState({ screen: scr, returnTo: setRet ? 'review' : (clearRet && scr === 'review' ? null : st.returnTo), pdfMsg: '' });
     const openItems = (fromReview) => {
       const key = st.cuisine + '|' + st.pkg + '|' + (st.pureVeg ? 'pv' : 'all');
-      this.setState({ screen: 'items', returnTo: fromReview ? 'review' : st.returnTo, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: st.selKey === key ? st.sel : {}, notes: st.selKey === key ? st.notes : {}, noteFor: null, zoom: null, selKey: key });
+      this.setState({ screen: 'items', minWarn: false, returnTo: fromReview ? 'review' : st.returnTo, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: st.selKey === key ? st.sel : {}, notes: st.selKey === key ? st.notes : {}, noteFor: null, zoom: null, selKey: key });
     };
     const S = this.summary();
     const themes = this.THEMES.map((t) => {
@@ -1914,7 +1939,10 @@ class Component extends DCLogic {
       nextFromPkg: () => openItems(),
       acceptMinNext: () => { this.setState({ consent: true }); openItems(); },
       backItems: () => go(ret ? 'review' : 'pkg', true),
-      nextFromItems: () => go(ret ? 'review' : 'theme', true),
+      nextFromItems: () => {
+        if (this.itemsVals().custBelowMin) { this.setState({ minWarn: true }); return; }
+        go(ret ? 'review' : 'theme', true);
+      },
       backTheme: () => go(ret ? 'review' : 'items', true),
       nextFromTheme: () => go('review', true),
       backReview: () => go('theme', true),
