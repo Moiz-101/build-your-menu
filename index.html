@@ -21,6 +21,10 @@ input,select,button,textarea{font-family:inherit}
 .rail::-webkit-scrollbar{display:none}
 .snap{scroll-snap-align:start}
 .btn[disabled]{cursor:not-allowed}
+/* iPhone Safari gives date inputs a built-in minimum width and height, which made the
+   date box spill under the Time box. Dropping the native styling makes it obey its column. */
+input[type="date"].fld{-webkit-appearance:none;appearance:none;display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;line-height:normal}
+input[type="date"].fld::-webkit-date-and-time-value{text-align:left;margin:0}
 /* The outer frame is fluid: full height of the phone, 390px wide at most. */
 html,body{height:100%}
 body{box-sizing:border-box;display:flex;justify-content:center;align-items:stretch;color:#1B2B27}
@@ -118,7 +122,9 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <label for="date" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Event Date</label>
 <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px;">
+<div style="min-width: 0; display: flex;">
 <input id="date" class="fld" type="date" value="{{date}}" onChange="{{setDate}}" style="width: 100%; min-width: 0; box-sizing: border-box; height: 44px; padding: 0 12px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+</div>
 <div style="position: relative; min-width: 0;">
 <select id="time" aria-label="Event time" class="fld" value="{{time}}" onChange="{{setTime}}" style="appearance: none; -webkit-appearance: none; width: 100%; box-sizing: border-box; height: 44px; padding: 0 32px 0 14px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
 <option value="">Time</option>
