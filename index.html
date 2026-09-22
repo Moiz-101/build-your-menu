@@ -117,9 +117,9 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <!-- Event date + time -->
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <label for="date" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Event Date</label>
-<div style="display: flex; gap: 10px;">
-<input id="date" class="fld" type="date" value="{{date}}" onChange="{{setDate}}" style="flex-grow: 1; min-width: 0; box-sizing: border-box; height: 44px; padding: 0 12px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
-<div style="position: relative; width: 128px; flex-shrink: 0;">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px;">
+<input id="date" class="fld" type="date" value="{{date}}" onChange="{{setDate}}" style="width: 100%; min-width: 0; box-sizing: border-box; height: 44px; padding: 0 12px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+<div style="position: relative; min-width: 0;">
 <select id="time" aria-label="Event time" class="fld" value="{{time}}" onChange="{{setTime}}" style="appearance: none; -webkit-appearance: none; width: 100%; box-sizing: border-box; height: 44px; padding: 0 32px 0 14px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
 <option value="">Time</option>
 <option>10:00 AM</option>
