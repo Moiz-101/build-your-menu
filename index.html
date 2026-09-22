@@ -418,7 +418,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <span style="font-size: 12px; color: #5A6863;">{{totalSub}}</span>
 </sc-if>
 <sc-if value="{{minOpen}}" hint-placeholder-val="{{false}}">
-<button class="btn" type="button" onClick="{{bumpPax}}" style="align-self: flex-start; min-height: 22px; padding: 0; border: none; background: transparent; color: #8A3B12; font-size: 12.5px; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; text-align: left;">{{minHint}}</button>
+<button class="btn" type="button" aria-live="polite" onClick="{{bumpPax}}" style="align-self: flex-start; display: flex; align-items: center; gap: 4px; min-height: 22px; padding: 0; border: none; background: transparent; color: {{minHintColor}}; font-size: 12.5px; font-weight: 700; white-space: nowrap; cursor: pointer; text-align: left;"><sc-if value="{{minWarnOn}}" hint-placeholder-val="{{false}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v.5"></path></svg></sc-if><span style="text-decoration: underline; text-underline-offset: 2px;">{{minHint}}</span></button>
 </sc-if>
 </div>
 <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
@@ -439,12 +439,6 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <sc-if value="{{ready}}" hint-placeholder-val="{{false}}">
 <button class="btn" type="button" onClick="{{nextFromPkg}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); text-decoration: none; cursor: pointer; box-sizing: border-box;">
 <span>Save &amp; Next</span>
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-</button>
-</sc-if>
-<sc-if value="{{minOpen}}" hint-placeholder-val="{{false}}">
-<button class="btn" type="button" onClick="{{acceptMinNext}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); text-decoration: none; cursor: pointer; box-sizing: border-box;">
-<span>Pay 2,000 Dh min. &amp; Next</span>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
 </sc-if>
@@ -1320,7 +1314,7 @@ class Component extends DCLogic {
         price: prices[i],
         popular: i === popular,
         on: on,
-        pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false }),
+        pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false, minWarn: false }),
         rows: [
           { k: 'Starters', v: pv ? t.stv : t.st },
           { k: 'Main course', v: pv ? t.mcv : t.mc },
@@ -1341,9 +1335,9 @@ class Component extends DCLogic {
     if (hasPkg) {
       totalText = fmt(applied ? MIN : raw) + ' Dh';
       totalSub = applied ? 'Minimum applied (was ' + fmt(raw) + ' Dh)' : pax + ' guests × ' + price + ' Dh';
-      if (belowMin && !st.consent) totalColor = '#8A3B12';
+      if (belowMin && !st.consent) totalColor = st.minWarn ? '#B3261E' : '#8A3B12';
     }
-    const ready = isCustom || (hasPkg && (!belowMin || st.consent));
+    const ready = isCustom || hasPkg;
 
     return {
       cuisines: CUISINES.map((c) => {
@@ -1353,16 +1347,16 @@ class Component extends DCLogic {
           bg: on ? '#D3E7DE' : '#FFFFFF',
           color: '#0E3B33',
           border: on ? '#2F7A64' : '#DDD3BF',
-          pick: () => this.setState({ cuisine: c.id, consent: false })
+          pick: () => this.setState({ cuisine: c.id, consent: false, minWarn: false })
         };
       }),
       pkgs: pkgs,
-      custom: Object.assign({ on: isCustom, off: !isCustom, pick: () => this.setState({ pkg: isCustom ? null : 'custom', consent: false }) }, sel(isCustom)),
+      custom: Object.assign({ on: isCustom, off: !isCustom, pick: () => this.setState({ pkg: isCustom ? null : 'custom', consent: false, minWarn: false }) }, sel(isCustom)),
       pax: pax,
       pkgCaption: pv ? 'Pure Veg menu · salads & sides incl.' : 'Salads & sides included',
       belowMin: belowMin,
       needPax: hasPkg ? Math.ceil(MIN / price) : pax,
-      bumpPax: () => this.setState({ pax: Math.ceil(MIN / price), consent: false }),
+      bumpPax: () => this.setState({ pax: Math.ceil(MIN / price), consent: false, minWarn: false }),
       consent: st.consent,
       toggleConsent: () => this.setState({ consent: !st.consent }),
       totalText: totalText,
@@ -1370,10 +1364,13 @@ class Component extends DCLogic {
       totalColor: totalColor,
       ready: ready,
       // under the minimum and not yet accepted: short hint under the total, and the main button accepts it
-      minOpen: belowMin && !st.consent,
-      totalSubShown: !(belowMin && !st.consent),
-      minHint: hasPkg ? 'Min. 2,000 Dh · Add ' + (Math.ceil(MIN / price) - pax) + (Math.ceil(MIN / price) - pax === 1 ? ' guest' : ' guests') : '',
-      notReady: !ready && !(belowMin && !st.consent),
+      // under the minimum: one line under the total; it turns red if Save & Next is tapped
+      minOpen: belowMin,
+      totalSubShown: !belowMin,
+      minHint: hasPkg ? (st.minWarn ? 'Below min. · Add ' : 'Min. 2,000 Dh · Add ') + (Math.ceil(MIN / price) - pax) + (Math.ceil(MIN / price) - pax === 1 ? ' guest' : ' guests') : '',
+      minHintColor: st.minWarn ? '#B3261E' : '#8A3B12',
+      minWarnOn: belowMin && !!st.minWarn,
+      notReady: !ready,
       btnOpacity: 1
     };
   }
@@ -1936,8 +1933,10 @@ class Component extends DCLogic {
       backSetup: () => go(ret ? 'review' : 'details', true),
       nextFromSetup: () => go(ret ? 'review' : 'pkg', true),
       backPkg: () => go(ret ? 'review' : 'setup', true),
-      nextFromPkg: () => openItems(),
-      acceptMinNext: () => { this.setState({ consent: true }); openItems(); },
+      nextFromPkg: () => {
+        if (this.pkgVals().belowMin) { this.setState({ minWarn: true }); return; }
+        openItems();
+      },
       backItems: () => go(ret ? 'review' : 'pkg', true),
       nextFromItems: () => {
         if (this.itemsVals().custBelowMin) { this.setState({ minWarn: true }); return; }
@@ -1978,8 +1977,8 @@ class Component extends DCLogic {
         this.setState({ paxEdit: d, pax: n > 0 ? Math.min(n, 5000) : pax, consent: false });
       },
       blurPax: () => this.setState({ paxEdit: null }),
-      incPax: () => this.setState({ pax: Math.min(pax + 1, 5000), paxEdit: null, consent: false }),
-      decPax: () => this.setState({ pax: Math.max(pax - 1, 1), paxEdit: null, consent: false }),
+      incPax: () => this.setState({ pax: Math.min(pax + 1, 5000), paxEdit: null, consent: false, minWarn: false }),
+      decPax: () => this.setState({ pax: Math.max(pax - 1, 1), paxEdit: null, consent: false, minWarn: false }),
       pvYes: pvOpt(st.pureVeg, true),
       pvNo: pvOpt(!st.pureVeg, false),
       // setup
