@@ -540,12 +540,17 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <div style="position: relative; display: flex; flex-direction: column;">
 <button class="btn" type="button" aria-pressed="{{it.on}}" disabled="{{it.locked}}" onClick="{{it.pick}}" style="flex-grow: 1; position: relative; display: flex; flex-direction: column; padding: 0; overflow: hidden; text-align: left; cursor: pointer; border-radius: 16px; background: #FFFFFF; border: 2.5px solid {{it.border}}; box-shadow: {{it.shadow}}; opacity: {{it.opacity}};">
 <div style="position: relative; height: 76px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: {{it.tile}};">
+<sc-if value="{{it.hasPhoto}}" hint-placeholder-val="{{false}}">
+<img src="{{it.photo}}" alt="" loading="lazy" decoding="async" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; display: block;">
+</sc-if>
+<sc-if value="{{it.noPhoto}}" hint-placeholder-val="{{true}}">
 <sc-if value="{{it.iBowl}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"></path><path d="M9 4q-1.5 2 0 4M13 3q-1.5 2 0 4M17 4q-1.5 2 0 4M8 21h8"></path></svg></sc-if>
 <sc-if value="{{it.iDump}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15a9 8 0 0 1 18 0z"></path><path d="M8 9l1 3M12 8v4M16 9l-1 3M3 18.5h18"></path></svg></sc-if>
 <sc-if value="{{it.iRoll}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a4 4 0 0 1 4-4h8a4 4 0 0 1 0 8H8a4 4 0 0 1-4-4z"></path><circle cx="16" cy="12" r="2"></circle></svg></sc-if>
 <sc-if value="{{it.iSkew}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21L21 3"></path><circle cx="8" cy="16" r="2.6"></circle><circle cx="12.5" cy="11.5" r="2.6"></circle><circle cx="17" cy="7" r="2.6"></circle></svg></sc-if>
 <sc-if value="{{it.iBread}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="6.5"></ellipse><path d="M8 10q2 1.2 4 0M11 14q2 1.2 4 0"></path></svg></sc-if>
 <sc-if value="{{it.iSweet}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="6"></circle><path d="M9 10.5q3 2.2 6 0M4 20h16"></path></svg></sc-if>
+</sc-if>
 <sc-if value="{{it.hasDiet}}" hint-placeholder-val="{{false}}">
 <div style="position: absolute; top: 6px; left: 6px; width: 16px; height: 16px; box-sizing: border-box; border-radius: 3px; background: #FFFFFF; border: 1.5px solid {{it.dietColor}}; display: flex; align-items: center; justify-content: center;"><div style="width: 8px; height: 8px; border-radius: 50%; background: {{it.dietColor}};"></div></div>
 </sc-if>
@@ -912,12 +917,17 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <button type="button" class="btn" aria-label="Close" onClick="{{closeZoom}}" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; border: none; background: transparent; cursor: zoom-out;"></button>
 <div style="position: relative; width: 100%; box-sizing: border-box; border-radius: 24px; overflow: hidden; background: #FFFFFF; box-shadow: 0 20px 50px rgba(0,0,0,0.45);">
 <div style="position: relative; height: 270px; display: flex; align-items: center; justify-content: center; background: {{z.tile}};">
+<sc-if value="{{z.hasPhoto}}" hint-placeholder-val="{{false}}">
+<img src="{{z.photo}}" alt="{{z.name}}" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; display: block;">
+</sc-if>
+<sc-if value="{{z.noPhoto}}" hint-placeholder-val="{{true}}">
 <sc-if value="{{z.iBowl}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"></path><path d="M9 4q-1.5 2 0 4M13 3q-1.5 2 0 4M17 4q-1.5 2 0 4M8 21h8"></path></svg></sc-if>
 <sc-if value="{{z.iDump}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15a9 8 0 0 1 18 0z"></path><path d="M8 9l1 3M12 8v4M16 9l-1 3M3 18.5h18"></path></svg></sc-if>
 <sc-if value="{{z.iRoll}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a4 4 0 0 1 4-4h8a4 4 0 0 1 0 8H8a4 4 0 0 1-4-4z"></path><circle cx="16" cy="12" r="2"></circle></svg></sc-if>
 <sc-if value="{{z.iSkew}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21L21 3"></path><circle cx="8" cy="16" r="2.6"></circle><circle cx="12.5" cy="11.5" r="2.6"></circle><circle cx="17" cy="7" r="2.6"></circle></svg></sc-if>
 <sc-if value="{{z.iBread}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="6.5"></ellipse><path d="M8 10q2 1.2 4 0M11 14q2 1.2 4 0"></path></svg></sc-if>
 <sc-if value="{{z.iSweet}}" hint-placeholder-val="{{false}}"><svg width="130" height="130" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="6"></circle><path d="M9 10.5q3 2.2 6 0M4 20h16"></path></svg></sc-if>
+</sc-if>
 <sc-if value="{{z.hasDiet}}" hint-placeholder-val="{{false}}">
 <div style="position: absolute; top: 14px; left: 14px; width: 22px; height: 22px; box-sizing: border-box; border-radius: 4px; background: #FFFFFF; border: 2px solid {{z.dietColor}}; display: flex; align-items: center; justify-content: center;"><div style="width: 11px; height: 11px; border-radius: 50%; background: {{z.dietColor}};"></div></div>
 </sc-if>
@@ -926,7 +936,9 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <div style="padding: 16px 18px 18px 18px; display: flex; flex-direction: column; gap: 6px;">
 <span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; line-height: 1.15; color: #0E3B33;">{{z.name}}</span>
 <span style="font-size: 14px; color: #5A6863;">{{z.caption}}</span>
-<span style="font-size: 12px; color: #8A928D;">Sample image - real dish photo will appear here</span>
+<sc-if value="{{z.noPhoto}}" hint-placeholder-val="{{true}}">
+<span style="font-size: 12px; color: #8A928D;">Photo coming soon</span>
+</sc-if>
 <button type="button" class="btn" disabled="{{z.locked}}" onClick="{{zPick}}" style="margin-top: 8px; height: 50px; border-radius: 14px; border: 1.5px solid #0E3B33; cursor: pointer; background: {{zBtnBg}}; color: {{zBtnColor}}; font-size: 16px; font-weight: 700; opacity: {{zBtnOpacity}};">{{zBtnLabel}}</button>
 </div>
 </div>
@@ -961,6 +973,75 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 </template>
 <script>
+/* Generated by tools/gen_photos_js.py - dish name -> photo file. Do not edit by hand. */
+window.DISH_PHOTOS = {
+ "Aatishi Aaloo": "aatishi-aaloo",
+ "Achari Chicken Tikka": "achari-chicken-tikka",
+ "Ajwani Fish Tikka": "ajwani-fish-tikka",
+ "Asian Chicken Chilli": "asian-chicken-chilli",
+ "Asian Crispy Potato": "asian-crispy-potato",
+ "Asian Fried Chilli Fish": "asian-fried-chilli-fish",
+ "Asian Paneer Chilli": "asian-paneer-chilli",
+ "Asparagus Tempura Roll": "asparagus-tempura-roll",
+ "Bharwani Tandoori Kumbh": "bharwani-tandoori-kumbh",
+ "Chicken BBQ Bao": "chicken-bbq-bao",
+ "Chicken Basil Dumplings": "chicken-basil-dumplings",
+ "Chicken Gyoza": "chicken-gyoza",
+ "Chicken Hunan Dry": "chicken-hunan-dry",
+ "Chicken Seekh Kebab": "chicken-seekh-kebab",
+ "Chicken Siu Mai": "chicken-siu-mai",
+ "Chicken Spring Roll": "chicken-spring-roll",
+ "Chicken Tai Pei": "chicken-tai-pei",
+ "Chicken Tikka Roll": "chicken-tikka-roll",
+ "Cottage Cheese Smoked Chilli Bao": "cottage-cheese-smoked-chilli-bao",
+ "Crescent Chicken Dumplings": "crescent-chicken-dumplings",
+ "Crispy Chicken": "crispy-chicken",
+ "Crispy Schezwan Chilli Baby Corn": "crispy-schezwan-chilli-baby-corn",
+ "Crispy Spicy Avocado Roll": "crispy-spicy-avocado-roll",
+ "Crispy Thai Lotus Stem With Curry Leaves": "crispy-thai-lotus-stem-with-curry-leaves",
+ "Crispy Vegetable Konji": "crispy-vegetable-konji",
+ "Diced Chicken With Assorted Pepper & Ginger": "diced-chicken-with-assorted-pepper-ginger",
+ "Diced Tofu Smoked Chilli": "diced-tofu-smoked-chilli",
+ "Dragon Chicken": "dragon-chicken",
+ "Drums Of Heaven Hong Kong": "drums-of-heaven-hong-kong",
+ "Dum Pukht Kakori": "dum-pukht-kakori",
+ "Dynamite Prawns": "dynamite-prawns",
+ "Edamame Dumpling With Truffle Oil": "edamame-dumpling-with-truffle-oil",
+ "Egg Roll": "egg-roll",
+ "Firangi Chicken Tikka": "firangi-chicken-tikka",
+ "Kasturi Chicken Tikka": "kasturi-chicken-tikka",
+ "King Prawns": "king-prawns",
+ "Lakhnowi Tunday Kabab": "lakhnowi-tunday-kabab",
+ "Loshani Jhinga Kalimirch": "loshani-jhinga-kalimirch",
+ "Malai Broccoli": "malai-broccoli",
+ "Malai Paneer Tikka": "malai-paneer-tikka",
+ "Malai Soya Chaap": "malai-soya-chaap",
+ "Murgh Malai Tikka": "murgh-malai-tikka",
+ "Mutton Boti Kebab": "mutton-boti-kebab",
+ "Mutton Boti Roll": "mutton-boti-roll",
+ "Paneer Tikka Roll": "paneer-tikka-roll",
+ "Philippine Mango Roll": "philippine-mango-roll",
+ "Prawn Har Gao": "prawn-har-gao",
+ "Prawn Tempura Bao": "prawn-tempura-bao",
+ "Prawn Tempura Roll": "prawn-tempura-roll",
+ "Punjabi Paneer Tikka": "punjabi-paneer-tikka",
+ "Salmon Roll": "salmon-roll",
+ "Sauteed Zucchini, Baby Corn & Mushroom Ginger Chilli": "sauteed-zucchini-baby-corn-mushroom-ginger-chilli",
+ "Sea Bass": "sea-bass",
+ "Sea Bass Chilli Basil": "sea-bass-chilli-basil",
+ "Soya Chaap Roll": "soya-chaap-roll",
+ "Steamed Wonton Pickle Chilli": "steamed-wonton-pickle-chilli",
+ "Tandoori Chicken (Full)": "tandoori-chicken-full",
+ "Tandoori Chicken (Half)": "tandoori-chicken-half",
+ "Tandoori Soya Chaap": "tandoori-soya-chaap",
+ "Veg Harabhara Kebab": "veg-harabhara-kebab",
+ "Veg Manchurian Dry": "veg-manchurian-dry",
+ "Veg Seekh Kebab": "veg-seekh-kebab",
+ "Vegetable Basil Dumplings": "vegetable-basil-dumplings",
+ "Vegetable Crystal Dumpling": "vegetable-crystal-dumpling",
+ "Vegetable Sanchoi Bao": "vegetable-sanchoi-bao",
+ "Vegetable Spring Roll": "vegetable-spring-roll"
+};
 /* ------------------------------------------------------------------
    Minimal runtime for the Design-canvas component format.
    The artboard's markup and its component class are used verbatim;
@@ -1576,6 +1657,11 @@ class Component extends DCLogic {
             }
           };
           ['iBowl', 'iDump', 'iRoll', 'iSkew', 'iBread', 'iSweet'].forEach((k) => { o[k] = (k === icon); });
+          // a real photo where we have one, otherwise the drawn icon
+          const shot = (window.DISH_PHOTOS || {})[x.name];
+          o.photo = shot ? 'images/web/' + shot + '.jpg' : '';
+          o.hasPhoto = !!shot;
+          o.noPhoto = !shot;
           o.zoom = () => this.setState({ zoom: x.id });
           const nt = (st.notes[x.id] || '').trim();
           o.hasNote = on && !!nt;
@@ -1680,7 +1766,7 @@ class Component extends DCLogic {
       clearNote: () => { const nn = Object.assign({}, this.state.notes); delete nn[st.noteFor]; this.setState({ notes: nn, noteFor: null, noteDraft: '' }); },
       closeNote: () => this.setState({ noteFor: null, noteDraft: '' }),
       zoomOpen: !!zo,
-      z: zo || { name: '', caption: '', tile: '#EEE0C4', hasDiet: false, dietColor: '#2E7D32', locked: false },
+      z: zo || { name: '', caption: '', tile: '#EEE0C4', hasDiet: false, dietColor: '#2E7D32', locked: false, hasPhoto: false, noPhoto: true, photo: '' },
       closeZoom: () => this.setState({ zoom: null }),
       zPick: () => { if (zo) { zo.pick(); this.setState({ zoom: null }); } },
       zBtnLabel: zLabel,
