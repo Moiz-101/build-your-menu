@@ -72,7 +72,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <label for="name" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Name</label>
 <div style="position: relative;">
 <svg style="position: absolute; left: 14px; top: 12px; pointer-events: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>
-<input id="name" class="fld" type="text" value="{{name}}" onChange="{{setName}}" placeholder="Full name" autocomplete="name" style="width: 100%; box-sizing: border-box; height: 44px; padding: 0 14px 0 44px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+<input id="name" class="fld" type="text" value="{{name}}" onChange="{{setName}}" placeholder="Full name" autocomplete="name" style="width: 100%; box-sizing: border-box; height: 44px; padding: 0 14px 0 44px; border: 1.5px solid {{dNameBorder}}; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
 </div>
 </div>
 
@@ -95,7 +95,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </select>
 <svg style="position: absolute; right: 12px; top: 15px; pointer-events: none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
 </div>
-<input id="phone" class="fld" type="tel" value="{{phone}}" onChange="{{setPhone}}" inputmode="tel" placeholder="50 123 4567" autocomplete="tel-national" style="flex-grow: 1; min-width: 0; box-sizing: border-box; height: 44px; padding: 0 14px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+<input id="phone" class="fld" type="tel" value="{{phone}}" onChange="{{setPhone}}" inputmode="tel" placeholder="50 123 4567" autocomplete="tel-national" style="flex-grow: 1; min-width: 0; box-sizing: border-box; height: 44px; padding: 0 14px; border: 1.5px solid {{dPhoneBorder}}; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
 </div>
 </div>
 
@@ -123,7 +123,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <label for="date" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Event Date</label>
 <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px;">
 <div style="position: relative; min-width: 0; display: flex;">
-<input id="date" class="fld" type="date" data-empty="{{dateEmpty}}" value="{{date}}" onChange="{{setDate}}" style="width: 100%; min-width: 0; box-sizing: border-box; height: 44px; padding: 0 12px; border: 1.5px solid #DDD3BF; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
+<input id="date" class="fld" type="date" data-empty="{{dateEmpty}}" value="{{date}}" onChange="{{setDate}}" style="width: 100%; min-width: 0; box-sizing: border-box; height: 44px; padding: 0 12px; border: 1.5px solid {{dDateBorder}}; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
 <sc-if value="{{dateEmpty}}" hint-placeholder-val="{{true}}">
 <span aria-hidden="true" style="position: absolute; left: 14px; top: 0; bottom: 0; display: flex; align-items: center; font-size: 16px; color: #8A928D; pointer-events: none;">Select date</span>
 </sc-if>
@@ -175,7 +175,13 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 <button class="btn" type="button" aria-pressed="{{pvNo.on}}" onClick="{{pvNo.pick}}" style="width: 72px; height: 38px; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 700; border: 1.5px solid {{pvNo.border}}; background: {{pvNo.bg}}; color: {{pvNo.color}};">No</button>
 </div>
 </div>
-</div><div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
+</div><sc-if value="{{dWarnShown}}" hint-placeholder-val="{{false}}">
+<span role="alert" style="display: block; padding: 0 24px; margin-top: 6px; font-size: 12px; font-weight: 700; line-height: 1.3; color: #B3261E;">{{dWarnText}}</span>
+</sc-if>
+<sc-if value="{{dConsentShown}}" hint-placeholder-val="{{true}}">
+<span style="display: block; padding: 0 24px; margin-top: 6px; font-size: 11px; line-height: 1.3; color: #5A6863;">By continuing you agree that we may contact you about this booking.</span>
+</sc-if>
+<div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
 <button class="btn" type="button" aria-label="Back" disabled="{{true}}" style="opacity: 0.35; cursor: not-allowed; width: 46px; height: 46px; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
 </button>
@@ -971,6 +977,14 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 </template>
 <script>
+/* Settings for the backend link-up.
+   tracking:false means the app behaves exactly as it did before: nothing is sent anywhere. */
+window.BYM_CONFIG = {
+  tracking: true,
+  supabaseUrl: 'https://nrnhkuxtnbsjiyfhmwpm.supabase.co',
+  // public key: safe in the page. The database rules decide what it may do.
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ybmhrdXh0bmJzaml5Zmhtd3BtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzcwNDksImV4cCI6MjEwNTc1MzA0OX0.zSWpXCMOhua6GfbmSa41iKRCgHPo51eDdo6Fum_AZGc'
+};
 /* Generated by tools/gen_photos_js.py - dish name -> photo file. Do not edit by hand. */
 window.DISH_PHOTOS = {
  "Aatishi Aaloo": "aatishi-aaloo",
@@ -1351,7 +1365,7 @@ window.DISH_PHOTOS_BY_COURSE = {
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, detailsWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
     // Dummy photo tiles for now; real photos replace the glyph tile later.
     this.ITEMS = [];
     const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
@@ -2121,7 +2135,15 @@ class Component extends DCLogic {
       thanksTitle: (st.name || '').trim() ? 'Thank you, ' + st.name.trim().split(/\s+/)[0] + '!' : 'Thank you!',
       backToReview: () => this.setState({ screen: 'review', pdfMsg: '' }),
       // navigation: while editing from the review page, every "Save & Next" / Back returns there
-      nextFromDetails: () => go(ret ? 'review' : 'setup', true),
+      nextFromDetails: () => {
+        const missing = [];
+        if (!(st.name || '').trim()) missing.push('name');
+        if (!(st.phone || '').trim()) missing.push('contact number');
+        if (!st.date) missing.push('event date');
+        if (!(st.pax > 0)) missing.push('number of guests');
+        if (missing.length) { this.setState({ detailsWarn: true }); return; }
+        go(ret ? 'review' : 'setup', true);
+      },
       backSetup: () => go(ret ? 'review' : 'details', true),
       nextFromSetup: () => go(ret ? 'review' : 'pkg', true),
       backPkg: () => go(ret ? 'review' : 'setup', true),
@@ -2156,6 +2178,21 @@ class Component extends DCLogic {
       downloadPdf: () => this.downloadPdf(),
       // details
       name: st.name, cc: st.cc, phone: st.phone, emirate: st.emirate, date: st.date, time: st.time,
+      dWarn: !!st.detailsWarn,
+      dNameBorder:  (st.detailsWarn && !(st.name || '').trim()) ? '#B3261E' : '#DDD3BF',
+      dPhoneBorder: (st.detailsWarn && !(st.phone || '').trim()) ? '#B3261E' : '#DDD3BF',
+      dDateBorder:  (st.detailsWarn && !st.date) ? '#B3261E' : '#DDD3BF',
+      dWarnText: (() => {
+        const m = [];
+        if (!(st.name || '').trim()) m.push('name');
+        if (!(st.phone || '').trim()) m.push('contact number');
+        if (!st.date) m.push('event date');
+        if (!(st.pax > 0)) m.push('guests');
+        if (!m.length) return '';
+        return 'Please add your ' + (m.length === 1 ? m[0] : m.slice(0, -1).join(', ') + ' and ' + m[m.length - 1]) + '.';
+      })(),
+      dWarnShown: !!st.detailsWarn && !!((!(st.name || '').trim()) || (!(st.phone || '').trim()) || !st.date || !(st.pax > 0)),
+      dConsentShown: !(!!st.detailsWarn && !!((!(st.name || '').trim()) || (!(st.phone || '').trim()) || !st.date || !(st.pax > 0))),
       setName: (e) => this.setState({ name: e.target.value }),
       setCc: (e) => this.setState({ cc: e.target.value }),
       setPhone: (e) => this.setState({ phone: e.target.value }),
@@ -2191,6 +2228,168 @@ class Component extends DCLogic {
 </script>
 <script>
 window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
+/* ------------------------------------------------------------------
+   Sends visits and leads to Supabase.
+
+   Rules this file lives by:
+     - it never interferes with the booking flow. Every call is wrapped,
+       fire-and-forget, and a failure is silent to the customer;
+     - it only writes. It cannot read anyone's data back;
+     - with BYM_CONFIG.tracking = false it does nothing at all.
+   ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+
+  var cfg = window.BYM_CONFIG || {};
+  if (!cfg.tracking || !cfg.supabaseUrl || !cfg.anonKey) return;
+
+  var RPC = cfg.supabaseUrl + '/rest/v1/rpc/';
+  var SEND_AFTER_MS = 1500;   // wait for the customer to stop fiddling before saving
+
+  /* ---------- who this browser is (random, meaningless on its own) ---------- */
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : ((r & 0x3) | 0x8)).toString(16);
+    });
+  }
+  var sid;
+  try {
+    sid = localStorage.getItem('bym_sid');
+    if (!sid) { sid = uuid(); localStorage.setItem('bym_sid', sid); }
+  } catch (e) { sid = uuid(); }   // private window, blocked storage: still works, just not remembered
+
+  function post(fn, body) {
+    try {
+      var url = RPC + fn;
+      var payload = JSON.stringify(body);
+      var headers = {
+        'apikey': cfg.anonKey,
+        'Authorization': 'Bearer ' + cfg.anonKey,
+        'Content-Type': 'application/json'
+      };
+      // keepalive lets the request finish even if the page is closing.
+      // (sendBeacon cannot carry the auth headers Supabase needs, so it is not used.)
+      fetch(url, { method: 'POST', headers: headers, body: payload, keepalive: true })
+        .catch(function () {});
+    } catch (e) { /* never let tracking break the page */ }
+  }
+
+  /* ---------- the link was opened ---------- */
+  function linkToken() {
+    try {
+      var p = new URLSearchParams(location.search);
+      return p.get('t') || p.get('token') || '';
+    } catch (e) { return ''; }
+  }
+  function source() {
+    try {
+      var p = new URLSearchParams(location.search);
+      var s = p.get('src') || p.get('utm_source') || '';
+      if (s) return s;
+      if (document.referrer) return document.referrer.slice(0, 180);
+      return 'direct';
+    } catch (e) { return ''; }
+  }
+  function device() {
+    var ua = navigator.userAgent || '';
+    if (/iPad|Tablet/i.test(ua)) return 'iPad';
+    if (/iPhone/i.test(ua)) return 'iPhone';
+    if (/Android/i.test(ua)) return 'Android';
+    if (/Windows/i.test(ua)) return 'Windows';
+    if (/Mac OS/i.test(ua)) return 'Mac';
+    return 'Other';
+  }
+
+  post('track_visit', {
+    p_session: sid,
+    p_meta: { token: linkToken(), source: source(), device: device(), ua: (navigator.userAgent || '').slice(0, 280) }
+  });
+
+  /* ---------- what the customer has filled in so far ---------- */
+  function names(inst, ids) {
+    var out = [];
+    try {
+      for (var i = 0; i < inst.ITEMS.length; i++) {
+        if (ids[inst.ITEMS[i].id]) out.push(inst.ITEMS[i].name);
+      }
+    } catch (e) {}
+    return out;
+  }
+
+  function snapshot(inst) {
+    var st = inst.state;
+    var screen = st.screen || 'details';
+    var done = (screen === 'thanks');
+    var s = null;
+    try { s = inst.summary(); } catch (e) {}
+
+    return {
+      name: st.name || '',
+      phone: (st.name || st.phone) ? ((st.cc || '') + ' ' + (st.phone || '')).trim() : '',
+      emirate: st.emirate || '',
+      date: st.date || '',
+      time: st.time || '',
+      pax: st.pax ? String(st.pax) : '',
+      pure_veg: !!st.pureVeg,
+      step: screen,
+      status: done ? 'completed' : 'started',
+      ref: done && s ? (s.ref || '') : '',
+      token: linkToken(),
+      details: {
+        setup: { type: st.type || null, layout: st.layout || null, venue: st.venue || null },
+        menu: {
+          cuisine: st.cuisine || null,
+          package: (st.pkg === 'custom') ? 'custom' : (typeof st.pkg === 'number' ? st.pkg + 1 : null),
+          dishes: names(inst, st.sel || {}),
+          notes: st.notes || {}
+        },
+        theme: st.theme || null,
+        eventNote: st.eventNote || '',
+        totals: s ? { perPerson: s.ppText, menuTotal: s.menuTotal, grand: s.grandNum, grandText: s.grand } : null
+      }
+    };
+  }
+
+  /* ---------- save when something meaningful changes ---------- */
+  var timer = null, lastSent = '';
+
+  function maybeSend(force) {
+    var inst = window.__dcInstance;
+    if (!inst || !inst.state) return;
+    var st = inst.state;
+    // nothing is stored until page 1 is done: no name and number, no lead
+    if (!st.name || !st.phone) return;
+
+    var data = snapshot(inst);
+    var sig = JSON.stringify(data);
+    if (sig === lastSent) return;
+
+    clearTimeout(timer);
+    var go = function () { lastSent = sig; post('track_lead', { p_session: sid, p_data: data }); };
+    if (force) go(); else timer = setTimeout(go, SEND_AFTER_MS);
+  }
+
+  var seen = '';
+  setInterval(function () {
+    var inst = window.__dcInstance;
+    if (!inst || !inst.state) return;
+    var st = inst.state;
+    var quick = [st.screen, st.name, st.phone, st.emirate, st.date, st.time, st.pax, st.pureVeg,
+                 st.type, st.layout, st.venue, st.cuisine, st.pkg, st.theme,
+                 Object.keys(st.sel || {}).length, st.eventNote].join('|');
+    if (quick === seen) return;
+    seen = quick;
+    maybeSend(st.screen === 'thanks');
+  }, 700);
+
+  // last chance to save when the customer leaves or hides the page
+  addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') maybeSend(true);
+  });
+  addEventListener('pagehide', function () { maybeSend(true); });
+})();
 </script>
 </body>
 </html>
