@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E3B33">
+<meta name="robots" content="noindex, nofollow">
+<title>Enquiries · Dragon Empire Catering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:#F7F1E6;color:#1B2B27;font-family:'DM Sans',system-ui,sans-serif;
+     display:flex;justify-content:center;align-items:stretch}
+input,select,button,textarea{font-family:inherit}
+.shell{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;background:#F7F1E6;overflow:hidden}
+
+header{background:#0E3B33;padding:10px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+header img{height:30px;width:auto;display:block}
+header .t{display:flex;flex-direction:column;gap:1px;min-width:0}
+header .t b{font-family:'Fraunces',Georgia,serif;font-style:italic;font-weight:500;font-size:19px;color:#FBF6EA;line-height:1.1}
+header .t span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C9D6D1}
+header .out{margin-left:auto;background:transparent;border:1.5px solid #C9963B;color:#E9C77E;
+     border-radius:10px;height:34px;padding:0 12px;font-size:13px;font-weight:700;cursor:pointer}
+
+nav[hidden]{display:none}
+nav{display:flex;gap:6px;padding:8px 16px;background:#EADFC8;border-bottom:1px solid #D9CBAB;flex-shrink:0}
+nav button{flex:1 1 0;min-width:0;height:38px;border-radius:11px;border:none;cursor:pointer;
+     font-size:13px;font-weight:700;color:#0E3B33;background:transparent}
+nav button[aria-selected="true"]{background:#FFFFFF;box-shadow:0 1px 3px rgba(14,59,51,.18)}
+
+main{flex-grow:1;min-height:0;overflow-y:auto;padding:14px 16px 24px 16px;display:flex;flex-direction:column;gap:10px}
+
+.card{background:#fff;border:1.5px solid #E4D9C2;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.name{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px;line-height:1.15;color:#0E3B33}
+.meta{font-size:13px;line-height:1.45;color:#4A5A55}
+.meta b{color:#1B2B27;font-weight:700}
+.chip{flex-shrink:0;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.4px;white-space:nowrap}
+.c-new{background:#D3E7DE;color:#12604B}
+.c-stop{background:#FDECEA;color:#9B1C1C}
+.c-done{background:#EADFC8;color:#6A4E12}
+.acts{display:flex;gap:8px}
+.acts a{flex:1 1 0;text-align:center;text-decoration:none;height:40px;line-height:40px;border-radius:12px;
+     font-size:14px;font-weight:700}
+.wa{background:#0E3B33;color:#FBF6EA}
+.call{background:#fff;color:#0E3B33;border:1.5px solid #0E3B33}
+.dishes{font-size:12.5px;color:#5A6863;line-height:1.4}
+
+.muted{font-size:13px;color:#5A6863;text-align:center;padding:26px 10px}
+.count{font-size:12px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:#4A5A55;padding:2px 2px 0}
+
+label.f{display:flex;flex-direction:column;gap:5px;font-size:12px;letter-spacing:1.2px;
+     text-transform:uppercase;font-weight:700;color:#4A5A55}
+label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:0 12px;font-size:16px;background:#fff;color:#1B2B27}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;
+     border:1.5px solid #E4D9C2;border-radius:14px;padding:10px 12px;font-size:14px;font-weight:600}
+.toggle input{width:22px;height:22px;accent-color:#0E3B33}
+.save{height:46px;border:none;border-radius:14px;background:#0E3B33;color:#FBF6EA;font-size:16px;font-weight:700;cursor:pointer}
+.note{font-size:12.5px;color:#5A6863;line-height:1.4}
+.err{background:#FDECEA;border:1.5px solid #C62828;color:#9B1C1C;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600}
+.ok{background:#D3E7DE;border:1.5px solid #2F7A64;color:#12604B;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600}
+
+.login{margin:auto;width:100%;max-width:330px;display:flex;flex-direction:column;gap:12px;padding:20px}
+.login h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:22px;margin:0;color:#0E3B33;text-align:center}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <img src="../images/web/logo.png" alt="">
+    <div class="t"><span>Dragon Empire</span><b>Enquiries</b></div>
+    <button class="out" id="out" hidden>Sign out</button>
+  </header>
+
+  <nav id="nav" hidden>
+    <button data-tab="live" aria-selected="true">Enquiries</button>
+    <button data-tab="orders" aria-selected="false">Orders</button>
+    <button data-tab="set" aria-selected="false">Settings</button>
+  </nav>
+
+  <main id="main">
+    <div class="login" id="login">
+      <h1>Sign in</h1>
+      <p class="note" style="text-align:center">We email you a link. No password to remember.</p>
+      <label class="f">Your email
+        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
+      </label>
+      <button class="save" id="send">Email me a link</button>
+      <div id="loginMsg"></div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+  var URL_ = 'https://nrnhkuxtnbsjiyfhmwpm.supabase.co';
+  var KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ybmhrdXh0bmJzaml5Zmhtd3BtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzcwNDksImV4cCI6MjEwNTc1MzA0OX0.zSWpXCMOhua6GfbmSa41iKRCgHPo51eDdo6Fum_AZGc';
+  var sb = window.supabase.createClient(URL_, KEY);
+
+  var main = document.getElementById('main');
+  var nav = document.getElementById('nav');
+  var login = document.getElementById('login');
+  var out = document.getElementById('out');
+  var tab = 'live';
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+
+  function digits(p) { return String(p || '').replace(/[^0-9]/g, ''); }
+
+  function when(d, t) {
+    if (!d) return '';
+    var parts = String(d).split('-');
+    var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+parts[1] - 1] || '';
+    return parts[2] + ' ' + m + ' ' + parts[0] + (t ? ', ' + t : '');
+  }
+
+  function ago(iso) {
+    var mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return mins + ' min ago';
+    var h = Math.round(mins / 60);
+    if (h < 24) return h + (h === 1 ? ' hour ago' : ' hours ago');
+    var d = Math.round(h / 24);
+    return d + (d === 1 ? ' day ago' : ' days ago');
+  }
+
+  var STEP = { details:'Customer details', setup:'Setup', pkg:'Packages', items:'Choosing dishes',
+               theme:'Event theme', review:'Review', thanks:'Finished' };
+
+  function card(l) {
+    var d = l.details || {};
+    var menu = d.menu || {}, totals = d.totals || {};
+    var done = l.status === 'completed';
+    var stopped = !done && l.alerted_at;
+    var chip = done ? ['c-done', 'ORDER'] : (stopped ? ['c-stop', 'STOPPED'] : ['c-new', 'IN PROGRESS']);
+    var pkg = menu.package === 'custom' ? 'Custom menu' : (menu.package ? 'Package ' + menu.package : null);
+    var bits = [];
+    if (l.event_date) bits.push('<b>' + esc(when(l.event_date, l.event_time)) + '</b>');
+    if (l.pax) bits.push('<b>' + esc(l.pax) + '</b> guests');
+    if (l.emirate) bits.push(esc(l.emirate));
+    if (pkg) bits.push(esc(pkg));
+    if (totals.grandText) bits.push('<b>' + esc(totals.grandText) + '</b>');
+    if (l.pure_veg) bits.push('Pure Veg');
+    var dishes = (menu.dishes || []);
+    var wa = digits(l.phone);
+
+    return '<div class="card">' +
+      '<div class="row"><div class="name">' + esc(l.name || 'No name') + '</div>' +
+        '<span class="chip ' + chip[0] + '">' + chip[1] + '</span></div>' +
+      '<div class="meta">' + bits.join(' · ') + '</div>' +
+      (dishes.length ? '<div class="dishes">' + dishes.length + ' dishes: ' + esc(dishes.slice(0, 6).join(', ')) +
+         (dishes.length > 6 ? '…' : '') + '</div>' : '') +
+      '<div class="meta">' + (done ? 'Ordered' : 'Reached ' + esc(STEP[l.step] || l.step || '')) +
+        ' · ' + esc(ago(l.updated_at)) + (l.ref ? ' · ' + esc(l.ref) : '') + '</div>' +
+      (wa ? '<div class="acts">' +
+        '<a class="wa" href="https://wa.me/' + wa + '">WhatsApp</a>' +
+        '<a class="call" href="tel:+' + wa + '">Call</a></div>' : '') +
+    '</div>';
+  }
+
+  function render(rows, empty) {
+    if (!rows.length) return '<div class="muted">' + empty + '</div>';
+    return '<div class="count">' + rows.length + (rows.length === 1 ? ' enquiry' : ' enquiries') + '</div>' +
+           rows.map(card).join('');
+  }
+
+  async function showLeads() {
+    main.innerHTML = '<div class="muted">Loading…</div>';
+    var since = new Date(Date.now() - 86400000).toISOString();
+    var both = await Promise.all([
+      sb.from('leads').select('*').order('updated_at', { ascending: false }).limit(200),
+      sb.from('visits').select('session_id').gte('created_at', since)
+    ]);
+    var res = both[0], vis = both[1];
+    if (res.error) { main.innerHTML = '<div class="err">' + esc(res.error.message) + '</div>'; return; }
+    var rows = res.data || [];
+    var head = '';
+    if (tab === 'live' && !vis.error) {
+      var n = (vis.data || []).length;
+      head = '<div class="card" style="gap:2px"><div class="meta"><b>' + n + '</b> ' +
+             (n === 1 ? 'person' : 'people') + ' opened the link in the last 24 hours</div></div>';
+    }
+    if (tab === 'orders') {
+      main.innerHTML = render(rows.filter(function (r) { return r.status === 'completed'; }),
+        'No completed orders yet.');
+    } else {
+      main.innerHTML = head + render(rows.filter(function (r) { return r.status !== 'completed'; }),
+        'No enquiries yet. They appear here as soon as someone fills in the first page.');
+    }
+  }
+
+  async function showSettings() {
+    main.innerHTML = '<div class="muted">Loading…</div>';
+    var res = await sb.from('alert_settings').select('*').limit(1).single();
+    if (res.error) { main.innerHTML = '<div class="err">' + esc(res.error.message) + '</div>'; return; }
+    var s = res.data;
+    main.innerHTML =
+      '<label class="f">Who gets the alerts' +
+        '<input id="rcpt" type="text" inputmode="tel" value="' + esc((s.recipients || []).join(', ')) + '">' +
+      '</label>' +
+      '<div class="note">Country code and number, no plus sign. Separate several with commas, e.g. 971567327090, 971501112233</div>' +
+      '<div class="toggle"><span>Alert me when someone opens the link</span>' +
+        '<input id="vis" type="checkbox" ' + (s.alert_on_visit ? 'checked' : '') + '></div>' +
+      '<label class="f">Tell me if a customer stops for (minutes)' +
+        '<input id="mins" type="number" min="1" max="180" value="' + esc(s.stop_after_mins) + '">' +
+      '</label>' +
+      '<div class="toggle"><span>Send alerts</span>' +
+        '<input id="en" type="checkbox" ' + (s.enabled ? 'checked' : '') + '></div>' +
+      '<button class="save" id="saveSet">Save</button>' +
+      '<div id="setMsg"></div>' +
+      '<div class="note">Alerts are sent from ' + esc(s.phone_number_id ? 'your connected WhatsApp number' : 'no number yet') +
+      '. Sending mode: ' + esc(s.send_mode) + '.</div>';
+
+    document.getElementById('saveSet').onclick = async function () {
+      var msg = document.getElementById('setMsg');
+      var list = document.getElementById('rcpt').value.split(',')
+        .map(function (x) { return x.replace(/[^0-9]/g, ''); }).filter(Boolean);
+      var upd = await sb.from('alert_settings').update({
+        recipients: list,
+        alert_on_visit: document.getElementById('vis').checked,
+        stop_after_mins: Math.max(1, Math.min(180, +document.getElementById('mins').value || 15)),
+        enabled: document.getElementById('en').checked,
+        updated_at: new Date().toISOString()
+      }).eq('id', true);
+      msg.className = upd.error ? 'err' : 'ok';
+      msg.textContent = upd.error ? upd.error.message : 'Saved.';
+    };
+  }
+
+  function draw() { (tab === 'set' ? showSettings : showLeads)(); }
+
+  [].forEach.call(nav.querySelectorAll('button'), function (b) {
+    b.onclick = function () {
+      [].forEach.call(nav.querySelectorAll('button'), function (x) { x.setAttribute('aria-selected', 'false'); });
+      b.setAttribute('aria-selected', 'true');
+      tab = b.dataset.tab;
+      draw();
+    };
+  });
+
+  out.onclick = async function () { await sb.auth.signOut(); location.reload(); };
+
+  document.getElementById('send').onclick = async function () {
+    var msg = document.getElementById('loginMsg');
+    var email = document.getElementById('email').value.trim();
+    if (!email) { msg.className = 'err'; msg.textContent = 'Enter your email first.'; return; }
+    msg.className = 'note'; msg.textContent = 'Sending…';
+    var r = await sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.href } });
+    msg.className = r.error ? 'err' : 'ok';
+    msg.textContent = r.error ? r.error.message : 'Check your email and open the link on this device.';
+  };
+
+  async function boot() {
+    var s = await sb.auth.getSession();
+    if (!s.data.session) return;
+
+    var chk = await sb.rpc('is_admin');
+    if (chk.error || chk.data !== true) {
+      login.remove();
+      out.hidden = false;
+      main.innerHTML = '<div class="err">This email is not on the owner list, so there is ' +
+        'nothing to show. Sign out and try the other address.</div>';
+      return;
+    }
+    login.remove();
+    nav.hidden = false; out.hidden = false;
+    draw();
+    setInterval(function () { if (tab !== 'set') draw(); }, 60000);
+  }
+  sb.auth.onAuthStateChange(function (e) { if (e === 'SIGNED_IN') location.replace(location.pathname); });
+  boot();
+})();
+</script>
+</body>
+</html>
