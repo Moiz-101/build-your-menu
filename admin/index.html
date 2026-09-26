@@ -211,7 +211,8 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     var inst;
     try { inst = new Component({}); } catch (e) { return null; }
     Object.assign(inst.state, o.choices);
-    if (l.ref) inst.REF = l.ref;
+    // only a confirmed order has a number; don't invent one for an enquiry
+    inst.REF = l.ref || 'DRAFT';
 
     // dishes are matched by name and course, so an order survives menu changes
     var sel = {}, notes = {};

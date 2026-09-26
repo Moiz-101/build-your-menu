@@ -671,11 +671,36 @@ class Component extends DCLogic {
     for (let i = 0; i < out.length; i++) u8[i] = out.charCodeAt(i) & 255;
     return new Blob([u8], { type: 'application/pdf' });
   }
+  // The order number comes from the database, so the run is unbroken and no two
+  // customers can be given the same one. Asking twice returns the same number.
+  async ensureRef() {
+    if (/^CO-/.test(this.REF)) return this.REF;
+    const cfg = window.BYM_CONFIG || {};
+    const sid = window.BYM_SESSION;
+    if (!cfg.tracking || !cfg.supabaseUrl || !cfg.anonKey || !sid) return this.REF;
+    try {
+      const res = await fetch(cfg.supabaseUrl + '/rest/v1/rpc/assign_order_ref', {
+        method: 'POST',
+        headers: {
+          apikey: cfg.anonKey,
+          Authorization: 'Bearer ' + cfg.anonKey,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ p_session: sid })
+      });
+      if (res.ok) {
+        const v = await res.json();
+        if (typeof v === 'string' && v) this.REF = v;
+      }
+    } catch (e) { /* offline: keep the local number rather than block the order */ }
+    return this.REF;
+  }
   async downloadPdf() {
+    this.setState({ pdfMsg: 'Confirming and preparing your PDF...' });
+    await this.ensureRef();                 // must happen before the PDF is drawn
     const filename = 'Catering-Order-' + this.REF + '.pdf';
     let blob;
     try { blob = this.buildPdf(); } catch (e) { this.setState({ pdfMsg: 'Could not create the PDF. Please try again.' }); return; }
-    this.setState({ pdfMsg: 'Confirming and preparing your PDF...' });
     let dl = null;
     try { dl = (window.claude && window.claude.use) ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
     try {
