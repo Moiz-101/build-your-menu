@@ -20,48 +20,71 @@ body{margin:0;background:#F7F1E6;color:#1B2B27;font-family:'DM Sans',system-ui,s
 input,select,button,textarea{font-family:inherit}
 .shell{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;background:#F7F1E6;overflow:hidden;position:relative}
 
-header{background:#0E3B33;padding:10px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+header{background:#0E3B33;padding:10px 16px 10px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
 header img{height:30px;width:auto;display:block}
 header .t{display:flex;flex-direction:column;gap:1px;min-width:0}
 header .t b{font-family:'Fraunces',Georgia,serif;font-style:italic;font-weight:500;font-size:19px;color:#FBF6EA;line-height:1.1}
 header .t span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C9D6D1}
-header .out{margin-left:auto;background:transparent;border:1.5px solid #C9963B;color:#E9C77E;
-     border-radius:10px;height:34px;padding:0 12px;font-size:13px;font-weight:700;cursor:pointer}
+header .more{margin-left:auto;background:transparent;border:1.5px solid #C9963B;color:#E9C77E;
+     border-radius:10px;height:34px;width:38px;font-size:17px;font-weight:700;cursor:pointer;
+     line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-nav[hidden]{display:none}
-nav{display:flex;gap:6px;padding:8px 16px;background:#EADFC8;border-bottom:1px solid #D9CBAB;flex-shrink:0}
-nav button{flex:1 1 0;min-width:0;height:38px;border-radius:11px;border:none;cursor:pointer;
-     font-size:13px;font-weight:700;color:#0E3B33;background:transparent}
-nav button[aria-selected="true"]{background:#FFFFFF;box-shadow:0 1px 3px rgba(14,59,51,.18)}
+/* ---------- the drop-down of filters and settings ---------- */
+#menu[hidden]{display:none}
+#menu{position:absolute;top:0;left:0;right:0;bottom:0;z-index:30;background:rgba(14,59,51,.35)}
+#menu .panel{background:#FBF6EA;border-bottom:1.5px solid #D9CBAB;padding:10px 16px 14px;
+     display:flex;flex-direction:column;gap:4px;box-shadow:0 6px 18px rgba(14,59,51,.2)}
+#menu h4{margin:6px 2px 2px;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:#7A6A4A;font-weight:700}
+#menu button{text-align:left;background:transparent;border:none;border-radius:10px;padding:11px 12px;
+     font-size:15px;font-weight:600;color:#1B2B27;cursor:pointer;display:flex;align-items:center;gap:8px}
+#menu button[aria-checked="true"]{background:#EADFC8;color:#0E3B33}
+#menu button[aria-checked="true"]::after{content:'✓';margin-left:auto;color:#0E3B33;font-weight:700}
+#menu .danger{color:#9B1C1C}
+#menu hr{border:none;border-top:1px solid #E4D9C2;margin:6px 0}
+
+/* ---------- the three status tabs ---------- */
+#tabs[hidden]{display:none}
+#tabs{display:flex;gap:6px;padding:8px 16px;background:#EADFC8;border-bottom:1px solid #D9CBAB;flex-shrink:0}
+#tabs button{flex:1 1 0;min-width:0;height:40px;border-radius:11px;border:none;cursor:pointer;
+     font-size:13px;font-weight:700;color:#0E3B33;background:transparent;
+     display:flex;align-items:center;justify-content:center;gap:6px;padding:0 6px}
+#tabs button[aria-selected="true"]{background:#FFFFFF;box-shadow:0 1px 3px rgba(14,59,51,.18)}
+#tabs .badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;
+     padding:0 6px;border-radius:999px;background:#C62828;color:#fff;font-size:12px;font-weight:700;flex-shrink:0}
+#tabs .badge[hidden]{display:none}
+#tabs button.hot{color:#9B1C1C}
+#tabs button.hot[aria-selected="true"]{background:#FDECEA;box-shadow:inset 0 0 0 1.5px #C62828}
 
 main{flex-grow:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
      padding:14px 16px 28px 16px;display:flex;flex-direction:column;gap:10px}
-/* a scrolling column must never squeeze its children to fit */
 main > *,#sheetBody > *{flex-shrink:0}
 
-.tally{background:#0E3B33;border-radius:16px;padding:12px 8px;display:flex;align-items:stretch}
-.tally div{flex:1 1 0;text-align:center;display:flex;flex-direction:column;gap:3px}
-.tally div + div{border-left:1px solid rgba(233,199,126,.28)}
-.tally b{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:26px;line-height:1;color:#FBF6EA}
-.tally span{font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;color:#C9D6D1}
-
-.card{background:#fff;border:1.5px solid #E4D9C2;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.name{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px;line-height:1.15;color:#0E3B33}
-.meta{font-size:13px;line-height:1.45;color:#4A5A55}
+.card{background:#fff;border:1.5px solid #E4D9C2;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.card.unseen{border-color:#C62828;box-shadow:0 0 0 1px #C62828 inset}
+.row{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.name{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:19px;line-height:1.15;color:#0E3B33}
+.meta{font-size:13.5px;line-height:1.45;color:#4A5A55}
 .meta b{color:#1B2B27;font-weight:700}
-.chip{flex-shrink:0;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.4px;white-space:nowrap}
-.c-new{background:#D3E7DE;color:#12604B}
-.c-stop{background:#FDECEA;color:#9B1C1C}
-.c-done{background:#EADFC8;color:#6A4E12}
-.acts{display:flex;gap:8px}
-.acts a,.acts button{flex:1 1 0;text-align:center;text-decoration:none;height:40px;line-height:38px;
-     border-radius:12px;font-size:14px;font-weight:700;border:1.5px solid transparent;cursor:pointer;padding:0}
-.view{background:#C9963B;color:#2A1B02;border-color:#C9963B}
-.call{background:#fff;color:#0E3B33;border-color:#0E3B33}
-.dishes{font-size:12.5px;color:#5A6863;line-height:1.4}
+.when{font-size:12px;color:#8A9491;white-space:nowrap}
+.ref{font-size:12px;font-weight:700;letter-spacing:.5px;color:#6A4E12}
 
-.muted{font-size:13px;color:#5A6863;text-align:center;padding:26px 10px;line-height:1.5}
+/* ---------- the 5-step bar, same shape as the customer sees ---------- */
+.steps{display:flex;align-items:center;gap:0;padding:2px 0}
+.steps .dot{width:22px;height:22px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;
+     justify-content:center;font-size:11px;font-weight:700;background:#EADFC8;color:#A08F6B}
+.steps .dot.done{background:#0E3B33;color:#E9C77E}
+.steps .dot.now{background:#C9963B;color:#2A1B02;box-shadow:0 0 0 3px rgba(201,150,59,.25)}
+.steps .bar{flex:1 1 auto;height:2px;background:#EADFC8;min-width:6px}
+.steps .bar.done{background:#0E3B33}
+
+.acts{display:flex;gap:7px}
+.acts a,.acts button{flex:1 1 0;min-width:0;text-align:center;text-decoration:none;height:40px;line-height:38px;
+     border-radius:12px;font-size:13.5px;font-weight:700;border:1.5px solid transparent;cursor:pointer;padding:0}
+.view{background:#C9963B;color:#2A1B02;border-color:#C9963B}
+.wa{background:#0E3B33;color:#FBF6EA;border-color:#0E3B33}
+.call{background:#fff;color:#0E3B33;border-color:#0E3B33}
+
+.muted{font-size:13.5px;color:#5A6863;text-align:center;padding:30px 12px;line-height:1.55}
 .count{font-size:12px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:#4A5A55;padding:2px 2px 0}
 
 label.f{display:flex;flex-direction:column;gap:5px;font-size:12px;letter-spacing:1.2px;
@@ -108,14 +131,14 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
   <header>
     <img src="../images/web/logo.png" alt="">
     <div class="t"><span>Dragon Empire</span><b>Enquiries</b></div>
-    <button class="out" id="out" hidden>Sign out</button>
+    <button class="more" id="more" hidden aria-label="Filters and settings">&#9776;</button>
   </header>
 
-  <nav id="nav" hidden>
-    <button data-tab="today" aria-selected="true">Today</button>
-    <button data-tab="all" aria-selected="false">All</button>
-    <button data-tab="set" aria-selected="false">Alerts</button>
-  </nav>
+  <div id="tabs" hidden>
+    <button data-view="progress" aria-selected="true">In Progress</button>
+    <button data-view="confirmed" aria-selected="false">Confirmed</button>
+    <button data-view="new" class="hot" aria-selected="false">New <span class="badge" id="badge" hidden>0</span></button>
+  </div>
 
   <main id="main">
     <div class="login" id="login">
@@ -131,6 +154,20 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
       <div class="note" style="text-align:center">You stay signed in on this phone, so this is a one-off.</div>
     </div>
   </main>
+
+  <div id="menu" hidden>
+    <div class="panel">
+      <h4>Show</h4>
+      <button data-range="all"   aria-checked="true">Everything</button>
+      <button data-range="today" aria-checked="false">Today only</button>
+      <button data-range="week"  aria-checked="false">Last 7 days</button>
+      <hr>
+      <h4>Settings</h4>
+      <button data-act="settings">Alert settings</button>
+      <button data-act="refresh">Refresh now</button>
+      <button data-act="signout" class="danger">Sign out</button>
+    </div>
+  </div>
 
   <div id="sheet" hidden>
     <div class="bar">
@@ -160,15 +197,20 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   var KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ybmhrdXh0bmJzaml5Zmhtd3BtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzcwNDksImV4cCI6MjEwNTc1MzA0OX0.zSWpXCMOhua6GfbmSa41iKRCgHPo51eDdo6Fum_AZGc';
   var sb = window.supabase.createClient(URL_, KEY);
 
-  var main = document.getElementById('main');
-  var nav = document.getElementById('nav');
-  var login = document.getElementById('login');
-  var out = document.getElementById('out');
-  var sheet = document.getElementById('sheet');
+  var main   = document.getElementById('main');
+  var tabs   = document.getElementById('tabs');
+  var badge  = document.getElementById('badge');
+  var menu   = document.getElementById('menu');
+  var more   = document.getElementById('more');
+  var login  = document.getElementById('login');
+  var sheet  = document.getElementById('sheet');
   var sheetBody = document.getElementById('sheetBody');
-  var tab = 'today';
-  var rows = [];           // leads, newest first
-  var openInst = null;     // the order currently on the sheet
+
+  var view = 'progress';       // progress | confirmed | new | settings
+  var range = 'all';           // all | today | week
+  var rows = [];               // every lead, newest first
+  var openInst = null;
+  var refresh = null;
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
     return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
@@ -180,10 +222,16 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     var ymd = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Dubai' }).format(new Date());
     return new Date(ymd + 'T00:00:00+04:00');
   }
-  function isToday(iso) { return iso ? new Date(iso) >= dayStart() : false; }
+
+  function inRange(l) {
+    if (range === 'all') return true;
+    var t = new Date(l.updated_at).getTime();
+    if (range === 'today') return t >= dayStart().getTime();
+    return t >= Date.now() - 7 * 86400000;
+  }
 
   function when(d, t) {
-    if (!d) return '';
+    if (!d) return 'Date not set';
     var p = String(d).split('-');
     var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1] - 1] || '';
     return p[2] + ' ' + m + ' ' + p[0] + (t ? ', ' + t : '');
@@ -192,15 +240,41 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   function ago(iso) {
     var mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
     if (mins < 1) return 'just now';
-    if (mins < 60) return mins + ' min ago';
+    if (mins < 60) return mins + 'm ago';
     var h = Math.round(mins / 60);
-    if (h < 24) return h + (h === 1 ? ' hour ago' : ' hours ago');
+    if (h < 24) return h + 'h ago';
     var d = Math.round(h / 24);
-    return d + (d === 1 ? ' day ago' : ' days ago');
+    return d + 'd ago';
   }
 
-  var STEP = { details:'Customer details', setup:'Setup', pkg:'Packages', items:'Choosing dishes',
-               theme:'Event theme', review:'Review', thanks:'Finished' };
+  /* ---------------- the step bar ----------------
+     The customer's screens run details > setup > packages > dishes > theme,
+     which is the "Step n of 5" bar they see. Review means all five are behind
+     them and they are one tap from confirming. */
+  var FLOW = ['details', 'setup', 'pkg', 'items', 'theme'];
+  var STEP_NAME = { details:'their details', setup:'the setup', pkg:'packages',
+                    items:'choosing dishes', theme:'the event theme',
+                    review:'the final review', thanks:'the end' };
+
+  function stepNo(step) {
+    var i = FLOW.indexOf(step);
+    if (i >= 0) return i + 1;
+    return 5;                              // review or thanks: all five behind them
+  }
+
+  function stepBar(l) {
+    var at = stepNo(l.step);
+    var atReview = (l.step === 'review' || l.step === 'thanks');
+    var html = '<div class="steps" aria-label="Reached step ' + at + ' of 5">';
+    for (var n = 1; n <= 5; n++) {
+      var cls = 'dot';
+      if (n < at) cls += ' done';
+      else if (n === at) cls += atReview ? ' done' : ' now';
+      html += '<span class="' + cls + '">' + n + '</span>';
+      if (n < 5) html += '<span class="bar' + (n < at ? ' done' : '') + '"></span>';
+    }
+    return html + '</div>';
+  }
 
   /* ---------------- rebuilding a customer's order ---------------- */
 
@@ -234,12 +308,21 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
 
   function kv(k, v) { return '<div class="kv"><span>' + esc(k) + '</span><b>' + esc(v) + '</b></div>'; }
 
+  async function markSeen(l) {
+    if (l.status !== 'completed' || l.seen_at) return;
+    l.seen_at = new Date().toISOString();       // update the screen straight away
+    paintBadge();
+    var r = await sb.from('leads').update({ seen_at: l.seen_at }).eq('session_id', l.session_id);
+    if (r.error) { l.seen_at = null; paintBadge(); }   // put it back if it did not save
+  }
+
   function showSheet(l) {
     var inst = rebuild(l);
     if (!inst) {
       alert('This enquiry was saved before the order sheet existed, so there is nothing to show yet.');
       return;
     }
+    markSeen(l);
     openInst = inst;
     var S = inst.summary();
     document.getElementById('sheetRef').textContent = S.ref;
@@ -283,7 +366,9 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     sheet.hidden = false;
   }
 
-  document.getElementById('sheetBack').onclick = function () { sheet.hidden = true; openInst = null; };
+  document.getElementById('sheetBack').onclick = function () {
+    sheet.hidden = true; openInst = null; draw();
+  };
 
   document.getElementById('sheetPdf').onclick = function () {
     if (!openInst) return;
@@ -300,81 +385,84 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     setTimeout(function () { URL.revokeObjectURL(url); }, 20000);
   };
 
-  /* ---------------- the list ---------------- */
+  /* ---------------- the cards ---------------- */
 
-  function card(l, i) {
-    var d = l.details || {};
-    var menu = d.menu || {}, totals = d.totals || {};
-    var done = l.status === 'completed';
-    var stopped = !done && l.alerted_at;
-    var chip = done ? ['c-done', 'ORDER'] : (stopped ? ['c-stop', 'STOPPED'] : ['c-new', 'IN PROGRESS']);
-    var pkg = menu.package === 'custom' ? 'Custom menu' : (menu.package ? 'Package ' + menu.package : null);
-    var bits = [];
-    if (l.event_date) bits.push('<b>' + esc(when(l.event_date, l.event_time)) + '</b>');
-    if (l.pax) bits.push('<b>' + esc(l.pax) + '</b> guests');
-    if (l.emirate) bits.push(esc(l.emirate));
-    if (pkg) bits.push(esc(pkg));
-    if (totals.grandText) bits.push('<b>' + esc(totals.grandText) + '</b>');
-    if (l.pure_veg) bits.push('Pure Veg');
-    var dishes = menu.dishes || [];
+  function buttons(l, i) {
     var wa = digits(l.phone);
-    var canView = !!(d.order && d.order.choices);
+    var canView = !!((l.details || {}).order || {}).choices;
+    return '<div class="acts">' +
+      (canView ? '<button class="view" data-view-idx="' + i + '">View</button>' : '') +
+      (wa ? '<a class="wa" href="https://wa.me/' + wa + '">WhatsApp</a>' : '') +
+      (wa ? '<a class="call" href="tel:+' + wa + '">Call</a>' : '') +
+    '</div>';
+  }
 
+  function progressCard(l, i) {
     return '<div class="card">' +
       '<div class="row"><div class="name">' + esc(l.name || 'No name') + '</div>' +
-        '<span class="chip ' + chip[0] + '">' + chip[1] + '</span></div>' +
-      '<div class="meta">' + bits.join(' &middot; ') + '</div>' +
-      (dishes.length ? '<div class="dishes">' + dishes.length + ' dishes: ' + esc(dishes.slice(0, 6).join(', ')) +
-         (dishes.length > 6 ? '…' : '') + '</div>' : '') +
-      '<div class="meta">' + (done ? 'Ordered' : 'Reached ' + esc(STEP[l.step] || l.step || '')) +
-        ' &middot; ' + esc(ago(l.updated_at)) + (l.ref ? ' &middot; ' + esc(l.ref) : '') + '</div>' +
-      '<div class="acts">' +
-        (canView ? '<button class="view" data-view="' + i + '">View</button>' : '') +
-        (wa ? '<a class="call" href="tel:+' + wa + '">Call</a>' : '') +
-      '</div></div>';
+        '<span class="when">' + esc(ago(l.updated_at)) + '</span></div>' +
+      '<div class="meta"><b>' + esc(when(l.event_date, l.event_time)) + '</b>' +
+        (l.pax ? ' &middot; <b>' + esc(l.pax) + '</b> guests' : '') + '</div>' +
+      stepBar(l) +
+      buttons(l, i) +
+    '</div>';
   }
 
-  function list(sub, empty) {
-    if (!sub.length) return '<div class="muted">' + empty + '</div>';
-    return '<div class="count">' + sub.length + (sub.length === 1 ? ' person' : ' people') + '</div>' +
-           sub.map(function (l) { return card(l, rows.indexOf(l)); }).join('');
+  function orderCard(l, i) {
+    var totals = (l.details || {}).totals || {};
+    var unseen = !l.seen_at;
+    return '<div class="card' + (unseen ? ' unseen' : '') + '">' +
+      '<div class="row"><div class="name">' + esc(l.name || 'No name') + '</div>' +
+        '<span class="when">' + esc(ago(l.completed_at || l.updated_at)) + '</span></div>' +
+      '<div class="meta"><b>' + esc(when(l.event_date, l.event_time)) + '</b>' +
+        (l.pax ? ' &middot; <b>' + esc(l.pax) + '</b> guests' : '') + '</div>' +
+      '<div class="row"><span class="ref">' + esc(l.ref || 'No number') + '</span>' +
+        (totals.grandText ? '<span class="meta"><b>' + esc(totals.grandText) + '</b></span>' : '') + '</div>' +
+      buttons(l, i) +
+    '</div>';
   }
 
-  function wireViews() {
-    [].forEach.call(main.querySelectorAll('[data-view]'), function (b) {
-      b.onclick = function () { showSheet(rows[+b.dataset.view]); };
+  /* ---------------- the lists ---------------- */
+
+  function unseenOrders() {
+    // never hidden by the date filter: an unchecked order always matters
+    return rows.filter(function (l) { return l.status === 'completed' && !l.seen_at; });
+  }
+
+  function paintBadge() {
+    var n = unseenOrders().length;
+    badge.textContent = n;
+    badge.hidden = (n === 0);
+  }
+
+  function listOf(items, empty, render) {
+    if (!items.length) return '<div class="muted">' + empty + '</div>';
+    return '<div class="count">' + items.length + (items.length === 1 ? ' person' : ' people') + '</div>' +
+      items.map(function (l) { return render(l, rows.indexOf(l)); }).join('');
+  }
+
+  function wireCards() {
+    [].forEach.call(main.querySelectorAll('[data-view-idx]'), function (b) {
+      b.onclick = function () { showSheet(rows[+b.dataset.viewIdx]); };
     });
   }
 
-  async function showLeads() {
-    main.innerHTML = '<div class="muted">Loading…</div>';
-    var got = await Promise.all([
-      sb.from('leads').select('*').order('updated_at', { ascending: false }).limit(200),
-      sb.from('visits').select('session_id,created_at').gte('created_at', dayStart().toISOString())
-    ]);
-    var res = got[0], vis = got[1];
-    if (res.error) { main.innerHTML = '<div class="err">' + esc(res.error.message) + '</div>'; return; }
-    rows = res.data || [];
-
-    if (tab === 'all') {
-      main.innerHTML = list(rows, 'Nothing yet. People appear here once they fill in the first page.');
-      wireViews();
-      return;
+  function paintList() {
+    if (view === 'progress') {
+      var open = rows.filter(function (l) { return l.status !== 'completed' && inRange(l); });
+      main.innerHTML = listOf(open,
+        'Nobody is part way through right now. People appear here as soon as they fill in the first page.',
+        progressCard);
+    } else if (view === 'confirmed') {
+      var done = rows.filter(function (l) { return l.status === 'completed' && inRange(l); });
+      main.innerHTML = listOf(done, 'No confirmed orders yet.', orderCard);
+    } else {
+      var fresh = unseenOrders();
+      main.innerHTML = listOf(fresh,
+        'All caught up. Every order has been opened.', orderCard);
     }
-
-    var todays = rows.filter(function (r) { return isToday(r.updated_at) || isToday(r.created_at); });
-    var opened = vis.error ? 0 : (vis.data || []).length;
-    var ordered = todays.filter(function (r) { return r.status === 'completed'; }).length;
-
-    main.innerHTML =
-      '<div class="tally">' +
-        '<div><b>' + opened + '</b><span>Opened</span></div>' +
-        '<div><b>' + todays.length + '</b><span>Left details</span></div>' +
-        '<div><b>' + ordered + '</b><span>Ordered</span></div>' +
-      '</div>' +
-      list(todays, 'Nobody has left their details today yet.' +
-           (opened ? ' ' + opened + ' opened the link but stopped on the first page.' : ''));
-    wireViews();
+    wireCards();
+    paintBadge();
   }
 
   /* ---------------- alert settings ---------------- */
@@ -390,8 +478,7 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
       (linked
         ? '<div class="ok">Telegram is connected. Alerts go to ' + linked +
           (linked === 1 ? ' chat.' : ' chats.') + '</div>'
-        : '<div class="err">Telegram is not connected yet, so nothing can be sent. ' +
-          'Open your bot in Telegram and press Start, then ask me to link it.</div>') +
+        : '<div class="err">Telegram is not connected yet, so nothing can be sent.</div>') +
       '<div class="toggle"><span>Send me alerts</span>' +
         '<input id="en" type="checkbox" ' + (s.enabled ? 'checked' : '') + '></div>' +
       '<label class="f">Tell me if a customer stops for (minutes)' +
@@ -399,8 +486,7 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
       '</label>' +
       '<div class="toggle"><span>Also ping me on every link open</span>' +
         '<input id="vis" type="checkbox" ' + (s.alert_on_visit ? 'checked' : '') + '></div>' +
-      '<div class="note">Leave that one off unless it is a quiet week - ten opens a day means ten buzzes. ' +
-        'Opens are counted on the Today screen either way.</div>' +
+      '<div class="note">Leave that one off unless it is a quiet week - ten opens a day means ten buzzes.</div>' +
       '<button class="save" id="saveSet">Save</button>' +
       '<div id="setMsg"></div>';
 
@@ -417,46 +503,86 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     };
   }
 
-  function draw() { (tab === 'set' ? showSettings : showLeads)(); }
+  /* ---------------- loading and drawing ---------------- */
 
-  [].forEach.call(nav.querySelectorAll('button'), function (b) {
+  async function load() {
+    var res = await sb.from('leads').select('*').order('updated_at', { ascending: false }).limit(300);
+    if (res.error) { main.innerHTML = '<div class="err">' + esc(res.error.message) + '</div>'; return false; }
+    rows = res.data || [];
+    return true;
+  }
+
+  async function draw() {
+    if (view === 'settings') { showSettings(); return; }
+    if (!rows.length) main.innerHTML = '<div class="muted">Loading…</div>';
+    if (await load()) paintList();
+  }
+
+  [].forEach.call(tabs.querySelectorAll('button'), function (b) {
     b.onclick = function () {
-      [].forEach.call(nav.querySelectorAll('button'), function (x) { x.setAttribute('aria-selected', 'false'); });
+      [].forEach.call(tabs.querySelectorAll('button'), function (x) { x.setAttribute('aria-selected', 'false'); });
       b.setAttribute('aria-selected', 'true');
-      tab = b.dataset.tab;
-      draw();
+      view = b.dataset.view;
+      paintList();
     };
   });
 
-  var refresh = null;
+  more.onclick = function () {
+    // hang the panel just under the tabs, so the header stays visible
+    var t = tabs.getBoundingClientRect(), s = menu.parentNode.getBoundingClientRect();
+    menu.style.top = Math.max(0, Math.round(t.bottom - s.top)) + 'px';
+    menu.hidden = false;
+  };
+  menu.onclick = function (e) { if (e.target === menu) menu.hidden = true; };
 
-  out.onclick = async function () { await sb.auth.signOut(); location.reload(); };
+  [].forEach.call(menu.querySelectorAll('button'), function (b) {
+    b.onclick = function () {
+      if (b.dataset.range) {
+        range = b.dataset.range;
+        [].forEach.call(menu.querySelectorAll('[data-range]'), function (x) {
+          x.setAttribute('aria-checked', String(x === b));
+        });
+        menu.hidden = true;
+        if (view !== 'settings') paintList();
+        return;
+      }
+      menu.hidden = true;
+      if (b.dataset.act === 'settings') { view = 'settings';
+        [].forEach.call(tabs.querySelectorAll('button'), function (x) { x.setAttribute('aria-selected', 'false'); });
+        showSettings();
+      } else if (b.dataset.act === 'refresh') {
+        if (view === 'settings') { view = 'progress'; tabs.querySelector('[data-view="progress"]').setAttribute('aria-selected', 'true'); }
+        draw();
+      } else if (b.dataset.act === 'signout') {
+        sb.auth.signOut().then(function () { location.reload(); });
+      }
+    };
+  });
+
+  /* ---------------- signing in ---------------- */
 
   function blocked(text) {
     if (login && login.parentNode) login.remove();
-    nav.hidden = true;
-    out.hidden = false;
+    tabs.hidden = true;
+    more.hidden = false;
     main.innerHTML = '<div class="err">' + text + '</div>';
   }
 
-  /* Swap the login form for the panel. Never fails quietly: if this account
-     may not see the data, it says so instead of leaving a dead page. */
   async function enter() {
     var chk = await sb.rpc('is_admin');
-    if (chk.error) {
-      blocked('Signed in, but the owner check failed: ' + esc(chk.error.message));
-      return;
-    }
+    if (chk.error) { blocked('Signed in, but the owner check failed: ' + esc(chk.error.message)); return; }
     if (chk.data !== true) {
       blocked('This email is not on the owner list, so there is nothing to show. ' +
               'Sign out and try the other address.');
       return;
     }
     if (login && login.parentNode) login.remove();
-    nav.hidden = false; out.hidden = false;
+    tabs.hidden = false; more.hidden = false;
     draw();
     if (!refresh) {
-      refresh = setInterval(function () { if (tab !== 'set' && sheet.hidden) draw(); }, 60000);
+      refresh = setInterval(function () {
+        if (view !== 'settings' && sheet.hidden && menu.hidden) draw();
+      }, 60000);
     }
   }
 
@@ -465,9 +591,7 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     var btn = document.getElementById('send');
     var email = document.getElementById('email').value.trim();
     var pass = document.getElementById('pass').value;
-    if (!email || !pass) {
-      msg.className = 'err'; msg.textContent = 'Fill in both boxes.'; return;
-    }
+    if (!email || !pass) { msg.className = 'err'; msg.textContent = 'Fill in both boxes.'; return; }
     btn.disabled = true;
     msg.className = 'note'; msg.textContent = 'Signing in…';
     var r;
@@ -477,7 +601,6 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
 
     if (r.error) {
       msg.className = 'err';
-      // "Invalid login credentials" is not much help on a phone
       msg.textContent = /invalid login/i.test(r.error.message)
         ? 'That email and password do not match an account.'
         : /not confirmed/i.test(r.error.message)
@@ -485,10 +608,8 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
           : r.error.message;
       return;
     }
-
     msg.className = 'note'; msg.textContent = 'Opening…';
-    // show the panel here and now. Reloading instead used to throw away the
-    // session that had just been created, which left you back on this form.
+    // show the panel here and now: reloading used to throw away the fresh session
     await enter();
   }
 
@@ -501,7 +622,7 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   async function boot() {
     var s;
     try { s = await sb.auth.getSession(); } catch (e) { return; }
-    if (s && s.data && s.data.session) await enter();   // already signed in on this phone
+    if (s && s.data && s.data.session) await enter();
   }
   boot();
 })();
