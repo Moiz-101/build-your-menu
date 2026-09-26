@@ -120,12 +120,15 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
   <main id="main">
     <div class="login" id="login">
       <h1>Sign in</h1>
-      <p class="note" style="text-align:center">We email you a link. No password to remember.</p>
-      <label class="f">Your email
-        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
+      <label class="f">Email
+        <input id="email" type="email" inputmode="email" autocomplete="username" placeholder="you@example.com">
       </label>
-      <button class="save" id="send">Email me a link</button>
+      <label class="f">Password
+        <input id="pass" type="password" autocomplete="current-password" placeholder="Your password">
+      </label>
+      <button class="save" id="send">Sign in</button>
       <div id="loginMsg"></div>
+      <div class="note" style="text-align:center">You stay signed in on this phone, so this is a one-off.</div>
     </div>
   </main>
 
@@ -426,14 +429,30 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
 
   out.onclick = async function () { await sb.auth.signOut(); location.reload(); };
 
-  document.getElementById('send').onclick = async function () {
+  async function signIn() {
     var msg = document.getElementById('loginMsg');
+    var btn = document.getElementById('send');
     var email = document.getElementById('email').value.trim();
-    if (!email) { msg.className = 'err'; msg.textContent = 'Enter your email first.'; return; }
-    msg.className = 'note'; msg.textContent = 'Sending…';
-    var r = await sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.href } });
-    msg.className = r.error ? 'err' : 'ok';
-    msg.textContent = r.error ? r.error.message : 'Check your email and open the link on this device.';
+    var pass = document.getElementById('pass').value;
+    if (!email || !pass) {
+      msg.className = 'err'; msg.textContent = 'Fill in both boxes.'; return;
+    }
+    btn.disabled = true;
+    msg.className = 'note'; msg.textContent = 'Signing in…';
+    var r = await sb.auth.signInWithPassword({ email: email, password: pass });
+    btn.disabled = false;
+    if (!r.error) { msg.className = 'ok'; msg.textContent = 'Signed in.'; return; }
+    msg.className = 'err';
+    // the real message is "Invalid login credentials", which is not much help
+    msg.textContent = /invalid login/i.test(r.error.message)
+      ? 'That email and password do not match an account.'
+      : r.error.message;
+  }
+
+  document.getElementById('send').onclick = signIn;
+  document.getElementById('pass').onkeydown = function (e) { if (e.key === 'Enter') signIn(); };
+  document.getElementById('email').onkeydown = function (e) {
+    if (e.key === 'Enter') document.getElementById('pass').focus();
   };
 
   async function boot() {
