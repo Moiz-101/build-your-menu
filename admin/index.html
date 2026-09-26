@@ -427,7 +427,37 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     };
   });
 
+  var refresh = null;
+
   out.onclick = async function () { await sb.auth.signOut(); location.reload(); };
+
+  function blocked(text) {
+    if (login && login.parentNode) login.remove();
+    nav.hidden = true;
+    out.hidden = false;
+    main.innerHTML = '<div class="err">' + text + '</div>';
+  }
+
+  /* Swap the login form for the panel. Never fails quietly: if this account
+     may not see the data, it says so instead of leaving a dead page. */
+  async function enter() {
+    var chk = await sb.rpc('is_admin');
+    if (chk.error) {
+      blocked('Signed in, but the owner check failed: ' + esc(chk.error.message));
+      return;
+    }
+    if (chk.data !== true) {
+      blocked('This email is not on the owner list, so there is nothing to show. ' +
+              'Sign out and try the other address.');
+      return;
+    }
+    if (login && login.parentNode) login.remove();
+    nav.hidden = false; out.hidden = false;
+    draw();
+    if (!refresh) {
+      refresh = setInterval(function () { if (tab !== 'set' && sheet.hidden) draw(); }, 60000);
+    }
+  }
 
   async function signIn() {
     var msg = document.getElementById('loginMsg');
@@ -439,14 +469,26 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     }
     btn.disabled = true;
     msg.className = 'note'; msg.textContent = 'Signing in…';
-    var r = await sb.auth.signInWithPassword({ email: email, password: pass });
+    var r;
+    try { r = await sb.auth.signInWithPassword({ email: email, password: pass }); }
+    catch (e) { r = { error: { message: String((e && e.message) || e) } }; }
     btn.disabled = false;
-    if (!r.error) { msg.className = 'ok'; msg.textContent = 'Signed in.'; return; }
-    msg.className = 'err';
-    // the real message is "Invalid login credentials", which is not much help
-    msg.textContent = /invalid login/i.test(r.error.message)
-      ? 'That email and password do not match an account.'
-      : r.error.message;
+
+    if (r.error) {
+      msg.className = 'err';
+      // "Invalid login credentials" is not much help on a phone
+      msg.textContent = /invalid login/i.test(r.error.message)
+        ? 'That email and password do not match an account.'
+        : /not confirmed/i.test(r.error.message)
+          ? 'That account still needs confirming in Supabase.'
+          : r.error.message;
+      return;
+    }
+
+    msg.className = 'note'; msg.textContent = 'Opening…';
+    // show the panel here and now. Reloading instead used to throw away the
+    // session that had just been created, which left you back on this form.
+    await enter();
   }
 
   document.getElementById('send').onclick = signIn;
@@ -456,23 +498,10 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   };
 
   async function boot() {
-    var s = await sb.auth.getSession();
-    if (!s.data.session) return;
-
-    var chk = await sb.rpc('is_admin');
-    if (chk.error || chk.data !== true) {
-      login.remove();
-      out.hidden = false;
-      main.innerHTML = '<div class="err">This email is not on the owner list, so there is ' +
-        'nothing to show. Sign out and try the other address.</div>';
-      return;
-    }
-    login.remove();
-    nav.hidden = false; out.hidden = false;
-    draw();
-    setInterval(function () { if (tab !== 'set' && sheet.hidden) draw(); }, 60000);
+    var s;
+    try { s = await sb.auth.getSession(); } catch (e) { return; }
+    if (s && s.data && s.data.session) await enter();   // already signed in on this phone
   }
-  sb.auth.onAuthStateChange(function (e) { if (e === 'SIGNED_IN') location.replace(location.pathname); });
   boot();
 })();
 </script>
