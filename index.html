@@ -2318,6 +2318,32 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
     return out;
   }
 
+  /* Everything the order sheet needs, rebuilt later in the owner's panel.
+     Dishes are stored by name and course, not by their position in the menu,
+     so an order still reads correctly after dishes are added or removed. */
+  function picked(inst) {
+    var out = [], st = inst.state;
+    try {
+      for (var i = 0; i < inst.ITEMS.length; i++) {
+        var x = inst.ITEMS[i];
+        if (st.sel[x.id]) out.push({ name: x.name, cat: x.cat, note: (st.notes[x.id] || '').trim() });
+      }
+    } catch (e) {}
+    return out;
+  }
+
+  function choices(st) {
+    return {
+      name: st.name || '', cc: st.cc || '+971', phone: st.phone || '',
+      emirate: st.emirate || '', date: st.date || '', time: st.time || '',
+      pax: st.pax, pureVeg: !!st.pureVeg,
+      type: st.type || null, layout: st.layout || null, venue: st.venue || null,
+      cuisine: st.cuisine || 'ic',
+      pkg: (st.pkg === undefined ? null : st.pkg),
+      theme: st.theme || null, eventNote: st.eventNote || ''
+    };
+  }
+
   function snapshot(inst) {
     var st = inst.state;
     var screen = st.screen || 'details';
@@ -2335,7 +2361,7 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
       pure_veg: !!st.pureVeg,
       step: screen,
       status: done ? 'completed' : 'started',
-      ref: done && s ? (s.ref || '') : '',
+      ref: s ? (s.ref || '') : '',
       token: linkToken(),
       details: {
         setup: { type: st.type || null, layout: st.layout || null, venue: st.venue || null },
@@ -2347,7 +2373,8 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
         },
         theme: st.theme || null,
         eventNote: st.eventNote || '',
-        totals: s ? { perPerson: s.ppText, menuTotal: s.menuTotal, grand: s.grandNum, grandText: s.grand } : null
+        totals: s ? { perPerson: s.ppText, menuTotal: s.menuTotal, grand: s.grandNum, grandText: s.grand } : null,
+        order: { choices: choices(st), picked: picked(inst) }
       }
     };
   }

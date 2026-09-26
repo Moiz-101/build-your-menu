@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0E3B33">
 <meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Enquiries">
 <title>Enquiries · Dragon Empire Catering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +18,7 @@ html,body{height:100%}
 body{margin:0;background:#F7F1E6;color:#1B2B27;font-family:'DM Sans',system-ui,sans-serif;
      display:flex;justify-content:center;align-items:stretch}
 input,select,button,textarea{font-family:inherit}
-.shell{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;background:#F7F1E6;overflow:hidden}
+.shell{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;background:#F7F1E6;overflow:hidden;position:relative}
 
 header{background:#0E3B33;padding:10px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
 header img{height:30px;width:auto;display:block}
@@ -32,7 +34,16 @@ nav button{flex:1 1 0;min-width:0;height:38px;border-radius:11px;border:none;cur
      font-size:13px;font-weight:700;color:#0E3B33;background:transparent}
 nav button[aria-selected="true"]{background:#FFFFFF;box-shadow:0 1px 3px rgba(14,59,51,.18)}
 
-main{flex-grow:1;min-height:0;overflow-y:auto;padding:14px 16px 24px 16px;display:flex;flex-direction:column;gap:10px}
+main{flex-grow:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
+     padding:14px 16px 28px 16px;display:flex;flex-direction:column;gap:10px}
+/* a scrolling column must never squeeze its children to fit */
+main > *,#sheetBody > *{flex-shrink:0}
+
+.tally{background:#0E3B33;border-radius:16px;padding:12px 8px;display:flex;align-items:stretch}
+.tally div{flex:1 1 0;text-align:center;display:flex;flex-direction:column;gap:3px}
+.tally div + div{border-left:1px solid rgba(233,199,126,.28)}
+.tally b{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:26px;line-height:1;color:#FBF6EA}
+.tally span{font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;color:#C9D6D1}
 
 .card{background:#fff;border:1.5px solid #E4D9C2;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -44,13 +55,13 @@ main{flex-grow:1;min-height:0;overflow-y:auto;padding:14px 16px 24px 16px;displa
 .c-stop{background:#FDECEA;color:#9B1C1C}
 .c-done{background:#EADFC8;color:#6A4E12}
 .acts{display:flex;gap:8px}
-.acts a{flex:1 1 0;text-align:center;text-decoration:none;height:40px;line-height:40px;border-radius:12px;
-     font-size:14px;font-weight:700}
-.wa{background:#0E3B33;color:#FBF6EA}
-.call{background:#fff;color:#0E3B33;border:1.5px solid #0E3B33}
+.acts a,.acts button{flex:1 1 0;text-align:center;text-decoration:none;height:40px;line-height:38px;
+     border-radius:12px;font-size:14px;font-weight:700;border:1.5px solid transparent;cursor:pointer;padding:0}
+.view{background:#C9963B;color:#2A1B02;border-color:#C9963B}
+.call{background:#fff;color:#0E3B33;border-color:#0E3B33}
 .dishes{font-size:12.5px;color:#5A6863;line-height:1.4}
 
-.muted{font-size:13px;color:#5A6863;text-align:center;padding:26px 10px}
+.muted{font-size:13px;color:#5A6863;text-align:center;padding:26px 10px;line-height:1.5}
 .count{font-size:12px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:#4A5A55;padding:2px 2px 0}
 
 label.f{display:flex;flex-direction:column;gap:5px;font-size:12px;letter-spacing:1.2px;
@@ -58,14 +69,38 @@ label.f{display:flex;flex-direction:column;gap:5px;font-size:12px;letter-spacing
 label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:0 12px;font-size:16px;background:#fff;color:#1B2B27}
 .toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;
      border:1.5px solid #E4D9C2;border-radius:14px;padding:10px 12px;font-size:14px;font-weight:600}
-.toggle input{width:22px;height:22px;accent-color:#0E3B33}
+.toggle input{width:22px;height:22px;accent-color:#0E3B33;flex-shrink:0}
 .save{height:46px;border:none;border-radius:14px;background:#0E3B33;color:#FBF6EA;font-size:16px;font-weight:700;cursor:pointer}
-.note{font-size:12.5px;color:#5A6863;line-height:1.4}
-.err{background:#FDECEA;border:1.5px solid #C62828;color:#9B1C1C;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600}
-.ok{background:#D3E7DE;border:1.5px solid #2F7A64;color:#12604B;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600}
+.note{font-size:12.5px;color:#5A6863;line-height:1.45}
+.err{background:#FDECEA;border:1.5px solid #C62828;color:#9B1C1C;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;line-height:1.45}
+.ok{background:#D3E7DE;border:1.5px solid #2F7A64;color:#12604B;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;line-height:1.45}
 
 .login{margin:auto;width:100%;max-width:330px;display:flex;flex-direction:column;gap:12px;padding:20px}
 .login h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:22px;margin:0;color:#0E3B33;text-align:center}
+
+/* ---------- the order sheet ---------- */
+#sheet[hidden]{display:none}
+#sheet{position:absolute;inset:0;background:#F7F1E6;z-index:20;display:flex;flex-direction:column}
+#sheet .bar{background:#0E3B33;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+#sheet .bar button{background:transparent;border:1.5px solid #C9963B;color:#E9C77E;border-radius:10px;
+     height:34px;padding:0 12px;font-size:13px;font-weight:700;cursor:pointer}
+#sheet .bar b{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:16px;color:#FBF6EA;
+     margin-left:auto;letter-spacing:.3px}
+#sheetBody{flex-grow:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 16px 28px 16px;
+     display:flex;flex-direction:column;gap:10px}
+.sec{background:#fff;border:1.5px solid #E4D9C2;border-radius:16px;overflow:hidden}
+.sec h3{margin:0;background:#EADFC8;padding:8px 14px;font-family:'Fraunces',Georgia,serif;
+     font-weight:600;font-size:14px;color:#0E3B33;letter-spacing:.3px}
+.sec .body{padding:10px 14px;display:flex;flex-direction:column;gap:7px}
+.kv{display:flex;gap:10px;font-size:13.5px;line-height:1.4}
+.kv span{color:#5A6863;flex:0 0 40%}
+.kv b{color:#1B2B27;font-weight:600;flex:1 1 auto}
+.dish{font-size:13.5px;line-height:1.45;color:#1B2B27;display:flex;gap:7px}
+.dish i{color:#C9963B;font-style:normal;flex-shrink:0}
+.dish em{display:block;font-style:normal;font-size:12px;color:#8A6D2F;margin-top:1px}
+.tot{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;line-height:1.4}
+.tot.big{border-top:1.5px solid #E4D9C2;padding-top:8px;margin-top:2px;font-size:16px}
+.tot.big b{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:19px;color:#0E3B33}
 </style>
 </head>
 <body>
@@ -77,9 +112,9 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
   </header>
 
   <nav id="nav" hidden>
-    <button data-tab="live" aria-selected="true">Enquiries</button>
-    <button data-tab="orders" aria-selected="false">Orders</button>
-    <button data-tab="set" aria-selected="false">Settings</button>
+    <button data-tab="today" aria-selected="true">Today</button>
+    <button data-tab="all" aria-selected="false">All</button>
+    <button data-tab="set" aria-selected="false">Alerts</button>
   </nav>
 
   <main id="main">
@@ -93,8 +128,27 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
       <div id="loginMsg"></div>
     </div>
   </main>
+
+  <div id="sheet" hidden>
+    <div class="bar">
+      <button id="sheetBack">Back</button>
+      <button id="sheetPdf">Save PDF</button>
+      <b id="sheetRef"></b>
+    </div>
+    <div id="sheetBody"></div>
+  </div>
 </div>
 
+<!-- The order sheet is rebuilt with the very same menu, prices and PDF builder
+     the customer used, so what is shown here is what they were sent. -->
+<script>
+window.DCLogic = function (p) { this.props = p || {}; this.state = {}; };
+window.DCLogic.prototype.setState = function (o) {
+  Object.assign(this.state, typeof o === 'function' ? o(this.state) : o);
+};
+window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
+</script>
+<script src="component.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 (function () {
@@ -107,18 +161,29 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
   var nav = document.getElementById('nav');
   var login = document.getElementById('login');
   var out = document.getElementById('out');
-  var tab = 'live';
+  var sheet = document.getElementById('sheet');
+  var sheetBody = document.getElementById('sheetBody');
+  var tab = 'today';
+  var rows = [];           // leads, newest first
+  var openInst = null;     // the order currently on the sheet
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
     return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
 
   function digits(p) { return String(p || '').replace(/[^0-9]/g, ''); }
 
+  /* Dubai never changes its clock, so "today" is simply the day there now. */
+  function dayStart() {
+    var ymd = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Dubai' }).format(new Date());
+    return new Date(ymd + 'T00:00:00+04:00');
+  }
+  function isToday(iso) { return iso ? new Date(iso) >= dayStart() : false; }
+
   function when(d, t) {
     if (!d) return '';
-    var parts = String(d).split('-');
-    var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+parts[1] - 1] || '';
-    return parts[2] + ' ' + m + ' ' + parts[0] + (t ? ', ' + t : '');
+    var p = String(d).split('-');
+    var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1] - 1] || '';
+    return p[2] + ' ' + m + ' ' + p[0] + (t ? ', ' + t : '');
   }
 
   function ago(iso) {
@@ -134,7 +199,106 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
   var STEP = { details:'Customer details', setup:'Setup', pkg:'Packages', items:'Choosing dishes',
                theme:'Event theme', review:'Review', thanks:'Finished' };
 
-  function card(l) {
+  /* ---------------- rebuilding a customer's order ---------------- */
+
+  function rebuild(l) {
+    var o = (l.details || {}).order;
+    // a top-level `class` is a global binding, not a property of window
+    if (!o || !o.choices || typeof Component !== 'function') return null;
+    var inst;
+    try { inst = new Component({}); } catch (e) { return null; }
+    Object.assign(inst.state, o.choices);
+    if (l.ref) inst.REF = l.ref;
+
+    // dishes are matched by name and course, so an order survives menu changes
+    var sel = {}, notes = {};
+    (o.picked || []).forEach(function (p) {
+      for (var i = 0; i < inst.ITEMS.length; i++) {
+        var x = inst.ITEMS[i];
+        if (x.name === p.name && x.cat === p.cat && !sel[x.id]) {
+          sel[x.id] = true;
+          if (p.note) notes[x.id] = p.note;
+          return;
+        }
+      }
+    });
+    inst.state.sel = sel;
+    inst.state.notes = notes;
+    try { inst.summary(); } catch (e) { return null; }
+    return inst;
+  }
+
+  function kv(k, v) { return '<div class="kv"><span>' + esc(k) + '</span><b>' + esc(v) + '</b></div>'; }
+
+  function showSheet(l) {
+    var inst = rebuild(l);
+    if (!inst) {
+      alert('This enquiry was saved before the order sheet existed, so there is nothing to show yet.');
+      return;
+    }
+    openInst = inst;
+    var S = inst.summary();
+    document.getElementById('sheetRef').textContent = S.ref;
+
+    var html =
+      '<div class="sec"><h3>Customer</h3><div class="body">' +
+        kv('Name', S.name) + kv('Contact', S.contact) + kv('Emirate', S.emirate) +
+        kv('Event', S.when) + kv('Guests', S.pax) + kv('Pure Veg', S.veg) +
+      '</div></div>' +
+      '<div class="sec"><h3>Setup</h3><div class="body">' +
+        kv('Service', S.typeLabel) +
+        (S.isOnsite ? kv('Style', S.layoutLabel) + kv('Venue', S.venueLabel) : '') +
+      '</div></div>' +
+      '<div class="sec"><h3>Menu</h3><div class="body">' +
+        kv('Package', S.pkgLabel) + kv('Cuisine', S.cuisine) + kv('Per person', S.ppText) +
+      '</div></div>';
+
+    S.groups.forEach(function (g) {
+      html += '<div class="sec"><h3>' + esc(g.title) + '</h3><div class="body">' +
+        g.items.map(function (it) {
+          return '<div class="dish"><i>&#9679;</i><div>' + esc(it.name) +
+                 (it.hasNote ? '<em>' + esc(it.note) + '</em>' : '') + '</div></div>';
+        }).join('') + '</div></div>';
+    });
+
+    html += '<div class="sec"><h3>Theme &amp; notes</h3><div class="body">' +
+        kv('Theme', S.themeLabel) + kv('Notes', S.notesText) +
+      '</div></div>' +
+      '<div class="sec"><h3>Total</h3><div class="body">' +
+        '<div class="tot"><span>' + esc(S.menuRowLabel) + '</span><span>' + esc(S.menuRowValue) + '</span></div>' +
+        (S.showMin ? '<div class="tot"><span>Minimum order top-up</span><span>' + esc(S.minValue) + '</span></div>' : '') +
+        '<div class="tot"><span>' + esc(S.themeRowLabel) + '</span><span>' + esc(S.themeRowValue) + '</span></div>' +
+        '<div class="tot big"><span>Grand total</span><b>' + esc(S.grand) + '</b></div>' +
+      '</div></div>' +
+      '<div class="note">' + (l.status === 'completed'
+        ? 'This is the copy the customer downloaded when they confirmed.'
+        : 'Not confirmed yet - this is how far the customer had got.') + '</div>';
+
+    sheetBody.innerHTML = html;
+    sheetBody.scrollTop = 0;
+    sheet.hidden = false;
+  }
+
+  document.getElementById('sheetBack').onclick = function () { sheet.hidden = true; openInst = null; };
+
+  document.getElementById('sheetPdf').onclick = function () {
+    if (!openInst) return;
+    var blob;
+    try { blob = openInst.buildPdf(); }
+    catch (e) { alert('Could not build the PDF for this order.'); return; }
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'Catering-Order-' + openInst.REF + '.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 20000);
+  };
+
+  /* ---------------- the list ---------------- */
+
+  function card(l, i) {
     var d = l.details || {};
     var menu = d.menu || {}, totals = d.totals || {};
     var done = l.status === 'completed';
@@ -148,85 +312,100 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
     if (pkg) bits.push(esc(pkg));
     if (totals.grandText) bits.push('<b>' + esc(totals.grandText) + '</b>');
     if (l.pure_veg) bits.push('Pure Veg');
-    var dishes = (menu.dishes || []);
+    var dishes = menu.dishes || [];
     var wa = digits(l.phone);
+    var canView = !!(d.order && d.order.choices);
 
     return '<div class="card">' +
       '<div class="row"><div class="name">' + esc(l.name || 'No name') + '</div>' +
         '<span class="chip ' + chip[0] + '">' + chip[1] + '</span></div>' +
-      '<div class="meta">' + bits.join(' · ') + '</div>' +
+      '<div class="meta">' + bits.join(' &middot; ') + '</div>' +
       (dishes.length ? '<div class="dishes">' + dishes.length + ' dishes: ' + esc(dishes.slice(0, 6).join(', ')) +
          (dishes.length > 6 ? '…' : '') + '</div>' : '') +
       '<div class="meta">' + (done ? 'Ordered' : 'Reached ' + esc(STEP[l.step] || l.step || '')) +
-        ' · ' + esc(ago(l.updated_at)) + (l.ref ? ' · ' + esc(l.ref) : '') + '</div>' +
-      (wa ? '<div class="acts">' +
-        '<a class="wa" href="https://wa.me/' + wa + '">WhatsApp</a>' +
-        '<a class="call" href="tel:+' + wa + '">Call</a></div>' : '') +
-    '</div>';
+        ' &middot; ' + esc(ago(l.updated_at)) + (l.ref ? ' &middot; ' + esc(l.ref) : '') + '</div>' +
+      '<div class="acts">' +
+        (canView ? '<button class="view" data-view="' + i + '">View</button>' : '') +
+        (wa ? '<a class="call" href="tel:+' + wa + '">Call</a>' : '') +
+      '</div></div>';
   }
 
-  function render(rows, empty) {
-    if (!rows.length) return '<div class="muted">' + empty + '</div>';
-    return '<div class="count">' + rows.length + (rows.length === 1 ? ' enquiry' : ' enquiries') + '</div>' +
-           rows.map(card).join('');
+  function list(sub, empty) {
+    if (!sub.length) return '<div class="muted">' + empty + '</div>';
+    return '<div class="count">' + sub.length + (sub.length === 1 ? ' person' : ' people') + '</div>' +
+           sub.map(function (l) { return card(l, rows.indexOf(l)); }).join('');
+  }
+
+  function wireViews() {
+    [].forEach.call(main.querySelectorAll('[data-view]'), function (b) {
+      b.onclick = function () { showSheet(rows[+b.dataset.view]); };
+    });
   }
 
   async function showLeads() {
     main.innerHTML = '<div class="muted">Loading…</div>';
-    var since = new Date(Date.now() - 86400000).toISOString();
-    var both = await Promise.all([
+    var got = await Promise.all([
       sb.from('leads').select('*').order('updated_at', { ascending: false }).limit(200),
-      sb.from('visits').select('session_id').gte('created_at', since)
+      sb.from('visits').select('session_id,created_at').gte('created_at', dayStart().toISOString())
     ]);
-    var res = both[0], vis = both[1];
+    var res = got[0], vis = got[1];
     if (res.error) { main.innerHTML = '<div class="err">' + esc(res.error.message) + '</div>'; return; }
-    var rows = res.data || [];
-    var head = '';
-    if (tab === 'live' && !vis.error) {
-      var n = (vis.data || []).length;
-      head = '<div class="card" style="gap:2px"><div class="meta"><b>' + n + '</b> ' +
-             (n === 1 ? 'person' : 'people') + ' opened the link in the last 24 hours</div></div>';
+    rows = res.data || [];
+
+    if (tab === 'all') {
+      main.innerHTML = list(rows, 'Nothing yet. People appear here once they fill in the first page.');
+      wireViews();
+      return;
     }
-    if (tab === 'orders') {
-      main.innerHTML = render(rows.filter(function (r) { return r.status === 'completed'; }),
-        'No completed orders yet.');
-    } else {
-      main.innerHTML = head + render(rows.filter(function (r) { return r.status !== 'completed'; }),
-        'No enquiries yet. They appear here as soon as someone fills in the first page.');
-    }
+
+    var todays = rows.filter(function (r) { return isToday(r.updated_at) || isToday(r.created_at); });
+    var opened = vis.error ? 0 : (vis.data || []).length;
+    var ordered = todays.filter(function (r) { return r.status === 'completed'; }).length;
+
+    main.innerHTML =
+      '<div class="tally">' +
+        '<div><b>' + opened + '</b><span>Opened</span></div>' +
+        '<div><b>' + todays.length + '</b><span>Left details</span></div>' +
+        '<div><b>' + ordered + '</b><span>Ordered</span></div>' +
+      '</div>' +
+      list(todays, 'Nobody has left their details today yet.' +
+           (opened ? ' ' + opened + ' opened the link but stopped on the first page.' : ''));
+    wireViews();
   }
+
+  /* ---------------- alert settings ---------------- */
 
   async function showSettings() {
     main.innerHTML = '<div class="muted">Loading…</div>';
     var res = await sb.from('alert_settings').select('*').limit(1).single();
     if (res.error) { main.innerHTML = '<div class="err">' + esc(res.error.message) + '</div>'; return; }
     var s = res.data;
+    var linked = (s.telegram_chat_ids || []).length;
+
     main.innerHTML =
-      '<label class="f">Who gets the alerts' +
-        '<input id="rcpt" type="text" inputmode="tel" value="' + esc((s.recipients || []).join(', ')) + '">' +
-      '</label>' +
-      '<div class="note">Country code and number, no plus sign. Separate several with commas, e.g. 971567327090, 971501112233</div>' +
-      '<div class="toggle"><span>Alert me when someone opens the link</span>' +
-        '<input id="vis" type="checkbox" ' + (s.alert_on_visit ? 'checked' : '') + '></div>' +
+      (linked
+        ? '<div class="ok">Telegram is connected. Alerts go to ' + linked +
+          (linked === 1 ? ' chat.' : ' chats.') + '</div>'
+        : '<div class="err">Telegram is not connected yet, so nothing can be sent. ' +
+          'Open your bot in Telegram and press Start, then ask me to link it.</div>') +
+      '<div class="toggle"><span>Send me alerts</span>' +
+        '<input id="en" type="checkbox" ' + (s.enabled ? 'checked' : '') + '></div>' +
       '<label class="f">Tell me if a customer stops for (minutes)' +
         '<input id="mins" type="number" min="1" max="180" value="' + esc(s.stop_after_mins) + '">' +
       '</label>' +
-      '<div class="toggle"><span>Send alerts</span>' +
-        '<input id="en" type="checkbox" ' + (s.enabled ? 'checked' : '') + '></div>' +
+      '<div class="toggle"><span>Also ping me on every link open</span>' +
+        '<input id="vis" type="checkbox" ' + (s.alert_on_visit ? 'checked' : '') + '></div>' +
+      '<div class="note">Leave that one off unless it is a quiet week - ten opens a day means ten buzzes. ' +
+        'Opens are counted on the Today screen either way.</div>' +
       '<button class="save" id="saveSet">Save</button>' +
-      '<div id="setMsg"></div>' +
-      '<div class="note">Alerts are sent from ' + esc(s.phone_number_id ? 'your connected WhatsApp number' : 'no number yet') +
-      '. Sending mode: ' + esc(s.send_mode) + '.</div>';
+      '<div id="setMsg"></div>';
 
     document.getElementById('saveSet').onclick = async function () {
       var msg = document.getElementById('setMsg');
-      var list = document.getElementById('rcpt').value.split(',')
-        .map(function (x) { return x.replace(/[^0-9]/g, ''); }).filter(Boolean);
       var upd = await sb.from('alert_settings').update({
-        recipients: list,
+        enabled: document.getElementById('en').checked,
         alert_on_visit: document.getElementById('vis').checked,
         stop_after_mins: Math.max(1, Math.min(180, +document.getElementById('mins').value || 15)),
-        enabled: document.getElementById('en').checked,
         updated_at: new Date().toISOString()
       }).eq('id', true);
       msg.className = upd.error ? 'err' : 'ok';
@@ -272,7 +451,7 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
     login.remove();
     nav.hidden = false; out.hidden = false;
     draw();
-    setInterval(function () { if (tab !== 'set') draw(); }, 60000);
+    setInterval(function () { if (tab !== 'set' && sheet.hidden) draw(); }, 60000);
   }
   sb.auth.onAuthStateChange(function (e) { if (e === 'SIGNED_IN') location.replace(location.pathname); });
   boot();
