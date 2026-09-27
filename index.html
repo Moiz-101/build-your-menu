@@ -32,9 +32,30 @@ html,body{height:100%}
 body{box-sizing:border-box;display:flex;justify-content:center;align-items:stretch;color:#1B2B27}
 #app{display:contents}
 .app-shell{width:100%;max-width:390px;height:100%}
+
+/* ---------- the daily code cover ---------- */
+body.locked #app{display:none}
+#gate{position:fixed;inset:0;z-index:9999;background:#F7F1E6;display:flex;align-items:center;
+      justify-content:center;padding:24px;transition:opacity .2s ease}
+#gate.gone{opacity:0}
+#gate .gbox{width:100%;max-width:330px;text-align:center;display:flex;flex-direction:column;gap:10px}
+#gate .gmark{font-size:10px;letter-spacing:3px;color:#8A7A55;font-weight:700}
+#gate h1{margin:0;font-family:'Fraunces',Georgia,serif;font-style:italic;font-weight:500;
+         font-size:30px;line-height:1.1;color:#0E3B33}
+#gate .gtag{margin:2px 0 8px;font-size:14px;color:#4A5A55}
+#gate input{height:64px;border:1.5px solid #C8BCA2;border-radius:16px;background:#fff;
+            font-size:30px;font-weight:700;letter-spacing:14px;text-indent:14px;text-align:center;
+            color:#0E3B33;width:100%;-webkit-appearance:none}
+#gate input:focus{outline:none;border-color:#C9963B;box-shadow:0 0 0 3px rgba(201,150,59,.22)}
+#gate button{height:50px;border:none;border-radius:14px;background:#0E3B33;color:#FBF6EA;
+             font-size:16px;font-weight:700;cursor:pointer}
+#gate button:disabled{opacity:.6}
+#gate #gMsg{min-height:18px;font-size:13px;font-weight:600;color:#5A6863}
+#gate #gMsg.bad{color:#9B1C1C}
+#gate .gnote{margin:4px 0 0;font-size:12px;line-height:1.45;color:#8A9491}
 </style>
 </head>
-<body>
+<body class="locked">
 <div id="app"></div>
 <template id="tpl">
 <div class="app-shell" style="position: relative; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F1E6; color: #1B2B27; overflow: hidden;">
@@ -986,6 +1007,8 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
    tracking:false means the app behaves exactly as it did before: nothing is sent anywhere. */
 window.BYM_CONFIG = {
   tracking: true,
+  // the daily 4-digit code; set to false to let anyone straight in
+  gate: true,
   supabaseUrl: 'https://nrnhkuxtnbsjiyfhmwpm.supabase.co',
   // public key: safe in the page. The database rules decide what it may do.
   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ybmhrdXh0bmJzaml5Zmhtd3BtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzcwNDksImV4cCI6MjEwNTc1MzA0OX0.zSWpXCMOhua6GfbmSa41iKRCgHPo51eDdo6Fum_AZGc'
@@ -2355,6 +2378,115 @@ class Component extends DCLogic {
 </script>
 <script>
 window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
+/* ------------------------------------------------------------------
+   The daily code.
+
+   The page stays covered until the right 4 digits are entered. The
+   digits are checked by the database, not here, so the answer is not
+   sitting in this file waiting to be read. Getting it wrong too often
+   locks that browser out for an hour.
+
+   Once accepted, the browser remembers it for the rest of the Dubai
+   day and stops asking.
+
+   Set BYM_CONFIG.gate to false to switch the whole thing off.
+   ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+
+  var cfg = window.BYM_CONFIG || {};
+  var body = document.body;
+  function open() { body.classList.remove('locked'); }
+
+  if (!cfg.gate || !cfg.supabaseUrl || !cfg.anonKey) { open(); return; }
+
+  function dubaiDay() {
+    try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Dubai' }).format(new Date()); }
+    catch (e) { return String(new Date().getUTCDate()); }
+  }
+  function remembered() { try { return localStorage.getItem('bym_gate'); } catch (e) { return null; } }
+  function remember(d) { try { localStorage.setItem('bym_gate', d); } catch (e) {} }
+
+  if (remembered() === dubaiDay()) { open(); return; }
+
+  function sessionId() {
+    try {
+      var s = localStorage.getItem('bym_sid');
+      if (s) return s;
+    } catch (e) {}
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : ((r & 0x3) | 0x8)).toString(16);
+    });
+  }
+
+  var wrap = document.createElement('div');
+  wrap.id = 'gate';
+  wrap.innerHTML =
+    '<div class="gbox">' +
+      '<div class="gmark">CATERING</div>' +
+      '<h1>Build your Menu!</h1>' +
+      '<p class="gtag">Enter today’s code to see the menu.</p>' +
+      '<input id="gcode" inputmode="numeric" autocomplete="off" maxlength="4" ' +
+        'aria-label="Today’s four digit code" placeholder="0000">' +
+      '<button id="gGo" type="button">Open the menu</button>' +
+      '<div id="gMsg" role="status"></div>' +
+      '<p class="gnote">Ask Dragon Empire Catering for today’s code. It changes every night.</p>' +
+    '</div>';
+  body.appendChild(wrap);
+
+  var input = document.getElementById('gcode');
+  var go = document.getElementById('gGo');
+  var msg = document.getElementById('gMsg');
+
+  input.addEventListener('input', function () {
+    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 4);
+    msg.textContent = '';
+    if (input.value.length === 4) check();
+  });
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+  go.onclick = check;
+  setTimeout(function () { try { input.focus(); } catch (e) {} }, 120);
+
+  var busy = false;
+  function check() {
+    if (busy) return;
+    var code = input.value;
+    if (code.length !== 4) { msg.className = 'bad'; msg.textContent = 'Four digits, please.'; return; }
+    busy = true; go.disabled = true;
+    msg.className = ''; msg.textContent = 'Checking…';
+
+    fetch(cfg.supabaseUrl + '/rest/v1/rpc/check_code', {
+      method: 'POST',
+      headers: {
+        apikey: cfg.anonKey,
+        Authorization: 'Bearer ' + cfg.anonKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ p_session: sessionId(), p_code: code })
+    })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (ok) {
+        busy = false; go.disabled = false;
+        if (ok === true) {
+          remember(dubaiDay());
+          wrap.classList.add('gone');
+          setTimeout(function () { wrap.remove(); open(); }, 220);
+          return;
+        }
+        msg.className = 'bad';
+        msg.textContent = 'That code is not right for today.';
+        input.value = '';
+        input.focus();
+      })
+      .catch(function () {
+        busy = false; go.disabled = false;
+        msg.className = 'bad';
+        msg.textContent = 'Could not check the code. Try again in a moment.';
+      });
+  }
+})();
 /* ------------------------------------------------------------------
    Loads the menu from the database.
 
