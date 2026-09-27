@@ -25,15 +25,25 @@ header img{height:30px;width:auto;display:block}
 header .t{display:flex;flex-direction:column;gap:1px;min-width:0}
 header .t b{font-family:'Fraunces',Georgia,serif;font-style:italic;font-weight:500;font-size:19px;color:#FBF6EA;line-height:1.1}
 header .t span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C9D6D1}
-header .more{margin-left:auto;background:transparent;border:1.5px solid #C9963B;color:#E9C77E;
+header .more{position:relative;margin-left:auto;background:transparent;border:1.5px solid #C9963B;color:#E9C77E;
      border-radius:10px;height:34px;width:38px;font-size:17px;font-weight:700;cursor:pointer;
      line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
 /* ---------- the drop-down of filters and settings ---------- */
 #menu[hidden]{display:none}
 #menu{position:absolute;top:0;left:0;right:0;bottom:0;z-index:30;background:rgba(14,59,51,.35)}
-#menu .panel{background:#FBF6EA;border-bottom:1.5px solid #D9CBAB;padding:10px 16px 14px;
-     display:flex;flex-direction:column;gap:4px;box-shadow:0 6px 18px rgba(14,59,51,.2)}
+#menu .panel{background:#FBF6EA;border-bottom:1.5px solid #D9CBAB;padding:10px 16px 16px;
+     display:flex;flex-direction:column;gap:4px;box-shadow:0 6px 18px rgba(14,59,51,.2);
+     max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#menu .dates{display:flex;gap:8px;padding:2px 2px 6px}
+#menu .dates label{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:4px;
+     font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:#7A6A4A;font-weight:700}
+#menu .dates input{height:40px;border:1.5px solid #DDD3BF;border-radius:10px;padding:0 8px;
+     font-size:15px;background:#fff;color:#1B2B27;width:100%;-webkit-appearance:none;line-height:38px}
+#menu .apply{justify-content:center;background:#0E3B33;color:#FBF6EA;font-weight:700;margin:0 2px 2px}
+#menu .clear{justify-content:center;background:#EADFC8;color:#0E3B33;font-weight:700;margin:2px}
+header .more.on::before{content:'';position:absolute;width:9px;height:9px;border-radius:50%;
+     background:#C62828;transform:translate(13px,-11px);border:1.5px solid #0E3B33}
 #menu h4{margin:6px 2px 2px;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:#7A6A4A;font-weight:700}
 #menu button{text-align:left;background:transparent;border:none;border-radius:10px;padding:11px 12px;
      font-size:15px;font-weight:600;color:#1B2B27;cursor:pointer;display:flex;align-items:center;gap:8px}
@@ -155,19 +165,7 @@ label.f input{height:44px;border:1.5px solid #DDD3BF;border-radius:12px;padding:
     </div>
   </main>
 
-  <div id="menu" hidden>
-    <div class="panel">
-      <h4>Show</h4>
-      <button data-range="all"   aria-checked="true">Everything</button>
-      <button data-range="today" aria-checked="false">Today only</button>
-      <button data-range="week"  aria-checked="false">Last 7 days</button>
-      <hr>
-      <h4>Settings</h4>
-      <button data-act="settings">Alert settings</button>
-      <button data-act="refresh">Refresh now</button>
-      <button data-act="signout" class="danger">Sign out</button>
-    </div>
-  </div>
+  <div id="menu" hidden><div class="panel" id="menuPanel"></div></div>
 
   <div id="sheet" hidden>
     <div class="bar">
@@ -207,10 +205,15 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   var sheetBody = document.getElementById('sheetBody');
 
   var view = 'progress';       // progress | confirmed | new | settings
-  var range = 'all';           // all | today | week
   var rows = [];               // every lead, newest first
   var openInst = null;
   var refresh = null;
+
+  // what the menu is currently narrowing the lists down to
+  var F = { range: 'all', from: '', to: '', sort: 'recent', emirate: '', minPax: 0 };
+  function filtersOn() {
+    return F.range !== 'all' || F.sort !== 'recent' || F.emirate !== '' || F.minPax > 0;
+  }
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
     return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
@@ -224,10 +227,38 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   }
 
   function inRange(l) {
-    if (range === 'all') return true;
     var t = new Date(l.updated_at).getTime();
-    if (range === 'today') return t >= dayStart().getTime();
-    return t >= Date.now() - 7 * 86400000;
+    if (F.range === 'today') return t >= dayStart().getTime();
+    if (F.range === 'week')  return t >= Date.now() - 7 * 86400000;
+    if (F.range === 'custom') {
+      // the boxes are Dubai days, and "to" means the whole of that day
+      if (F.from && t < new Date(F.from + 'T00:00:00+04:00').getTime()) return false;
+      if (F.to   && t > new Date(F.to   + 'T23:59:59+04:00').getTime()) return false;
+      return true;
+    }
+    return true;
+  }
+
+  function orderValue(l) { return (((l.details || {}).totals || {}).grand) || 0; }
+
+  /* Everything the menu asks for, applied in one place. */
+  function sift(list) {
+    var out = list.filter(function (l) {
+      if (!inRange(l)) return false;
+      if (F.emirate && (l.emirate || '') !== F.emirate) return false;
+      if (F.minPax && !(l.pax >= F.minPax)) return false;
+      return true;
+    });
+    if (F.sort === 'event') {
+      out.sort(function (a, b) {
+        if (!a.event_date) return 1;            // no date yet, push to the bottom
+        if (!b.event_date) return -1;
+        return a.event_date < b.event_date ? -1 : a.event_date > b.event_date ? 1 : 0;
+      });
+    } else if (F.sort === 'value') {
+      out.sort(function (a, b) { return orderValue(b) - orderValue(a); });
+    }
+    return out;                                 // 'recent' is the order they arrive in
   }
 
   function when(d, t) {
@@ -237,14 +268,32 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     return p[2] + ' ' + m + ' ' + p[0] + (t ? ', ' + t : '');
   }
 
-  function ago(iso) {
-    var mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
-    if (mins < 1) return 'just now';
-    if (mins < 60) return mins + 'm ago';
-    var h = Math.round(mins / 60);
-    if (h < 24) return h + 'h ago';
-    var d = Math.round(h / 24);
-    return d + 'd ago';
+  /* When it happened, in Dubai time. Inside the last 24 hours the clock time is
+     what you want ("was that before or after lunch?"); older than that, the day
+     itself is the useful fact. "3d ago" told you neither. */
+  // assembled from parts so the order is always "17 Sep", never "Sep 17",
+  // and the month stays three letters whatever the phone's locale data says
+  function dubaiParts(d, opts) {
+    opts.timeZone = 'Asia/Dubai';
+    var out = {};
+    new Intl.DateTimeFormat('en-US', opts).formatToParts(d).forEach(function (p) { out[p.type] = p.value; });
+    return out;
+  }
+
+  function stamp(iso) {
+    if (!iso) return '';
+    var t = new Date(iso);
+    if (isNaN(t.getTime())) return '';
+    var age = Date.now() - t.getTime();
+
+    if (age < 86400000 && age > -300000) {
+      var c = dubaiParts(t, { hour: 'numeric', minute: '2-digit', hour12: true });
+      return c.hour + ':' + c.minute + ' ' + (c.dayPeriod || '');
+    }
+
+    var p = dubaiParts(t, { day: '2-digit', month: 'short', year: 'numeric' });
+    var thisYear = dubaiParts(new Date(), { year: 'numeric' }).year;
+    return p.day + ' ' + p.month.slice(0, 3) + (p.year === thisYear ? '' : ' ' + p.year.slice(2));
   }
 
   /* ---------------- the step bar ----------------
@@ -400,7 +449,7 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   function progressCard(l, i) {
     return '<div class="card">' +
       '<div class="row"><div class="name">' + esc(l.name || 'No name') + '</div>' +
-        '<span class="when">' + esc(ago(l.updated_at)) + '</span></div>' +
+        '<span class="when">' + esc(stamp(l.updated_at)) + '</span></div>' +
       '<div class="meta"><b>' + esc(when(l.event_date, l.event_time)) + '</b>' +
         (l.pax ? ' &middot; <b>' + esc(l.pax) + '</b> guests' : '') + '</div>' +
       stepBar(l) +
@@ -413,7 +462,7 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     var unseen = !l.seen_at;
     return '<div class="card' + (unseen ? ' unseen' : '') + '">' +
       '<div class="row"><div class="name">' + esc(l.name || 'No name') + '</div>' +
-        '<span class="when">' + esc(ago(l.completed_at || l.updated_at)) + '</span></div>' +
+        '<span class="when">' + esc(stamp(l.completed_at || l.updated_at)) + '</span></div>' +
       '<div class="meta"><b>' + esc(when(l.event_date, l.event_time)) + '</b>' +
         (l.pax ? ' &middot; <b>' + esc(l.pax) + '</b> guests' : '') + '</div>' +
       '<div class="row"><span class="ref">' + esc(l.ref || 'No number') + '</span>' +
@@ -448,17 +497,18 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   }
 
   function paintList() {
+    more.classList.toggle('on', filtersOn());
+    var none = filtersOn() ? ' Nothing matches the filters you have set.' : '';
     if (view === 'progress') {
-      var open = rows.filter(function (l) { return l.status !== 'completed' && inRange(l); });
+      var open = sift(rows.filter(function (l) { return l.status !== 'completed'; }));
       main.innerHTML = listOf(open,
-        'Nobody is part way through right now. People appear here as soon as they fill in the first page.',
+        'Nobody is part way through right now. People appear here as soon as they fill in the first page.' + none,
         progressCard);
     } else if (view === 'confirmed') {
-      var done = rows.filter(function (l) { return l.status === 'completed' && inRange(l); });
-      main.innerHTML = listOf(done, 'No confirmed orders yet.', orderCard);
+      var done = sift(rows.filter(function (l) { return l.status === 'completed'; }));
+      main.innerHTML = listOf(done, 'No confirmed orders yet.' + none, orderCard);
     } else {
-      var fresh = unseenOrders();
-      main.innerHTML = listOf(fresh,
+      main.innerHTML = listOf(unseenOrders(),
         'All caught up. Every order has been opened.', orderCard);
     }
     wireCards();
@@ -527,37 +577,109 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     };
   });
 
+  /* ---------------- the filter menu ---------------- */
+
+  var panel = document.getElementById('menuPanel');
+
+  function opt(kind, value, label, on) {
+    return '<button data-' + kind + '="' + esc(value) + '" aria-checked="' + (on ? 'true' : 'false') + '">' +
+           esc(label) + '</button>';
+  }
+
+  function buildMenu() {
+    // only offer emirates that actually appear in the enquiries
+    var seen = {}, places = [];
+    rows.forEach(function (l) {
+      if (l.emirate && !seen[l.emirate]) { seen[l.emirate] = 1; places.push(l.emirate); }
+    });
+    places.sort();
+
+    var html = '<h4>Show</h4>' +
+      opt('range', 'all',    'Everything',   F.range === 'all') +
+      opt('range', 'today',  'Today only',   F.range === 'today') +
+      opt('range', 'week',   'Last 7 days',  F.range === 'week') +
+      opt('range', 'custom', 'Chosen dates', F.range === 'custom') +
+      '<div class="dates">' +
+        '<label>From<input type="date" id="fFrom" value="' + esc(F.from) + '"></label>' +
+        '<label>To<input type="date" id="fTo" value="' + esc(F.to) + '"></label>' +
+      '</div>' +
+      '<button class="apply" data-act="applyDates">Use these dates</button>' +
+
+      '<h4>Sort by</h4>' +
+      opt('sort', 'recent', 'Latest activity',      F.sort === 'recent') +
+      opt('sort', 'event',  'Event date, soonest',  F.sort === 'event') +
+      opt('sort', 'value',  'Biggest order first',  F.sort === 'value') +
+
+      '<h4>Party size</h4>' +
+      opt('pax', '0',   'Any size',       !F.minPax) +
+      opt('pax', '50',  '50 guests or more',  F.minPax === 50) +
+      opt('pax', '100', '100 guests or more', F.minPax === 100);
+
+    if (places.length > 1) {
+      html += '<h4>Emirate</h4>' + opt('emirate', '', 'Everywhere', !F.emirate);
+      places.forEach(function (p) { html += opt('emirate', p, p, F.emirate === p); });
+    }
+
+    if (filtersOn()) html += '<button class="clear" data-act="clear">Clear all filters</button>';
+
+    html += '<hr><h4>Settings</h4>' +
+      '<button data-act="settings">Alert settings</button>' +
+      '<button data-act="refresh">Refresh now</button>' +
+      '<button data-act="signout" class="danger">Sign out</button>';
+
+    panel.innerHTML = html;
+    wireMenu();
+  }
+
+  function wireMenu() {
+    [].forEach.call(panel.querySelectorAll('button'), function (b) {
+      b.onclick = function () {
+        var d = b.dataset;
+        if (d.range)        { F.range = d.range; if (d.range !== 'custom') { F.from = ''; F.to = ''; } }
+        else if (d.sort)    { F.sort = d.sort; }
+        else if (b.hasAttribute('data-pax')) { F.minPax = +d.pax; }
+        else if (b.hasAttribute('data-emirate')) { F.emirate = d.emirate; }
+        else if (d.act === 'applyDates') {
+          F.from = document.getElementById('fFrom').value;
+          F.to   = document.getElementById('fTo').value;
+          F.range = (F.from || F.to) ? 'custom' : 'all';
+        }
+        else if (d.act === 'clear') { F = { range:'all', from:'', to:'', sort:'recent', emirate:'', minPax:0 }; }
+        else {
+          menu.hidden = true;
+          if (d.act === 'settings') {
+            view = 'settings';
+            [].forEach.call(tabs.querySelectorAll('button'), function (x) { x.setAttribute('aria-selected', 'false'); });
+            showSettings();
+          } else if (d.act === 'refresh') {
+            if (view === 'settings') {
+              view = 'progress';
+              tabs.querySelector('[data-view="progress"]').setAttribute('aria-selected', 'true');
+            }
+            draw();
+          } else if (d.act === 'signout') {
+            sb.auth.signOut().then(function () { location.reload(); });
+          }
+          return;
+        }
+        menu.hidden = true;
+        if (view === 'settings') {
+          view = 'progress';
+          tabs.querySelector('[data-view="progress"]').setAttribute('aria-selected', 'true');
+        }
+        paintList();
+      };
+    });
+  }
+
   more.onclick = function () {
     // hang the panel just under the tabs, so the header stays visible
     var t = tabs.getBoundingClientRect(), s = menu.parentNode.getBoundingClientRect();
     menu.style.top = Math.max(0, Math.round(t.bottom - s.top)) + 'px';
+    buildMenu();
     menu.hidden = false;
   };
   menu.onclick = function (e) { if (e.target === menu) menu.hidden = true; };
-
-  [].forEach.call(menu.querySelectorAll('button'), function (b) {
-    b.onclick = function () {
-      if (b.dataset.range) {
-        range = b.dataset.range;
-        [].forEach.call(menu.querySelectorAll('[data-range]'), function (x) {
-          x.setAttribute('aria-checked', String(x === b));
-        });
-        menu.hidden = true;
-        if (view !== 'settings') paintList();
-        return;
-      }
-      menu.hidden = true;
-      if (b.dataset.act === 'settings') { view = 'settings';
-        [].forEach.call(tabs.querySelectorAll('button'), function (x) { x.setAttribute('aria-selected', 'false'); });
-        showSettings();
-      } else if (b.dataset.act === 'refresh') {
-        if (view === 'settings') { view = 'progress'; tabs.querySelector('[data-view="progress"]').setAttribute('aria-selected', 'true'); }
-        draw();
-      } else if (b.dataset.act === 'signout') {
-        sb.auth.signOut().then(function () { location.reload(); });
-      }
-    };
-  });
 
   /* ---------------- signing in ---------------- */
 
