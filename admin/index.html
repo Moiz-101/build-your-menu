@@ -210,9 +210,9 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   var refresh = null;
 
   // what the menu is currently narrowing the lists down to
-  var F = { range: 'today', from: '', to: '', sort: 'recent', emirate: '', minPax: 0 };
+  var F = { range: 'today', from: '', to: '', sort: 'recent', size: 'any' };
   function filtersOn() {
-    return F.range !== 'today' || F.sort !== 'recent' || F.emirate !== '' || F.minPax > 0;
+    return F.range !== 'today' || F.sort !== 'recent' || F.size !== 'any';
   }
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
@@ -239,24 +239,21 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     return true;
   }
 
-  function orderValue(l) { return (((l.details || {}).totals || {}).grand) || 0; }
+  function fitsSize(l) {
+    if (F.size === 'any') return true;
+    if (!(l.pax > 0)) return false;             // no guest count, no opinion
+    return F.size === 'under30' ? l.pax < 30 : l.pax > 50;
+  }
 
   /* Everything the menu asks for, applied in one place. */
   function sift(list) {
-    var out = list.filter(function (l) {
-      if (!inRange(l)) return false;
-      if (F.emirate && (l.emirate || '') !== F.emirate) return false;
-      if (F.minPax && !(l.pax >= F.minPax)) return false;
-      return true;
-    });
+    var out = list.filter(function (l) { return inRange(l) && fitsSize(l); });
     if (F.sort === 'event') {
       out.sort(function (a, b) {
         if (!a.event_date) return 1;            // no date yet, push to the bottom
         if (!b.event_date) return -1;
         return a.event_date < b.event_date ? -1 : a.event_date > b.event_date ? 1 : 0;
       });
-    } else if (F.sort === 'value') {
-      out.sort(function (a, b) { return orderValue(b) - orderValue(a); });
     }
     return out;                                 // 'recent' is the order they arrive in
   }
@@ -608,13 +605,6 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   }
 
   function buildMenu() {
-    // only offer emirates that actually appear in the enquiries
-    var seen = {}, places = [];
-    rows.forEach(function (l) {
-      if (l.emirate && !seen[l.emirate]) { seen[l.emirate] = 1; places.push(l.emirate); }
-    });
-    places.sort();
-
     var html = '<h4>Show</h4>' +
       opt('range', 'today',  'Today',        F.range === 'today') +
       opt('range', 'custom', 'Chosen dates', F.range === 'custom') +
@@ -625,19 +615,13 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
       '<button class="apply" data-act="applyDates">Use these dates</button>' +
 
       '<h4>Sort by</h4>' +
-      opt('sort', 'recent', 'Latest activity',      F.sort === 'recent') +
-      opt('sort', 'event',  'Event date, soonest',  F.sort === 'event') +
-      opt('sort', 'value',  'Biggest order first',  F.sort === 'value') +
+      opt('sort', 'recent', 'Latest activity',     F.sort === 'recent') +
+      opt('sort', 'event',  'Event date, soonest', F.sort === 'event') +
 
       '<h4>Party size</h4>' +
-      opt('pax', '0',   'Any size',       !F.minPax) +
-      opt('pax', '50',  '50 guests or more',  F.minPax === 50) +
-      opt('pax', '100', '100 guests or more', F.minPax === 100);
-
-    if (places.length > 1) {
-      html += '<h4>Emirate</h4>' + opt('emirate', '', 'Everywhere', !F.emirate);
-      places.forEach(function (p) { html += opt('emirate', p, p, F.emirate === p); });
-    }
+      opt('size', 'any',     'Any size',            F.size === 'any') +
+      opt('size', 'under30', 'Less than 30 guests', F.size === 'under30') +
+      opt('size', 'over50',  'More than 50 guests', F.size === 'over50');
 
     if (filtersOn()) html += '<button class="clear" data-act="clear">Clear all filters</button>';
 
@@ -656,14 +640,13 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
         var d = b.dataset;
         if (d.range)        { F.range = d.range; if (d.range !== 'custom') { F.from = ''; F.to = ''; } }
         else if (d.sort)    { F.sort = d.sort; }
-        else if (b.hasAttribute('data-pax')) { F.minPax = +d.pax; }
-        else if (b.hasAttribute('data-emirate')) { F.emirate = d.emirate; }
+        else if (d.size)    { F.size = d.size; }
         else if (d.act === 'applyDates') {
           F.from = document.getElementById('fFrom').value;
           F.to   = document.getElementById('fTo').value;
           F.range = (F.from || F.to) ? 'custom' : 'today';
         }
-        else if (d.act === 'clear') { F = { range:'today', from:'', to:'', sort:'recent', emirate:'', minPax:0 }; }
+        else if (d.act === 'clear') { F = { range:'today', from:'', to:'', sort:'recent', size:'any' }; }
         else {
           menu.hidden = true;
           if (d.act === 'settings') {
