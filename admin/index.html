@@ -44,6 +44,11 @@ header .more{position:relative;margin-left:auto;background:transparent;border:1.
 #menu .clear{justify-content:center;background:#EADFC8;color:#0E3B33;font-weight:700;margin:2px}
 header .more.on::before{content:'';position:absolute;width:9px;height:9px;border-radius:50%;
      background:#C62828;transform:translate(13px,-11px);border:1.5px solid #0E3B33}
+#menu .mhead{display:flex;align-items:center;justify-content:space-between;gap:10px;
+     padding:2px 2px 6px;border-bottom:1px solid #E4D9C2;margin-bottom:2px}
+#menu .mhead span{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;color:#0E3B33}
+#menu button.x{width:36px;height:36px;padding:0;justify-content:center;font-size:24px;
+     line-height:1;color:#0E3B33;background:#EADFC8;border-radius:10px;flex-shrink:0}
 #menu h4{margin:6px 2px 2px;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:#7A6A4A;font-weight:700}
 #menu button{text-align:left;background:transparent;border:none;border-radius:10px;padding:11px 12px;
      font-size:15px;font-weight:600;color:#1B2B27;cursor:pointer;display:flex;align-items:center;gap:8px}
@@ -239,10 +244,13 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     return true;
   }
 
+  // the three bands meet with no gap, so every enquiry lands in exactly one
   function fitsSize(l) {
     if (F.size === 'any') return true;
     if (!(l.pax > 0)) return false;             // no guest count, no opinion
-    return F.size === 'under30' ? l.pax < 30 : l.pax > 50;
+    if (F.size === 'under30') return l.pax < 30;
+    if (F.size === 'mid')     return l.pax >= 30 && l.pax <= 50;
+    return l.pax > 50;
   }
 
   /* Everything the menu asks for, applied in one place. */
@@ -588,11 +596,19 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
 
   [].forEach.call(tabs.querySelectorAll('button'), function (b) {
     b.onclick = function () {
+      menu.hidden = true;            // tapping a tab is also a way out of the menu
       [].forEach.call(tabs.querySelectorAll('button'), function (x) { x.setAttribute('aria-selected', 'false'); });
       b.setAttribute('aria-selected', 'true');
       view = b.dataset.view;
       paintList();
     };
+  });
+
+  // and so is the back gesture, or Escape on a keyboard
+  addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (!menu.hidden) menu.hidden = true;
+    else if (!sheet.hidden) { sheet.hidden = true; openInst = null; draw(); }
   });
 
   /* ---------------- the filter menu ---------------- */
@@ -605,7 +621,10 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   }
 
   function buildMenu() {
-    var html = '<h4>Show</h4>' +
+    // a way out that does not involve choosing a filter first
+    var html = '<div class="mhead"><span>Filters</span>' +
+        '<button class="x" data-act="close" aria-label="Close">&times;</button></div>' +
+      '<h4>Show</h4>' +
       opt('range', 'today',  'Today',        F.range === 'today') +
       opt('range', 'custom', 'Chosen dates', F.range === 'custom') +
       '<div class="dates">' +
@@ -619,9 +638,10 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
       opt('sort', 'event',  'Event date, soonest', F.sort === 'event') +
 
       '<h4>Party size</h4>' +
-      opt('size', 'any',     'Any size',            F.size === 'any') +
-      opt('size', 'under30', 'Less than 30 guests', F.size === 'under30') +
-      opt('size', 'over50',  'More than 50 guests', F.size === 'over50');
+      opt('size', 'any',     'Any size',      F.size === 'any') +
+      opt('size', 'under30', 'Under 30',      F.size === 'under30') +
+      opt('size', 'mid',     '30 to 50',      F.size === 'mid') +
+      opt('size', 'over50',  'Over 50',       F.size === 'over50');
 
     if (filtersOn()) html += '<button class="clear" data-act="clear">Clear all filters</button>';
 
@@ -649,6 +669,7 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
         else if (d.act === 'clear') { F = { range:'today', from:'', to:'', sort:'recent', size:'any' }; }
         else {
           menu.hidden = true;
+          if (d.act === 'close') { return; }             // changed nothing, just leave
           if (d.act === 'settings') {
             view = 'settings';
             [].forEach.call(tabs.querySelectorAll('button'), function (x) { x.setAttribute('aria-selected', 'false'); });
