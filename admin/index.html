@@ -210,9 +210,9 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
   var refresh = null;
 
   // what the menu is currently narrowing the lists down to
-  var F = { range: 'all', from: '', to: '', sort: 'recent', emirate: '', minPax: 0 };
+  var F = { range: 'today', from: '', to: '', sort: 'recent', emirate: '', minPax: 0 };
   function filtersOn() {
-    return F.range !== 'all' || F.sort !== 'recent' || F.emirate !== '' || F.minPax > 0;
+    return F.range !== 'today' || F.sort !== 'recent' || F.emirate !== '' || F.minPax > 0;
   }
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
@@ -484,10 +484,30 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     badge.hidden = (n === 0);
   }
 
-  function listOf(items, empty, render) {
-    if (!items.length) return '<div class="muted">' + empty + '</div>';
-    return '<div class="count">' + items.length + (items.length === 1 ? ' person' : ' people') + '</div>' +
-      items.map(function (l) { return render(l, rows.indexOf(l)); }).join('');
+  function shortDay(ymd) {
+    var p = String(ymd).split('-');
+    var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1] - 1] || '';
+    return p[2] + ' ' + m;
+  }
+
+  /* Which dates are on screen. Always shown, because the list is filtered by
+     default and a quiet filter is how you miss a customer. */
+  function rangeLabel() {
+    if (F.range !== 'custom') return 'Today';
+    if (F.from && F.to) return shortDay(F.from) + ' – ' + shortDay(F.to);
+    if (F.from) return 'From ' + shortDay(F.from);
+    if (F.to)   return 'Up to ' + shortDay(F.to);
+    return 'All dates';
+  }
+
+  function listOf(items, empty, render, label) {
+    var head = label ? ' &middot; ' + esc(label) : '';
+    if (!items.length) {
+      return (label ? '<div class="count">' + esc(label) + '</div>' : '') +
+             '<div class="muted">' + empty + '</div>';
+    }
+    return '<div class="count">' + items.length + (items.length === 1 ? ' person' : ' people') +
+      head + '</div>' + items.map(function (l) { return render(l, rows.indexOf(l)); }).join('');
   }
 
   function wireCards() {
@@ -498,16 +518,17 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
 
   function paintList() {
     more.classList.toggle('on', filtersOn());
-    var none = filtersOn() ? ' Nothing matches the filters you have set.' : '';
+    var widen = ' Use the menu to look at other dates.';
     if (view === 'progress') {
       var open = sift(rows.filter(function (l) { return l.status !== 'completed'; }));
       main.innerHTML = listOf(open,
-        'Nobody is part way through right now. People appear here as soon as they fill in the first page.' + none,
-        progressCard);
+        'Nobody part way through in this period.' + widen, progressCard, rangeLabel());
     } else if (view === 'confirmed') {
       var done = sift(rows.filter(function (l) { return l.status === 'completed'; }));
-      main.innerHTML = listOf(done, 'No confirmed orders yet.' + none, orderCard);
+      main.innerHTML = listOf(done, 'No confirmed orders in this period.' + widen,
+        orderCard, rangeLabel());
     } else {
+      // never narrowed by dates: an order you have not opened always matters
       main.innerHTML = listOf(unseenOrders(),
         'All caught up. Every order has been opened.', orderCard);
     }
@@ -595,9 +616,7 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
     places.sort();
 
     var html = '<h4>Show</h4>' +
-      opt('range', 'all',    'Everything',   F.range === 'all') +
-      opt('range', 'today',  'Today only',   F.range === 'today') +
-      opt('range', 'week',   'Last 7 days',  F.range === 'week') +
+      opt('range', 'today',  'Today',        F.range === 'today') +
       opt('range', 'custom', 'Chosen dates', F.range === 'custom') +
       '<div class="dates">' +
         '<label>From<input type="date" id="fFrom" value="' + esc(F.from) + '"></label>' +
@@ -642,9 +661,9 @@ window.DISH_PHOTOS = {}; window.DISH_PHOTOS_BY_COURSE = {};
         else if (d.act === 'applyDates') {
           F.from = document.getElementById('fFrom').value;
           F.to   = document.getElementById('fTo').value;
-          F.range = (F.from || F.to) ? 'custom' : 'all';
+          F.range = (F.from || F.to) ? 'custom' : 'today';
         }
-        else if (d.act === 'clear') { F = { range:'all', from:'', to:'', sort:'recent', emirate:'', minPax:0 }; }
+        else if (d.act === 'clear') { F = { range:'today', from:'', to:'', sort:'recent', emirate:'', minPax:0 }; }
         else {
           menu.hidden = true;
           if (d.act === 'settings') {
