@@ -491,7 +491,18 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <!-- Title + tabs (fixed) -->
 <div style="padding: 10px 24px 0 24px; display: flex; flex-direction: column; gap: 8px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">SELECT YOUR ITEMS</h2>
+<div style="display: flex; align-items: center; gap: 6px; min-height: 24px;">
+<span style="flex: 1 1 0;"></span>
+<h2 style="margin: 0; flex-shrink: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">SELECT YOUR ITEMS</h2>
+<span style="flex: 1 1 0; display: flex; justify-content: flex-end;">
+<sc-if value="{{anyPicked}}" hint-placeholder-val="{{true}}">
+<button class="btn" type="button" onClick="{{clearAll}}" aria-label="Clear all selected dishes" style="height: 24px; padding: 0 9px; border-radius: 999px; border: 1.2px solid #C8BCA2; background: #FFFFFF; color: #5A6863; font-size: 11.5px; font-weight: 700; display: flex; align-items: center; gap: 4px; cursor: pointer; white-space: nowrap;">
+<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5A6863" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+<span>Clear all</span>
+</button>
+</sc-if>
+</span>
+</div>
 <div style="display: flex; gap: 8px;">
 <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
 <button class="btn" type="button" aria-pressed="{{tb.on}}" onClick="{{tb.pick}}" style="flex: 1 1 0; min-width: 0; height: 44px; padding: 0 4px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; border: 2px solid {{tb.border}}; background: {{tb.bg}}; color: {{tb.color}};">
@@ -583,14 +594,6 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <!-- Progress hint -->
 <div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 8px 24px; display: flex; flex-direction: column; gap: 6px;">
-<sc-if value="{{anyPicked}}" hint-placeholder-val="{{true}}">
-<div style="display: flex; justify-content: flex-end;">
-<button class="btn" type="button" onClick="{{clearAll}}" aria-label="Clear all selected dishes" style="height: 22px; padding: 0 9px; border-radius: 999px; border: 1.2px solid #C8BCA2; background: transparent; color: #5A6863; font-size: 11.5px; font-weight: 700; display: flex; align-items: center; gap: 5px; cursor: pointer;">
-<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5A6863" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
-<span>Clear all</span>
-</button>
-</div>
-</sc-if>
 <sc-if value="{{showProgress}}" hint-placeholder-val="{{true}}">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
 <span style="font-size: 13px; font-weight: 600; color: {{hintColor}};">{{hint}}</span>
