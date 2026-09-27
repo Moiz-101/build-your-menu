@@ -583,6 +583,14 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <!-- Progress hint -->
 <div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 8px 24px; display: flex; flex-direction: column; gap: 6px;">
+<sc-if value="{{anyPicked}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; justify-content: flex-end;">
+<button class="btn" type="button" onClick="{{clearAll}}" aria-label="Clear all selected dishes" style="height: 22px; padding: 0 9px; border-radius: 999px; border: 1.2px solid #C8BCA2; background: transparent; color: #5A6863; font-size: 11.5px; font-weight: 700; display: flex; align-items: center; gap: 5px; cursor: pointer;">
+<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5A6863" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+<span>Clear all</span>
+</button>
+</div>
+</sc-if>
 <sc-if value="{{showProgress}}" hint-placeholder-val="{{true}}">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
 <span style="font-size: 13px; font-weight: 600; color: {{hintColor}};">{{hint}}</span>
@@ -794,7 +802,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px;">
 <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 30px; line-height: 1.1; color: #0E3B33;">{{thanksTitle}}</h2>
-<span style="font-size: 16px; line-height: 1.4; color: #1B2B27;">Your catering request is confirmed.</span>
+<span style="font-size: 16px; line-height: 1.4; color: #1B2B27;">Your request has reached our team.</span>
 </div>
 <div style="width: 100%; box-sizing: border-box; background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; text-align: left;">
 <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="color: #5A6863;">Reference</span><span style="font-weight: 700; color: #0E3B33;">{{rv.ref}}</span></div>
@@ -805,9 +813,9 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </div>
 <div style="display: flex; align-items: flex-start; gap: 10px; text-align: left; background: #D3E7DE; border: 1.5px solid #2F7A64; border-radius: 14px; padding: 12px 14px; width: 100%; box-sizing: border-box;">
 <svg style="flex-shrink: 0; margin-top: 1px;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F6B4E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
-<span style="font-size: 14px; line-height: 1.4; color: #0E3B33; font-weight: 600;">Your PDF copy has been downloaded. Please keep it for your records.</span>
+<span style="font-size: 14px; line-height: 1.4; color: #0E3B33; font-weight: 600;">A copy of your request has been downloaded. Please keep it for your records.</span>
 </div>
-<span style="font-size: 14px; line-height: 1.45; color: #5A6863;">Thank you for choosing us. Our team will contact you shortly on <b style="color: #1B2B27;">{{rv.contact}}</b> to finalise the details.</span>
+<span style="font-size: 14px; line-height: 1.45; color: #5A6863;">Our team will review your request and confirm availability, then contact you on <b style="color: #1B2B27;">{{rv.contact}}</b> with the final quote. Nothing is charged until you approve it.</span>
 </div>
 <div style="padding: 12px 24px 24px 24px; display: flex; flex-direction: column; gap: 8px;">
 <sc-if value="{{hasPdfMsg}}" hint-placeholder-val="{{false}}"><span role="status" style="text-align: center; font-size: 13px; font-weight: 600; color: #1F6B4E;">{{pdfMsg}}</span></sc-if>
@@ -911,7 +919,7 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 </button>
 <button class="btn" type="button" onClick="{{downloadPdf}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 14px rgba(14,59,51,0.24); cursor: pointer;">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
-<span>Download &amp; Confirm</span>
+<span>Review &amp; Request</span>
 </button>
 </div>
 </div>
@@ -1830,6 +1838,8 @@ class Component extends DCLogic {
       hint: hint,
       hintColor: hintColor,
       progressText: isCustom ? (totalPicked + ' picked') : (totalDone + ' of ' + totalNeed),
+      anyPicked: totalPicked > 0,
+      clearAll: () => this.setState({ sel: {}, notes: {}, noteFor: null, minWarn: false, custMinOk: false }),
       pct: isCustom ? (totalPicked > 0 ? 100 : 0) : (totalNeed ? Math.round(100 * totalDone / totalNeed) : 0),
       showCustPrice: isCustom,
       showProgress: !isCustom,
@@ -1930,104 +1940,178 @@ class Component extends DCLogic {
       grand: fmt(grand) + ' Dh', grandNum: grand, menuTotal: menuTotal, themePrice: themePrice, th: th
     };
   }
-  buildPdf() {
+  /* One page, on the printed border. `bg` is optional:
+     { data: Uint8Array, w, h } holding a baseline JPEG, which a PDF carries
+     as-is through /DCTDecode. It is laid over the whole sheet at low opacity,
+     and every line of the order is placed inside the clear middle of it. */
+  buildPdf(bg) {
     const S = this.summary();
     const W1 = [278, 278, 355, 556, 556, 889, 667, 191, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584, 584, 556, 1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 278, 278, 278, 469, 556, 333, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500, 334, 260, 334, 584], W2 = [278, 333, 474, 556, 556, 889, 722, 238, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 333, 333, 584, 584, 584, 611, 975, 722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 333, 278, 333, 584, 556, 333, 556, 611, 556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889, 611, 611, 611, 611, 389, 556, 333, 611, 556, 778, 556, 556, 500, 389, 280, 389, 584];
     const wOf = (t, size, bold) => { const tb = bold ? W2 : W1; let w = 0; for (let i = 0; i < t.length; i++) { const c = t.charCodeAt(i) - 32; w += (c >= 0 && c < 95 ? tb[c] : 556); } return w * size / 1000; };
-    const clean = (t) => String(t == null ? '' : t).replace(/[\u00b7\u2022]/g, '-').replace(/\u00d7/g, 'x').replace(/[\u2013\u2014]/g, '-').replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/[\r\t]/g, ' ').replace(/[^\x20-\x7E\n]/g, '');
+    const clean = (t) => String(t == null ? '' : t).replace(/[·•]/g, '-').replace(/×/g, 'x').replace(/[–—]/g, '-').replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[\r\t]/g, ' ').replace(/[^\x20-\x7E\n]/g, '');
     const esc = (t) => t.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-    const PW = 595, PH = 842, M = 40, CW = PW - 2 * M;
-    const pages = []; let ops = [], y = 0;
+
+    const PW = 595, PH = 842;
+    const IM = 66, CW = PW - 2 * IM;                 // stay inside the printed border
+    const INK = '#0E3B33', GOLD = '#B9832B', SOFT = '#9A7D4A', DARK = '#1B2B27', PAPER = '#FBF6EA';
+
+    const ops = [];
+    const n2 = (v) => (Math.round(v * 100) / 100).toString();
     const col = (hex) => { const n = parseInt(hex.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => (v / 255).toFixed(3)).join(' '); };
-    const rect = (x, yt, w, h, hex) => ops.push(col(hex) + ' rg ' + x.toFixed(1) + ' ' + (PH - yt - h).toFixed(1) + ' ' + w.toFixed(1) + ' ' + h.toFixed(1) + ' re f');
-    const text = (x, yb, t, size, bold, hex) => ops.push('BT /' + (bold ? 'F2' : 'F1') + ' ' + size + ' Tf ' + col(hex) + ' rg ' + x.toFixed(1) + ' ' + (PH - yb).toFixed(1) + ' Td (' + esc(clean(t)) + ') Tj ET');
+    const Y = (yTop) => PH - yTop;
+
+    const text = (x, yb, t, size, bold, hex) => ops.push('BT /' + (bold ? 'F2' : 'F1') + ' ' + size + ' Tf ' + col(hex) + ' rg ' + n2(x) + ' ' + n2(Y(yb)) + ' Td (' + esc(clean(t)) + ') Tj ET');
+    const ctext = (cx, yb, t, size, bold, hex) => text(cx - wOf(clean(t), size, bold) / 2, yb, t, size, bold, hex);
     const rtext = (xr, yb, t, size, bold, hex) => text(xr - wOf(clean(t), size, bold), yb, t, size, bold, hex);
-    const wrap = (t, maxW, size, bold) => {
-      const out = [];
-      clean(t).split('\n').forEach((para) => {
-        let line = '';
-        para.split(' ').forEach((w) => {
-          const tryLine = line ? line + ' ' + w : w;
-          if (wOf(tryLine, size, bold) <= maxW || !line) line = tryLine; else { out.push(line); line = w; }
-        });
-        out.push(line);
-      });
-      return out;
+    const rule = (x1, yt, x2, hex, w) => ops.push(col(hex) + ' RG ' + n2(w || 0.7) + ' w ' + n2(x1) + ' ' + n2(Y(yt)) + ' m ' + n2(x2) + ' ' + n2(Y(yt)) + ' l S');
+    const dot = (cx, cy, r, hex) => {
+      const k = 0.5523 * r, y = Y(cy);
+      ops.push(col(hex) + ' rg ' + n2(cx + r) + ' ' + n2(y) + ' m ' +
+        n2(cx + r) + ' ' + n2(y + k) + ' ' + n2(cx + k) + ' ' + n2(y + r) + ' ' + n2(cx) + ' ' + n2(y + r) + ' c ' +
+        n2(cx - k) + ' ' + n2(y + r) + ' ' + n2(cx - r) + ' ' + n2(y + k) + ' ' + n2(cx - r) + ' ' + n2(y) + ' c ' +
+        n2(cx - r) + ' ' + n2(y - k) + ' ' + n2(cx - k) + ' ' + n2(y - r) + ' ' + n2(cx) + ' ' + n2(y - r) + ' c ' +
+        n2(cx + k) + ' ' + n2(y - r) + ' ' + n2(cx + r) + ' ' + n2(y - k) + ' ' + n2(cx + r) + ' ' + n2(y) + ' c f');
     };
-    const newPage = () => { if (ops.length) pages.push(ops); ops = []; rect(0, 0, PW, 6, '#0E3B33'); y = 40; };
-    const ensure = (h) => { if (y + h > PH - 50) newPage(); };
-    // header band (first page)
-    rect(0, 0, PW, 96, '#0E3B33'); rect(0, 96, PW, 3, '#C9963B');
-    text(M, 46, 'Build your Menu!', 26, true, '#FBF6EA');
-    text(M, 68, 'CATERING ORDER SUMMARY', 10.5, true, '#E9C77E');
-    rtext(PW - M, 46, 'Ref: ' + S.ref, 12, true, '#FBF6EA');
-    const dn = new Date();
-    rtext(PW - M, 66, 'Generated ' + dn.getDate() + '/' + (dn.getMonth() + 1) + '/' + dn.getFullYear(), 10, false, '#C9D6D1');
-    y = 122;
-    const section = (title) => { ensure(48); text(M, y + 10, title.toUpperCase(), 11, true, '#0E3B33'); rect(M, y + 16, CW, 1.4, '#C9963B'); y += 30; };
-    const kv = (k, v) => {
-      const lines = wrap(v, CW - 130, 11, true);
-      ensure(lines.length * 15 + 4);
-      text(M, y, k, 11, false, '#5A6863');
-      lines.forEach((l, i) => text(M + 130, y + i * 15, l, 11, true, '#1B2B27'));
-      y += lines.length * 15 + 4;
+    const cut = (t, maxW, size, bold) => {
+      t = clean(t);
+      if (wOf(t, size, bold) <= maxW) return t;
+      while (t.length > 1 && wOf(t + '..', size, bold) > maxW) t = t.slice(0, -1);
+      return t.replace(/[\s-]+$/, '') + '..';
     };
-    section('Customer details');
-    kv('Name', S.name); kv('Contact', S.contact); kv('Emirates', S.emirate); kv('Event date & time', S.when); kv('Guests', S.pax); kv('Pure Veg', S.veg);
-    y += 8; section('Setup');
-    kv('Catering type', S.typeLabel);
-    if (S.isOnsite) { kv('Layout', S.layoutLabel); kv('Venue', S.venueLabel); }
-    y += 8; section('Menu');
-    kv('Selection', S.pkgLabel); kv('Cuisine', S.cuisine); kv('Price per person', S.ppText);
-    y += 4;
-    S.groups.forEach((gr) => {
-      ensure(34); text(M, y + 4, gr.title, 11.5, true, '#0E3B33'); y += 20;
-      gr.items.forEach((d) => {
-        const l1 = wrap(d.name, CW - 24, 11, false);
-        const ln = d.hasNote ? wrap('Note: ' + d.note, CW - 34, 10, true) : [];
-        ensure(l1.length * 14 + ln.length * 13 + 4);
-        rect(M + 4, y - 7.5, 3.5, 3.5, '#C9963B');
-        l1.forEach((l, i) => text(M + 16, y + i * 14, l, 11, false, '#1B2B27'));
-        y += l1.length * 14;
-        ln.forEach((l, i) => text(M + 26, y + i * 13, l, 10, true, '#8A5A00'));
-        y += ln.length * 13 + 3;
-      });
+    // Helvetica has no small caps, so space the letters out by hand
+    const spaced = (t) => clean(t).toUpperCase().split('').join(' ');
+
+    /* ---------------- the page ---------------- */
+    ops.push(col(PAPER) + ' rg 0 0 ' + PW + ' ' + PH + ' re f');
+    if (bg) ops.push('q /GSbg gs ' + PW + ' 0 0 ' + PH + ' 0 0 cm /Bg Do Q');
+
+    /* ---------------- title ---------------- */
+    let y = 104;
+    ctext(PW / 2, y, spaced('Dragon Empire'), 8.5, true, GOLD);
+    y += 32;
+    ctext(PW / 2, y, 'Build your Menu!', 29, true, INK);
+    y += 16;
+    const rw = 68;
+    rule(PW / 2 - rw - 16, y, PW / 2 - 10, GOLD, 0.8);
+    rule(PW / 2 + 10, y, PW / 2 + rw + 16, GOLD, 0.8);
+    dot(PW / 2, y - 2.2, 2.2, GOLD);
+    y += 18;
+    ctext(PW / 2, y, spaced('Catering Order'), 8, true, SOFT);
+    y += 22;
+    ctext(PW / 2, y, S.ref, 17, true, INK);
+
+    /* ---------------- the facts ---------------- */
+    y += 34;
+    const pairs = [
+      ['Guest', S.name], ['Contact', S.contact],
+      ['Event', S.when], ['Guests', S.pax + (S.veg === 'Yes' ? ' - pure veg' : '')],
+      ['Service', S.isOnsite ? S.typeLabel + ', ' + S.layoutLabel + ', ' + S.venueLabel : S.typeLabel],
+      ['Selection', S.pkgLabel + ' - ' + S.cuisine]
+    ];
+    const half = CW / 2, gutter = 22;
+    pairs.forEach((p, i) => {
+      const x = IM + (i % 2) * half;
+      const ry = y + Math.floor(i / 2) * 30;
+      text(x, ry, spaced(p[0]), 6.5, true, GOLD);
+      text(x, ry + 13, cut(p[1], half - gutter, 10.5, true), 10.5, true, DARK);
+    });
+    y += Math.ceil(pairs.length / 2) * 30 + 12;
+
+    /* ---------------- the menu ---------------- */
+    rule(IM, y, PW - IM, GOLD, 0.7);
+    y += 15;
+    ctext(PW / 2, y, spaced('The Menu'), 9, true, INK);
+    y += 8;
+
+    const groups = S.groups;
+
+    /* Everything below the menu is pinned clear of the printed border at the
+       foot of the page, and the menu is given whatever is left. */
+    const nRows = 2 + (S.showMin ? 1 : 0);
+    const hasNote = !!(S.notesText && S.notesText !== 'None');
+    const FOOT = PH - 150;
+    const moneyH = 16 + nRows * 14 + (hasNote ? 14 : 0) + 12 + 28;
+    const moneyTop = FOOT - 16 - moneyH;
+    const avail = moneyTop - 16 - y;
+
+    // two columns while the list is short, three when it is long, tighter last
+    const measure = (ncol, lead) => {
+      let h = 0;
+      groups.forEach((g) => { h += 24 + Math.ceil(g.items.length / ncol) * lead; });
+      return h;
+    };
+    let NCOL = 2, LEAD = 15, SIZE = 10;
+    // stay in two columns as long as possible: three columns cuts dish names short
+    const tries = [[2, 15.5, 10], [2, 14.5, 9.8], [2, 13.5, 9.5], [2, 12.5, 9.2],
+                   [2, 11.5, 9], [3, 12.5, 8.8], [3, 11, 8.3], [3, 9.8, 7.8]];
+    for (let i = 0; i < tries.length; i++) {
+      NCOL = tries[i][0]; LEAD = tries[i][1]; SIZE = tries[i][2];
+      if (measure(NCOL, LEAD) <= avail || i === tries.length - 1) break;
+    }
+    const colW = (CW - (NCOL - 1) * 18) / NCOL;
+    // share out any room left over so the sheet does not sag in the middle
+    const extra = Math.max(0, Math.min((avail - measure(NCOL, LEAD)) / groups.length, 26));
+
+    groups.forEach((g) => {
+      y += 18 + extra;
+      const head = spaced(g.title.replace(/\s*\(\d+\)$/, ''));
+      text(IM, y, head, 7.5, true, GOLD);
+      rule(IM + wOf(clean(head), 7.5, true) + 10, y - 2.5, PW - IM, '#E0CFA8', 0.6);
       y += 6;
+      g.items.forEach((it, i) => {
+        const c = i % NCOL, r = Math.floor(i / NCOL);
+        const x = IM + c * (colW + 18), ly = y + r * LEAD + LEAD - 4;
+        dot(x + 2.2, ly - SIZE * 0.29, 1.5, GOLD);
+        text(x + 9, ly, cut(it.name + (it.hasNote ? '  (' + it.note + ')' : ''), colW - 12, SIZE, false), SIZE, false, DARK);
+      });
+      y += Math.ceil(g.items.length / NCOL) * LEAD;
     });
-    y += 4; section('Theme & notes');
-    kv('Theme', S.themeLabel); kv('Notes', S.notesText);
-    y += 8; ensure(150);
-    section('Price summary');
-    const row = (a, b, bold, hex) => { ensure(20); text(M, y, a, 11, bold, hex || '#1B2B27'); rtext(PW - M, y, b, 11, bold, hex || '#1B2B27'); y += 19; };
-    row(S.menuRowLabel, S.menuRowValue, false);
-    if (S.showMin) row('Minimum order top-up', S.minValue, false, '#8A5A00');
-    row(S.themeRowLabel, S.themeRowValue, false);
-    y += 4; ensure(50);
-    rect(M, y, CW, 38, '#EADFC8');
-    text(M + 12, y + 24, 'APPROX. TOTAL', 11, true, '#4A5A55');
-    rtext(PW - M - 12, y + 26, S.grand, 17, true, '#0E3B33');
-    y += 52; ensure(40);
-    wrap('This is an approximate price. The final quote is confirmed by our team after review.', CW, 9.5, false).forEach((l, i) => text(M, y + i * 12, l, 9.5, false, '#5A6863'));
-    if (ops.length) pages.push(ops);
-    const total = pages.length;
-    pages.forEach((p, i) => {
-      const save = ops; ops = p;
-      rect(M, PH - 40, CW, 0.8, '#DDD3BF');
-      text(M, PH - 26, 'Build your Menu! - Ref ' + S.ref, 9, false, '#5A6863');
-      rtext(PW - M, PH - 26, 'Page ' + (i + 1) + ' of ' + total, 9, false, '#5A6863');
-      ops = save;
-    });
+
+    /* ---------------- money ---------------- */
+    let ty = moneyTop;
+    rule(IM, ty, PW - IM, GOLD, 0.7);
+    ty += 16;
+    const lineRow = (label, value) => {
+      text(IM, ty, label, 9, false, SOFT);
+      rtext(PW - IM, ty, value, 9, false, DARK);
+      ty += 14;
+    };
+    lineRow(S.menuRowLabel, S.menuRowValue);
+    if (S.showMin) lineRow('Minimum order top-up', S.minValue);
+    lineRow(S.themeRowLabel, S.themeRowValue);
+    if (hasNote) { text(IM, ty, 'Note: ' + cut(S.notesText, CW - 40, 8, false), 8, false, SOFT); ty += 14; }
+    rule(PW - IM - 215, ty - 2, PW - IM, GOLD, 0.7);
+    ty += 24;
+    text(PW - IM - 215, ty - 4, spaced('Total'), 9, true, GOLD);
+    rtext(PW - IM, ty, S.grand, 22, true, INK);
+
+    /* ---------------- footer ---------------- */
+    ctext(PW / 2, FOOT, 'Dragon Empire Catering  -  order.dubaicateringservice.com', 7.5, false, SOFT);
+
+    /* ---------------- assemble ---------------- */
+    const body = ops.join('\n');
     let out = '%PDF-1.4\n'; const offs = [];
-    const add = (body) => { offs.push(out.length); out += offs.length + ' 0 obj\n' + body + '\nendobj\n'; };
+    const add = (b) => { offs.push(out.length); out += offs.length + ' 0 obj\n' + b + '\nendobj\n'; };
+    const GS = 5, BGO = 6, CONTENT = bg ? 7 : 6, PAGE = CONTENT + 1;
+
     add('<< /Type /Catalog /Pages 2 0 R >>');
-    add('<< /Type /Pages /Kids [' + pages.map((_, i) => (6 + i * 2) + ' 0 R').join(' ') + '] /Count ' + total + ' >>');
+    add('<< /Type /Pages /Kids [' + PAGE + ' 0 R] /Count 1 >>');
     add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
     add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
-    pages.forEach((p, i) => {
-      const body = p.join('\n');
-      add('<< /Length ' + body.length + ' >>\nstream\n' + body + '\nendstream');
-      add('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + PW + ' ' + PH + '] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ' + (5 + i * 2) + ' 0 R >>');
-    });
+    add('<< /Type /ExtGState /ca ' + (this.PDF_BG_ALPHA || 0.5) + ' >>');
+    if (bg) {
+      let bin = '';
+      for (let i = 0; i < bg.data.length; i += 8192) bin += String.fromCharCode.apply(null, bg.data.subarray ? bg.data.subarray(i, i + 8192) : bg.data.slice(i, i + 8192));
+      add('<< /Type /XObject /Subtype /Image /Width ' + bg.w + ' /Height ' + bg.h +
+          ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + bg.data.length +
+          ' >>\nstream\n' + bin + '\nendstream');
+    }
+    add('<< /Length ' + body.length + ' >>\nstream\n' + body + '\nendstream');
+    add('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + PW + ' ' + PH + '] /Resources << /Font << /F1 3 0 R /F2 4 0 R >>' +
+        ' /ExtGState << /GSbg ' + GS + ' 0 R >>' +
+        (bg ? ' /XObject << /Bg ' + BGO + ' 0 R >>' : '') +
+        ' >> /Contents ' + CONTENT + ' 0 R >>');
+
     const xr = out.length;
     out += 'xref\n0 ' + (offs.length + 1) + '\n0000000000 65535 f \n' + offs.map((o) => String(o).padStart(10, '0') + ' 00000 n \n').join('');
     out += 'trailer\n<< /Size ' + (offs.length + 1) + ' /Root 1 0 R >>\nstartxref\n' + xr + '\n%%EOF';
