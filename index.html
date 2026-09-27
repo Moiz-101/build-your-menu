@@ -594,12 +594,6 @@ body{box-sizing:border-box;display:flex;justify-content:center;align-items:stret
 
 <!-- Progress hint -->
 <div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 8px 24px; display: flex; flex-direction: column; gap: 6px;">
-<sc-if value="{{showProgress}}" hint-placeholder-val="{{true}}">
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
-<span style="font-size: 13px; font-weight: 600; color: {{hintColor}};">{{hint}}</span>
-<span style="font-size: 12px; font-weight: 600; color: #5A6863; white-space: nowrap;">{{progressText}}</span>
-</div>
-</sc-if>
 <sc-if value="{{showRate}}" hint-placeholder-val="{{false}}">
 <span style="font-size: 11.5px; font-weight: 600; line-height: 1.2; color: #8A5A00;">{{rateText}}</span>
 </sc-if>
