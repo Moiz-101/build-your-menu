@@ -2119,6 +2119,27 @@ class Component extends DCLogic {
     for (let i = 0; i < out.length; i++) u8[i] = out.charCodeAt(i) & 255;
     return new Blob([u8], { type: 'application/pdf' });
   }
+  /* Swap in the menu held in the database. Called once at start-up by menu.js;
+     if it is never called, the copy built into this page is used instead. */
+  applyMenu(items, config) {
+    if (Array.isArray(items) && items.length > 20) {
+      this.ITEMS = items.map(function (r) {
+        return { name: r.name, note: r.note || '', cu: r.cu, cat: r.cat,
+                 diet: r.diet || null, sub: r.sub || '' };
+      });
+      this.ITEMS.forEach((x, i) => { x.id = 'i' + i; });
+    }
+    if (config) {
+      if (config.PRICES) this.PRICES = config.PRICES;
+      if (config.Q) this.Q = config.Q;
+      if (Array.isArray(config.THEMES) && config.THEMES.length) this.THEMES = config.THEMES;
+      if (Array.isArray(config.CAT_W)) this.CAT_W = config.CAT_W;
+      if (Array.isArray(config.COMP)) this.COMP = config.COMP;
+      if (typeof config.CUSTOM_MARKUP === 'number') this.CUSTOM_MARKUP = config.CUSTOM_MARKUP;
+    }
+    // dish ids are positions, so anything picked before the swap no longer means the same thing
+    this.setState({ sel: {}, notes: {} });
+  }
   // The order number comes from the database, so the run is unbroken and no two
   // customers can be given the same one. Asking twice returns the same number.
   async ensureRef() {
@@ -2337,6 +2358,50 @@ class Component extends DCLogic {
 </script>
 <script>
 window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
+/* ------------------------------------------------------------------
+   Loads the menu from the database.
+
+   The dishes, package prices and themes used to live in this page. They
+   live in Supabase now so the owner can change them without a code change.
+   This file fetches them and hands them to the running app.
+
+   It is deliberately unable to break the ordering page:
+     - if the fetch fails, times out or returns nothing, the copy built
+       into this page carries on exactly as before;
+     - it gives up once the customer has started choosing, so a slow
+       reply can never wipe out a selection in progress.
+   ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+
+  var cfg = window.BYM_CONFIG || {};
+  if (!cfg.supabaseUrl || !cfg.anonKey) return;
+
+  var H = { apikey: cfg.anonKey, Authorization: 'Bearer ' + cfg.anonKey };
+  var REST = cfg.supabaseUrl + '/rest/v1/';
+
+  function get(path) {
+    return fetch(REST + path, { headers: H })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+  }
+
+  Promise.all([
+    get('menu_items?select=name,cu,cat,diet,sub,note&order=sort.asc'),
+    get('menu_config?select=data&limit=1')
+  ]).then(function (res) {
+    var items = res[0];
+    var conf = res[1] && res[1][0] ? res[1][0].data : null;
+    var inst = window.__dcInstance;
+
+    if (!inst || typeof inst.applyMenu !== 'function') return;
+    if (!items || items.length < 20) return;              // nothing useful came back
+    if (inst.state.screen && inst.state.screen !== 'details') return;   // too late to swap
+    if (Object.keys(inst.state.sel || {}).length) return;
+
+    try { inst.applyMenu(items, conf); } catch (e) { /* built-in menu stands */ }
+  });
+})();
 /* ------------------------------------------------------------------
    Sends visits and leads to Supabase.
 
