@@ -2533,6 +2533,94 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
   });
 })();
 /* ------------------------------------------------------------------
+   The phone's Back button.
+
+   The whole app is one web page, so without this, Back leaves the site
+   from wherever the customer happens to be - halfway through choosing
+   dishes, with everything they had picked gone. This keeps a list of
+   the places they have been and steps back through them instead, and
+   only leaves the site once there is nowhere left to step back to.
+
+   Only the fields that make a "place" are remembered: which screen,
+   which photo is open, which dish's note is open. Nothing they typed
+   or ticked is touched, so going back never costs them their work.
+
+   The app's own Back buttons unwind this same list rather than adding
+   to it, so the two always agree with each other.
+   ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+
+  var KEYS = ['screen', 'themeView', 'zoom', 'noteFor'];
+
+  var stack = [];        // every place visited, oldest first
+  var idx = -1;          // where in that list we are now
+  var applying = false;  // true while we are the ones changing the screen
+  var inst = null;
+
+  function snap(st) {
+    var o = {}, i;
+    for (i = 0; i < KEYS.length; i++) o[KEYS[i]] = st[KEYS[i]] == null ? null : st[KEYS[i]];
+    // the first screen leaves state.screen empty and leans on props.start,
+    // the same way the app itself works out which screen to draw
+    o.screen = st.screen || (inst.props && inst.props.start) || 'details';
+    return o;
+  }
+
+  function same(a, b) {
+    for (var i = 0; i < KEYS.length; i++) if (a[KEYS[i]] !== b[KEYS[i]]) return false;
+    return true;
+  }
+
+  function record() {
+    if (applying || !inst) return;
+    var p = snap(inst.state);
+    if (idx >= 0 && same(p, stack[idx])) return;       // a change, but not a move
+
+    // The app moved back a step by itself - its own Back button, or closing a
+    // photo. Unwind the browser to match instead of piling another entry on.
+    if (idx > 0 && same(p, stack[idx - 1])) {
+      idx--;
+      try { history.back(); } catch (e) {}
+      return;
+    }
+
+    stack = stack.slice(0, idx + 1);                   // a new turning drops any
+    stack.push(p);                                     // places that were ahead
+    idx = stack.length - 1;
+    try {
+      if (idx === 0) history.replaceState({ dcNav: 0 }, '');
+      else history.pushState({ dcNav: idx }, '');
+    } catch (e) {}
+  }
+
+  function apply(p) {
+    applying = true;
+    try {
+      inst.setState({ screen: p.screen, themeView: p.themeView,
+                      zoom: p.zoom, noteFor: p.noteFor });
+    } catch (e) {}
+    applying = false;
+  }
+
+  addEventListener('popstate', function (e) {
+    var i = e.state && typeof e.state.dcNav === 'number' ? e.state.dcNav : -1;
+    if (!inst || i < 0 || i >= stack.length) return;   // somebody else's entry
+    idx = i;
+    apply(stack[i]);
+  });
+
+  function start() {
+    inst = window.__dcInstance;
+    if (!inst || typeof inst.setState !== 'function') { setTimeout(start, 60); return; }
+    var orig = inst.setState.bind(inst);
+    inst.setState = function (patch) { orig(patch); record(); };
+    record();
+  }
+
+  start();
+})();
+/* ------------------------------------------------------------------
    Sends visits and leads to Supabase.
 
    Rules this file lives by:
