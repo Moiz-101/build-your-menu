@@ -1486,6 +1486,33 @@ class Component extends DCLogic {
     const d0 = new Date();
     const p2 = (n) => (n < 10 ? '0' : '') + n;
     this.REF = 'CM-' + String(d0.getFullYear()).slice(2) + p2(d0.getMonth() + 1) + p2(d0.getDate()) + '-' + (1000 + Math.floor(Math.random() * 9000));
+    /* What each BUFFET package contains, from the menu sheet. Indian and
+       Indian & Chinese share a shape: one daal every time, and the staples
+       picked from a single pool. Chinese has no daal and counts its rice and
+       its noodles separately.
+
+       Delivery and Live Cooking Station are not in that sheet, so they keep
+       the older Q below. */
+    this.QB = {
+      ic: [
+        { sv: 1, snv: 1, mv: 1, mnv: 1, dl: 1, stp: 1, ds: 1 },
+        { sv: 2, snv: 2, mv: 2, mnv: 2, dl: 1, stp: 2, ds: 2 },
+        { sv: 2, snv: 3, mv: 2, mnv: 3, dl: 1, stp: 4, ds: 3 },
+        { sv: 3, snv: 3, mv: 3, mnv: 3, dl: 1, stp: 4, ds: 3 }
+      ],
+      in: [
+        { sv: 1, snv: 1, mv: 1, mnv: 1, dl: 1, stp: 1, ds: 1 },
+        { sv: 2, snv: 2, mv: 2, mnv: 2, dl: 1, stp: 2, ds: 2 },
+        { sv: 2, snv: 3, mv: 2, mnv: 3, dl: 1, stp: 4, ds: 3 },
+        { sv: 3, snv: 3, mv: 3, mnv: 3, dl: 1, stp: 4, ds: 3 }
+      ],
+      ch: [
+        { sv: 1, snv: 1, mv: 1, mnv: 1, rc: 1, nd: 1, ds: 1 },
+        { sv: 2, snv: 1, mv: 1, mnv: 2, rc: 1, nd: 1, ds: 2 },
+        { sv: 2, snv: 2, mv: 2, mnv: 2, rc: 2, nd: 1, ds: 2 },
+        { sv: 3, snv: 3, mv: 2, mnv: 3, rc: 2, nd: 1, ds: 3 }
+      ]
+    };
     // Choices allowed per package, from the menu sheet
     this.Q = {
       '1': { sv: 1, snv: 2, mv: 1, mnv: 1, rn: 1, bb: 1, ds: 1 },
@@ -1511,6 +1538,15 @@ class Component extends DCLogic {
   customPP(n) {
     const c = this.catRates();
     return c.base + n.starters * c.starters + n.mains * c.mains + n.staples * c.staples + n.dessert * c.dessert;
+  }
+  // What one package holds. Null when this setup is not in the menu sheet,
+  // and the older per-tier Q is used instead.
+  comp(tierIdx) {
+    const st = this.state;
+    const setup = st.type === 'delivery' ? 'delivery' : (st.layout === 'live' ? 'live' : 'buffet');
+    if (setup !== 'buffet') return null;
+    const byCu = (this.QB || {})[st.cuisine];
+    return (byCu && byCu[tierIdx]) || null;
   }
   pkgVals() {
     const MIN = 2000;
@@ -1543,6 +1579,27 @@ class Component extends DCLogic {
     const pkgs = TIERS.map((t, i) => {
       const on = st.pkg === i;
       const save = Math.max(0, parseInt(saves[i], 10) || 0);
+      // the card lists whatever the picker is going to ask for, so the two
+      // can never tell the customer different things
+      const c = this.comp(i);
+      const many = (n, word) => n + ' ' + word + (n === 1 ? '' : 's');
+      const pair = (v, nv) => (pv ? many(v + nv, 'Veg dish') : v + ' Veg · ' + nv + ' Non Veg');
+      let rows;
+      if (c) {
+        rows = [{ k: 'Starters', v: pair(c.sv, c.snv) },
+                { k: 'Main course', v: pair(c.mv, c.mnv) }];
+        if (c.dl) rows.push({ k: 'Daal', v: many(c.dl, 'selection') });
+        rows.push({ k: 'Staples', v: c.stp != null ? 'Any ' + c.stp
+                                                   : c.rc + ' Rice · ' + c.nd + ' Noodles' });
+        rows.push({ k: 'Dessert', v: many(c.ds, 'selection') });
+      } else {
+        rows = [
+          { k: 'Starters', v: pv ? t.stv : t.st },
+          { k: 'Main course', v: pv ? t.mcv : t.mc },
+          { k: 'Staples', v: t.rice + '\n' + t.bir },
+          { k: 'Dessert', v: t.ds }
+        ];
+      }
       return Object.assign({
         name: 'Package ' + (i + 1),
         price: prices[i],
@@ -1552,12 +1609,7 @@ class Component extends DCLogic {
         popular: i === popular,
         on: on,
         pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false, minWarn: false }),
-        rows: [
-          { k: 'Starters', v: pv ? t.stv : t.st },
-          { k: 'Main course', v: pv ? t.mcv : t.mc },
-          { k: 'Staples', v: t.rice + '\n' + t.bir },
-          { k: 'Dessert', v: t.ds }
-        ]
+        rows: rows
       }, sel(on));
     });
 
@@ -1622,8 +1674,15 @@ class Component extends DCLogic {
     const isCustom = tier === 'custom';
     const Q = this.Q;
     const pv = st.pureVeg;
-    const q = isCustom ? null : Q[tier];
+    const tierIdx = typeof st.pkg === 'number' ? st.pkg : 0;
+    // the menu sheet's buffet packages where there is one, the older Q otherwise
+    const q = isCustom ? null : (this.comp(tierIdx) || Q[tier]);
     const both = isCustom || tier === '3' || tier === '4';
+    // Daal is its own choice only when a package asks for one. Where it does
+    // not, the daals stay among the veg mains so they never drop off the menu.
+    const wantDaal = !!(q && q.dl);
+    const isDaal = (x) => x.cat === 'main' &&
+      (x.sub === 'Daal' || /(^|\s)daa?l(\s|$)/i.test(x.name));
     const cuLabel = { ic: 'Indian & Chinese', in: 'Indian', ch: 'Chinese' }[cuisine];
     const pool = this.ITEMS.filter((x) => (cuisine === 'ic' || x.cu === cuisine) && !(pv && x.diet === 'nonveg'));
 
@@ -1633,13 +1692,22 @@ class Component extends DCLogic {
         { id: 'snv', title: 'Non-Veg Starters', short: 'Non-Veg', match: (x) => x.cat === 'starter' && x.diet === 'nonveg', need: q && q.snv }
       ],
       mains: [
-        { id: 'mv', title: 'Veg Main Course', short: 'Veg', match: (x) => x.cat === 'main' && x.diet === 'veg', need: q && (pv ? q.mv + q.mnv : q.mv) },
+        { id: 'mv', title: 'Veg Main Course', short: 'Veg', match: (x) => x.cat === 'main' && x.diet === 'veg' && !(wantDaal && isDaal(x)), need: q && (pv ? q.mv + q.mnv : q.mv) },
         { id: 'mnv', title: 'Non-Veg Main Course', short: 'Non-Veg', match: (x) => x.cat === 'main' && x.diet === 'nonveg', need: q && q.mnv }
-      ],
-      staples: [
-        { id: 'rn', short: 'Rice / Noodles', title: both ? 'Rice & Noodles' : 'Rice or Noodles', match: (x) => x.cat === 'rice' || x.cat === 'noodle', need: q && q.rn },
-        { id: 'bb', short: 'Biryani / Breads', title: both ? 'Biryani & Breads' : 'Biryani or Breads', match: (x) => x.cat === 'biryani' || x.cat === 'bread', need: q && q.bb }
-      ],
+      ].concat(wantDaal
+        ? [{ id: 'dl', title: 'Daal', short: 'Daal', match: isDaal, need: q.dl }]
+        : []),
+      staples: (q && q.stp != null)
+        ? [{ id: 'stp', short: 'Staples',
+             title: cuisine === 'in' ? 'Rice, Biryani or Breads' : 'Rice, Noodles, Biryani or Breads',
+             match: (x) => ['rice', 'noodle', 'biryani', 'bread'].indexOf(x.cat) !== -1, need: q.stp }]
+        : (q && q.rc != null)
+          ? [{ id: 'rc', short: 'Rice', title: 'Rice', match: (x) => x.cat === 'rice', need: q.rc },
+             { id: 'nd', short: 'Noodles', title: 'Noodles', match: (x) => x.cat === 'noodle', need: q.nd }]
+          : [
+            { id: 'rn', short: 'Rice / Noodles', title: both ? 'Rice & Noodles' : 'Rice or Noodles', match: (x) => x.cat === 'rice' || x.cat === 'noodle', need: q && q.rn },
+            { id: 'bb', short: 'Biryani / Breads', title: both ? 'Biryani & Breads' : 'Biryani or Breads', match: (x) => x.cat === 'biryani' || x.cat === 'bread', need: q && q.bb }
+          ],
       dessert: [
         { id: 'ds', title: 'Desserts', match: (x) => x.cat === 'dessert', need: q && q.ds }
       ]
@@ -1669,6 +1737,7 @@ class Component extends DCLogic {
       DEFS[tb.id].forEach((d) => {
         const gp = pool.filter(d.match);
         if (!gp.length) return; // nothing on the menu for this cuisine
+        if (!isCustom && !d.need) return; // this package does not ask for any
         const count = gp.filter((x) => st.sel[x.id]).length;
         const need = isCustom ? null : Math.min(d.need, gp.length);
         built[tb.id].push({ def: d, items: gp, count: count, need: need });
@@ -2177,6 +2246,7 @@ class Component extends DCLogic {
       if (Array.isArray(config.COMP)) this.COMP = config.COMP;
       if (typeof config.CUSTOM_MARKUP === 'number') this.CUSTOM_MARKUP = config.CUSTOM_MARKUP;
       if (config.SAVE) this.SAVE = config.SAVE;
+      if (config.QB) this.QB = config.QB;
     }
     // dish ids are positions, so anything picked before the swap no longer means the same thing
     this.setState({ sel: {}, notes: {} });
