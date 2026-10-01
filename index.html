@@ -416,9 +416,17 @@ body.locked #app{display:none}
 </div>
 <div style="height: 1px; background: #E4D9C2; margin-top: auto;"></div>
 <div style="display: flex; align-items: center; justify-content: space-between; min-height: 36px;">
+<div style="display: flex; flex-direction: column; gap: 1px;">
+<sc-if value="{{pkg.onOffer}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: baseline; gap: 7px;">
+<span style="font-size: 14px; font-weight: 600; color: #8A928D; text-decoration: line-through;">{{pkg.wasPrice}} Dh</span>
+<span style="padding: 2px 7px; border-radius: 999px; background: #D3E7DE; color: #12604B; font-size: 9.5px; letter-spacing: .6px; font-weight: 700;">{{pkg.saveText}}</span>
+</div>
+</sc-if>
 <div style="display: flex; align-items: baseline; gap: 6px;">
 <span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 34px; line-height: 1; color: #0E3B33;">{{pkg.price}}</span>
 <span style="font-size: 13px; font-weight: 600; color: #4A5A55;">Dh / person</span>
+</div>
 </div>
 <sc-if value="{{pkg.on}}" hint-placeholder-val="{{false}}">
 <div style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
@@ -1444,9 +1452,15 @@ class Component extends DCLogic {
     });
     // Per-person prices, from the menu sheet: [package 1..4]
     this.PRICES = {
-      ic: { buffet: [109, 129, 149, 159], delivery: [49, 69, 99, 110], live: [110, 130, 150, 175] },
-      in: { buffet: [119, 139, 159, 179], delivery: [59, 79, 99, 119], live: [139, 159, 169, 189] },
-      ch: { buffet: [99, 119, 139, 149], delivery: [59, 79, 99, 119], live: [139, 159, 169, 189] }
+      ic: { buffet: [130, 145, 170, 199], delivery: [49, 69, 99, 110], live: [110, 130, 150, 175] },
+      in: { buffet: [130, 145, 170, 199], delivery: [59, 79, 99, 119], live: [139, 159, 169, 189] },
+      ch: { buffet: [99, 135, 155, 190], delivery: [59, 79, 99, 119], live: [139, 159, 169, 189] }
+    };
+    // What the customer is shown as saved on a buffet package. The struck-out
+    // price is worked out as price + saving, never stored on its own, so it
+    // cannot drift below the real price when a price is edited later.
+    this.SAVE = {
+      buffet: { ic: [19, 14, 15, 16], in: [19, 14, 15, 16], ch: [16, 14, 14, 15] }
     };
     // Total dishes in each package (starters + mains + staples + dessert), used to price custom menus
     this.COMP = [[3, 2, 2, 1], [4, 4, 2, 2], [5, 5, 4, 2], [6, 6, 4, 2]]; // starters, mains, staples, dessert per package
@@ -1525,11 +1539,16 @@ class Component extends DCLogic {
       shadow: on ? '0 6px 16px rgba(201,150,59,0.35)' : '0 1px 2px rgba(14,59,51,0.06)'
     });
 
+    const saves = ((this.SAVE || {})[setup] || {})[st.cuisine] || [];
     const pkgs = TIERS.map((t, i) => {
       const on = st.pkg === i;
+      const save = Math.max(0, parseInt(saves[i], 10) || 0);
       return Object.assign({
         name: 'Package ' + (i + 1),
         price: prices[i],
+        onOffer: save > 0,
+        wasPrice: save > 0 ? fmt(prices[i] + save) : '',
+        saveText: save > 0 ? 'SAVE ' + save + ' Dh' : '',
         popular: i === popular,
         on: on,
         pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false, minWarn: false }),
@@ -2157,6 +2176,7 @@ class Component extends DCLogic {
       if (Array.isArray(config.CAT_W)) this.CAT_W = config.CAT_W;
       if (Array.isArray(config.COMP)) this.COMP = config.COMP;
       if (typeof config.CUSTOM_MARKUP === 'number') this.CUSTOM_MARKUP = config.CUSTOM_MARKUP;
+      if (config.SAVE) this.SAVE = config.SAVE;
     }
     // dish ids are positions, so anything picked before the swap no longer means the same thing
     this.setState({ sel: {}, notes: {} });
