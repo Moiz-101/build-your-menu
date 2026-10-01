@@ -376,6 +376,71 @@ body.locked #app{display:none}
 
 
 </sc-if>
+<sc-if value="{{isCounters}}" hint-placeholder-val="{{false}}">
+<!-- Stepper stripe: still step 2, this is part of describing the setup -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 2 of 5">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">2</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">3</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">4</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
+</div>
+
+<!-- Content -->
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 20px 24px 8px 24px; display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">LIVE COUNTERS</h2>
+<span style="margin-top: -6px; text-align: center; font-size: 13px; line-height: 1.45; color: #5A6863;">Chefs cooking in front of your guests. Choose as many as you like &mdash; our team will confirm what suits your guest count.</span>
+
+<sc-for list="{{counterGroups}}" as="cg" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">{{cg.group}}</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{cg.items}}" as="ct" hint-placeholder-count="4">
+<button class="btn" type="button" aria-pressed="{{ct.on}}" onClick="{{ct.pick}}" style="position: relative; display: flex; align-items: center; gap: 9px; width: 100%; box-sizing: border-box; padding: 10px 10px; cursor: pointer; text-align: left; border-radius: 14px; background: {{ct.bg}}; border: 2px solid {{ct.border}}; box-shadow: {{ct.shadow}};">
+<span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; background: #F3EDE0; display: flex; align-items: center; justify-content: center;">
+<sc-if value="{{ct.iFlame}}" hint-placeholder-val="{{true}}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q4 4 4 7a4 4 0 0 1-8 0q0-3 4-7z"></path><path d="M12 21a6 6 0 0 1-6-6q0 6 6 6a6 6 0 0 0 6-6q0 6-6 6z"></path></svg></sc-if>
+<sc-if value="{{ct.iPan}}" hint-placeholder-val="{{false}}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h13a6.5 6.5 0 0 1-13 0z"></path><path d="M16 12h5"></path><path d="M7 7q-1.5-2 0-4M11 7q-1.5-2 0-4"></path></svg></sc-if>
+<sc-if value="{{ct.iBowl2}}" hint-placeholder-val="{{false}}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"></path><path d="M9 4q-1.5 2 0 4M13 3q-1.5 2 0 4M17 4q-1.5 2 0 4M8 21h8"></path></svg></sc-if>
+<sc-if value="{{ct.iDump2}}" hint-placeholder-val="{{false}}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15a9 8 0 0 1 18 0z"></path><path d="M8 9l1 3M12 8v4M16 9l-1 3M3 18.5h18"></path></svg></sc-if>
+<sc-if value="{{ct.iRoll2}}" hint-placeholder-val="{{false}}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="12" r="4.5"></circle><circle cx="16" cy="12" r="4.5"></circle><circle cx="8" cy="12" r="1.6"></circle><circle cx="16" cy="12" r="1.6"></circle></svg></sc-if>
+<sc-if value="{{ct.iBread2}}" hint-placeholder-val="{{false}}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="6.5"></ellipse><path d="M8 10q1.5 1.5 0 3M13 9.5q1.5 1.5 0 3M16 13q-1 1 0 2"></path></svg></sc-if>
+<sc-if value="{{ct.iSkew2}}" hint-placeholder-val="{{false}}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21L21 3"></path><circle cx="8" cy="16" r="2.6"></circle><circle cx="12.5" cy="11.5" r="2.6"></circle><circle cx="17" cy="7" r="2.6"></circle></svg></sc-if>
+<sc-if value="{{ct.iSlice}}" hint-placeholder-val="{{false}}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3L21 19a22 22 0 0 1-18 0z"></path><circle cx="10" cy="12" r="1.3"></circle><circle cx="14.5" cy="14.5" r="1.3"></circle><circle cx="12" cy="17.5" r="1.3"></circle></svg></sc-if>
+<sc-if value="{{ct.iGlass}}" hint-placeholder-val="{{false}}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14l-7 8z"></path><path d="M12 12v7M8 19h8"></path><path d="M17 3l1.5-1.5"></path></svg></sc-if>
+</span>
+<span style="flex: 1 1 auto; min-width: 0; font-size: 12.5px; font-weight: 700; line-height: 1.25; color: #0E3B33;">{{ct.name}}</span>
+<sc-if value="{{ct.on}}" hint-placeholder-val="{{false}}">
+<span style="flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></span>
+</sc-if>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<!-- Footer actions -->
+<div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
+<button class="btn" type="button" onClick="{{backCounters}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</button>
+<sc-if value="{{cReady}}" hint-placeholder-val="{{true}}">
+<button class="btn" type="button" onClick="{{nextFromCounters}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+<span>Save &amp; Next</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</sc-if>
+<sc-if value="{{cNotReady}}" hint-placeholder-val="{{false}}">
+<button class="btn" type="button" disabled="{{true}}" style="opacity: 0.45; flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
+<span>Choose a counter</span>
+</button>
+</sc-if>
+</div>
+</sc-if>
 <sc-if value="{{isPkgScreen}}" hint-placeholder-val="{{true}}">
 <!-- Stepper stripe -->
 <div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 3 of 5">
@@ -904,6 +969,7 @@ body.locked #app{display:none}
 <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Catering type</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.typeLabel}}</span></div>
 <sc-if value="{{isOnsite}}" hint-placeholder-val="{{false}}"><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Layout</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.layoutLabel}}</span></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Venue</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.venueLabel}}</span></div>
+<sc-if value="{{rv.hasCounters}}" hint-placeholder-val="{{false}}"><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Live counters</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.countersText}}</span></div></sc-if>
 </sc-if></div>
 <div style="background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
@@ -1414,7 +1480,7 @@ window.DISH_PHOTOS_BY_COURSE = {
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, detailsWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, setupEdit: null, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, detailsWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, setupEdit: null, counters: {}, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
     // Dummy photo tiles for now; real photos replace the glyph tile later.
     this.ITEMS = [];
     const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
@@ -1526,6 +1592,37 @@ class Component extends DCLogic {
         { sv: 3, snv: 3, mv: 2, mnv: 3, rc: 2, nd: 1, ds: 3 }
       ]
     };
+    /* Live counters, offered when there is a live station. Grouped so the
+       list reads at a glance rather than as sixteen rows, and ordered with
+       the ones most often asked for at the top of each group. */
+    this.COUNTERS = [
+      { group: 'Grill & BBQ', items: [
+        { id: 'bbq', name: 'BBQ Counter', icon: 'flame' },
+        { id: 'shawarma', name: 'Shawarma Counter', icon: 'skew' },
+        { id: 'tandoor', name: 'Tandoor Counter', icon: 'flame' },
+        { id: 'tawa', name: 'Tawa Counter', icon: 'pan' },
+        { id: 'sizzler', name: 'Sizzler Counter', icon: 'pan' }
+      ] },
+      { group: 'Indian street food', items: [
+        { id: 'chaat', name: 'Chaat Counter', icon: 'bowl' },
+        { id: 'chole', name: 'Amritsari Chole Kulche', icon: 'bread' },
+        { id: 'makki', name: 'Makki di Roti - Sarson da Saag', icon: 'bread' }
+      ] },
+      { group: 'Asian', items: [
+        { id: 'dimsum', name: 'Dimsum Counter', icon: 'dump' },
+        { id: 'bao', name: 'Bao Counter', icon: 'dump' },
+        { id: 'sushi', name: 'Sushi Counter', icon: 'roll' },
+        { id: 'wok', name: 'Oriental Wok Station', icon: 'pan' },
+        { id: 'khowsuey', name: 'Khow Suey', icon: 'bowl' }
+      ] },
+      { group: 'Italian', items: [
+        { id: 'pasta', name: 'Pasta Counter', icon: 'bowl' },
+        { id: 'pizza', name: 'Pizza Counter', icon: 'slice' }
+      ] },
+      { group: 'Drinks', items: [
+        { id: 'mocktail', name: 'Mocktail Bar', icon: 'glass' }
+      ] }
+    ];
     // Choices allowed per package, from the menu sheet
     this.Q = {
       '1': { sv: 1, snv: 2, mv: 1, mnv: 1, rn: 1, bb: 1, ds: 1 },
@@ -2052,6 +2149,8 @@ class Component extends DCLogic {
       layoutLabel: this.layoutLabelOf(st.layout) || 'Not selected',
       venueLabel: st.venue === 'indoor' ? 'Indoor' : (st.venue === 'outdoor' ? 'Outdoor' : 'Not selected'),
       isOnsite: st.type === 'onsite',
+      hasCounters: this.hasCounters(),
+      countersText: this.pickedCounters().join(', ') || 'None chosen',
       pkgLabel: isCustom ? 'Custom menu' : (hasPkg ? 'Package ' + (st.pkg + 1) : 'Not selected'),
       cuisine: cuisine + (st.pureVeg ? ' (Pure Veg)' : ''),
       ppText: pp > 0 ? pp + ' Dh' : (this.priced() ? '-' : 'On request'),
@@ -2134,7 +2233,7 @@ class Component extends DCLogic {
       ['Event', S.when], ['Guests', S.pax + (S.veg === 'Yes' ? ' - pure veg' : '')],
       ['Service', S.isOnsite ? S.typeLabel + ', ' + S.layoutLabel + ', ' + S.venueLabel : S.typeLabel],
       ['Selection', S.pkgLabel + ' - ' + S.cuisine]
-    ];
+    ].concat(S.hasCounters ? [['Live counters', S.countersText]] : []);
     const half = CW / 2, gutter = 22;
     pairs.forEach((p, i) => {
       const x = IM + (i % 2) * half;
@@ -2354,6 +2453,17 @@ class Component extends DCLogic {
     const col = (this.PRICES[this.state.cuisine] || {})[setup || this.setupKey()];
     return !!(col && col.length && col.some((v) => +v > 0));
   }
+  // a live station means there are counters to choose
+  hasCounters() {
+    const l = this.state.layout;
+    return this.state.type === 'onsite' && (l === 'live' || l === 'both');
+  }
+  pickedCounters() {
+    const on = this.state.counters || {};
+    const out = [];
+    this.COUNTERS.forEach((g) => g.items.forEach((c) => { if (on[c.id]) out.push(c.name); }));
+    return out;
+  }
   typeLabelOf(t) {
     return t === 'delivery' ? 'Delivery' : (t === 'onsite' ? 'Onsite Catering' : '');
   }
@@ -2369,6 +2479,7 @@ class Component extends DCLogic {
     const sReady = st.type === 'delivery' || (isOnsite && !!st.layout && !!st.venue);
     // a question is open while it has no answer, or while the pencil is on it
     const edit = st.setupEdit || null;
+    const nCounters = Object.keys(st.counters || {}).length;
     const typeOpen = !st.type || edit === 'type';
     const layoutOpen = !typeOpen && (!st.layout || edit === 'layout');
     const venueOpen = !typeOpen && !layoutOpen && (!st.venue || edit === 'venue');
@@ -2442,8 +2553,10 @@ class Component extends DCLogic {
         go(ret ? 'review' : 'setup', true);
       },
       backSetup: () => go(ret ? 'review' : 'details', true),
-      nextFromSetup: () => go(ret ? 'review' : 'pkg', true),
-      backPkg: () => go(ret ? 'review' : 'setup', true),
+      nextFromSetup: () => go(ret ? 'review' : (this.hasCounters() ? 'counters' : 'pkg'), true),
+      backCounters: () => go(ret ? 'review' : 'setup', true),
+      nextFromCounters: () => go(ret ? 'review' : 'pkg', true),
+      backPkg: () => go(ret ? 'review' : (this.hasCounters() ? 'counters' : 'setup'), true),
       nextFromPkg: () => {
         if (this.pkgVals().belowMin && !st.consent) { this.setState({ minWarn: true }); return; }
         openItems();
@@ -2520,6 +2633,32 @@ class Component extends DCLogic {
       // Delivery asks no layout or venue, so those only count when onsite.
       setupDone: sReady && !typeOpen &&
                  !(isOnsite && layoutOpen) && !(isOnsite && venueOpen),
+      isCounters: screen === 'counters',
+      counterGroups: this.COUNTERS.map((g) => ({
+        group: g.group,
+        items: g.items.map((c) => {
+          const on = !!(st.counters || {})[c.id];
+          return {
+            name: c.name, on: on,
+            iFlame: c.icon === 'flame', iPan: c.icon === 'pan', iBowl2: c.icon === 'bowl',
+            iDump2: c.icon === 'dump', iRoll2: c.icon === 'roll', iBread2: c.icon === 'bread',
+            iSlice: c.icon === 'slice', iGlass: c.icon === 'glass', iSkew2: c.icon === 'skew',
+            border: on ? '#C9963B' : '#E4D9C2',
+            bg: on ? '#FDF7EA' : '#FFFFFF',
+            shadow: on ? '0 4px 12px rgba(201,150,59,0.3)' : '0 1px 2px rgba(14,59,51,0.06)',
+            pick: () => {
+              const n = Object.assign({}, this.state.counters);
+              if (n[c.id]) delete n[c.id]; else n[c.id] = true;
+              this.setState({ counters: n });
+            }
+          };
+        })
+      })),
+      countersPicked: nCounters,
+      countersCount: nCounters === 0 ? 'None chosen yet'
+        : nCounters + (nCounters === 1 ? ' counter chosen' : ' counters chosen'),
+      cReady: nCounters > 0,
+      cNotReady: nCounters === 0,
       typeOpen: typeOpen,
       typeDone: !typeOpen && !!st.type,
       typeLine: this.typeLabelOf(st.type),
@@ -2902,6 +3041,7 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
       type: st.type || null, layout: st.layout || null, venue: st.venue || null,
       cuisine: st.cuisine || 'ic',
       pkg: (st.pkg === undefined ? null : st.pkg),
+      counters: st.counters || {},
       theme: st.theme || null, eventNote: st.eventNote || ''
     };
   }
