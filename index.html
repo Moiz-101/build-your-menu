@@ -461,7 +461,7 @@ body.locked #app{display:none}
 </div>
 <div class="rail" style="display: flex; gap: 12px; overflow-x: auto; margin: 0 -24px; padding: 2px 24px 8px 24px;">
 <sc-for list="{{pkgs}}" as="pkg" hint-placeholder-count="4">
-<button class="btn snap" type="button" aria-pressed="{{pkg.on}}" onClick="{{pkg.pick}}" style="flex: 0 0 238px; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 12px 16px 12px 16px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{pkg.border}}; box-shadow: {{pkg.shadow}};">
+<button class="btn snap" type="button" aria-pressed="{{pkg.on}}" onClick="{{pkg.pick}}" style="flex: 0 0 {{pkg.cardW}}; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 12px 16px 12px 16px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{pkg.border}}; box-shadow: {{pkg.shadow}};">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 22px;">
 <span style="font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; font-weight: 700; color: #5A6863;">{{pkg.name}}</span>
 <sc-if value="{{pkg.popular}}" hint-placeholder-val="{{false}}">
@@ -470,9 +470,9 @@ body.locked #app{display:none}
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px;">
 <sc-for list="{{pkg.rows}}" as="row" hint-placeholder-count="4">
-<div style="display: flex; justify-content: space-between; gap: 10px; font-size: 13px; line-height: 1.3;">
-<span style="color: #5A6863;">{{row.k}}</span>
-<span style="font-weight: 600; color: #1B2B27; text-align: right; white-space: pre-line;">{{row.v}}</span>
+<div style="display: {{pkg.rowDisplay}}; flex-direction: {{pkg.rowDir}}; justify-content: space-between; gap: {{pkg.rowGap}}; font-size: 13px; line-height: 1.35;">
+<span style="color: #5A6863; flex-shrink: 0;">{{row.k}}</span>
+<span style="font-weight: 600; color: #1B2B27; text-align: {{pkg.rowAlign}}; white-space: pre-line;">{{row.v}}</span>
 </div>
 </sc-for>
 </div>
@@ -499,6 +499,7 @@ body.locked #app{display:none}
 </div>
 </div>
 
+<sc-if value="{{picksDishes}}" hint-placeholder-val="{{true}}">
 <!-- OR custom -->
 <button class="btn" type="button" aria-pressed="{{custom.on}}" onClick="{{custom.pick}}" style="display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 8px 14px 8px 12px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{custom.border}}; box-shadow: {{custom.shadow}};">
 <span style="flex-shrink: 0; padding: 4px 8px; border-radius: 999px; background: #EADFC8; color: #4A5A55; font-size: 12px; letter-spacing: 1.5px; font-weight: 700;">OR</span>
@@ -513,6 +514,7 @@ body.locked #app{display:none}
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
 </sc-if>
 </button>
+</sc-if>
 </div>
 
 <!-- Approx price (pinned) -->
@@ -965,8 +967,13 @@ body.locked #app{display:none}
 <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Per person</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.ppText}}</span></div>
 <div style="height: 1px; background: #E4D9C2;"></div>
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+<sc-if value="{{rv.isSetMenu}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">What is included</span>
+</sc-if>
+<sc-if value="{{rv.picksDishes}}" hint-placeholder-val="{{true}}">
 <span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Selected dishes</span>
 <button class="btn" type="button" onClick="{{editItems}}" aria-label="Edit dishes" style="height: 30px; padding: 0 10px; border-radius: 999px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 12px; font-weight: 700; cursor: pointer;">Edit dishes</button>
+</sc-if>
 </div>
 <sc-for list="{{rv.groups}}" as="g" hint-placeholder-count="4">
 <div style="display: flex; flex-direction: column; gap: 3px;">
@@ -1579,6 +1586,48 @@ class Component extends DCLogic {
     /* Live counters, offered when there is a live station. Grouped so the
        list reads at a glance rather than as sixteen rows, and ordered with
        the ones most often asked for at the top of each group. */
+    /* Set menus: a package is the whole list, not a choice from it, so these
+       skip the dish-picking screen entirely. Each carries its own minimum
+       order value, unlike the Indian and Chinese packages which share one.
+       Prices are before VAT, as the menus are quoted. */
+    this.SET_MENUS = {
+      ht: {
+        label: 'High Tea',
+        packages: [
+          { name: 'Finger Bites High Tea', price: 85, min: 2000, sections: [
+            { title: 'Tea & Coffee', items: ['English Breakfast', 'Green Tea', 'Masala Chai', 'Coffee'] },
+            { title: 'Finger Sandwiches & Sliders', items: [
+              'Veg Finger Sandwich - Cucumber & Cream Cheese',
+              'Veg Finger Sandwich - Tomato & Cheese',
+              'Veg Finger Sandwich - Veg Mayo',
+              'Mini Veg Cheese Slider',
+              'Mini Butter Chicken Slider'] },
+            { title: 'Finger Bite Appetizers', items: [
+              'Tandoori Chicken Wings', 'Shanghai Spring Rolls',
+              'Double Crumbed Fried Fish', 'Mini Chicken Kibbeh'] },
+            { title: 'Croissants', items: ['Butter Croissant', 'Cheese Croissant'] },
+            { title: 'Cookies & Biscuits', items: [
+              'Choco-chip Cookie', 'Butter Cookie', 'Chocolate Roll', 'Assorted Biscuits'] }
+          ] },
+          { name: 'High Tea Menu Plan', price: 95, min: 2500, sections: [
+            { title: 'Tea & Coffee', items: ['English Breakfast', 'Green Tea', 'Masala Chai', 'Coffee'] },
+            { title: 'Finger Sandwiches', items: [
+              'Veg Finger Sandwich - Cucumber & Cream Cheese',
+              'Veg Finger Sandwich - Tomato & Cheese',
+              'Veg Finger Sandwich - Veg Mayo',
+              'Mini Veg Cheese Slider'] },
+            { title: 'Savory', items: [
+              'Shanghai Spring Rolls', 'Cottage Cheese Wrap',
+              'Corn Cheese Bowl', 'Firangi Chicken Tikka'] },
+            { title: 'Croissants', items: ['Butter Croissant', 'Cheese Croissant'] },
+            { title: 'Pastries', items: ['Chocolate Pastry', 'Black Forest Pastry'] },
+            { title: 'Cakes', items: ['Vanilla Sponge Cake', 'Chocolate Brownie'] },
+            { title: 'Cookies & Biscuits', items: [
+              'Choco-chip Cookie', 'Butter Cookie', 'Chocolate Roll', 'Assorted Biscuits'] }
+          ] }
+        ]
+      }
+    };
     this.COUNTER_IMG = {};     // counter id -> photo, set from the panel
     // counters that ship with a photograph in this page's own images folder
     this.COUNTER_SHOT = ['bao', 'bbq', 'chaat', 'chole', 'dimsum', 'khowsuey', 'makki', 'mocktail', 'pasta', 'pizza', 'shawarma', 'sizzler', 'sushi', 'tandoor', 'tawa', 'wok'];
@@ -1665,15 +1714,38 @@ class Component extends DCLogic {
       { id: 'ic', label: 'Indian & Chinese', grow: 1.7 },
       { id: 'in', label: 'Indian', grow: 1 },
       { id: 'ch', label: 'Chinese', grow: 1 }
-    ];
-    const prices = (PRICES[st.cuisine] || {})[setup] || [0, 0, 0, 0];
+    ].concat(setup === 'buffet' || setup === 'both'
+      ? Object.keys(this.SET_MENUS || {}).map((k) => ({ id: k, label: this.SET_MENUS[k].label, grow: 1.2 }))
+      : []);
+    const sm = this.setMenu(st.cuisine);
+    const prices = sm ? sm.packages.map((x) => x.price)
+                      : ((PRICES[st.cuisine] || {})[setup] || [0, 0, 0, 0]);
     const sel = (on) => ({
       border: on ? '#C9963B' : '#E4D9C2',
       shadow: on ? '0 6px 16px rgba(201,150,59,0.35)' : '0 1px 2px rgba(14,59,51,0.06)'
     });
 
     const saves = ((this.SAVE || {})[setup] || {})[st.cuisine] || [];
-    const pkgs = TIERS.map((t, i) => {
+    // A set menu's cards are the menu itself: every section, every item, and
+    // the minimum order that package carries.
+    const setPkgs = sm ? sm.packages.map((pk, i) => {
+      const on = st.pkg === i;
+      return Object.assign({
+        name: pk.name,
+        price: pk.price,
+        priceUnit: 'Dh + VAT / person',
+        priceFont: '34px',
+        onOffer: false, wasPrice: '', saveText: '',
+        cardW: '278px', rowDisplay: 'flex', rowDir: 'column', rowGap: '1px', rowAlign: 'left',
+        popular: false,
+        on: on,
+        pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false, minWarn: false }),
+        rows: pk.sections.map((sec) => ({ k: sec.title, v: sec.items.join('\n') }))
+                 .concat([{ k: 'Minimum order', v: fmt(pk.min) + ' Dh' }])
+      }, sel(on));
+    }) : null;
+
+    const pkgs = setPkgs || TIERS.map((t, i) => {
       const on = st.pkg === i;
       const save = Math.max(0, parseInt(saves[i], 10) || 0);
       // the card lists whatever the picker is going to ask for, so the two
@@ -1706,6 +1778,7 @@ class Component extends DCLogic {
         onOffer: shown && save > 0,
         wasPrice: save > 0 ? fmt(prices[i] + save) : '',
         saveText: save > 0 ? 'SAVE ' + save + ' Dh' : '',
+        cardW: '238px', rowDisplay: 'flex', rowDir: 'row', rowGap: '10px', rowAlign: 'right',
         popular: i === popular,
         on: on,
         pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false, minWarn: false }),
@@ -1715,22 +1788,25 @@ class Component extends DCLogic {
 
     const isCustom = st.pkg === 'custom';
     const hasPkg = typeof st.pkg === 'number';
-    const priced = this.priced(setup);
+    const priced = sm ? true : this.priced(setup);
     const price = hasPkg ? prices[st.pkg] : 0;
     const raw = price * pax;
-    const belowMin = priced && hasPkg && raw < MIN;
+    const minFor = (sm && hasPkg && sm.packages[st.pkg]) ? sm.packages[st.pkg].min : MIN;
+    const belowMin = priced && hasPkg && raw < minFor;
     const applied = belowMin && st.consent;
     let totalText = '—', totalSub = 'Pick a package to see the price', totalColor = '#0E3B33';
     if (isCustom) { totalText = 'Custom menu'; totalSub = 'Base ' + this.catRates().base + ' Dh + price of each dish you pick'; }
     if (hasPkg) {
-      totalText = priced ? fmt(applied ? MIN : raw) + ' Dh' : 'On request';
+      totalText = priced ? fmt(applied ? minFor : raw) + ' Dh' + (sm ? ' + VAT' : '') : 'On request';
       totalSub = !priced ? 'Our team will confirm the price for this setup'
-               : (applied ? 'Minimum applied (was ' + fmt(raw) + ' Dh)' : pax + ' guests × ' + price + ' Dh');
+               : (applied ? 'Minimum applied (was ' + fmt(raw) + ' Dh)'
+                          : pax + ' guests × ' + price + ' Dh' + (sm ? ' + VAT' : ''));
       if (belowMin && !st.consent) totalColor = st.minWarn ? '#B3261E' : '#8A3B12';
     }
     const ready = isCustom || hasPkg;
 
     return {
+      picksDishes: !sm,
       cuisines: CUISINES.map((c) => {
         const on = st.cuisine === c.id;
         return {
@@ -1744,10 +1820,11 @@ class Component extends DCLogic {
       pkgs: pkgs,
       custom: Object.assign({ on: isCustom, off: !isCustom, pick: () => this.setState({ pkg: isCustom ? null : 'custom', consent: false, minWarn: false }) }, sel(isCustom)),
       pax: pax,
-      pkgCaption: pv ? 'Pure Veg menu · salads & sides incl.' : 'Salads & sides included',
+      pkgCaption: sm ? 'Everything listed is included'
+        : (pv ? 'Pure Veg menu · salads & sides incl.' : 'Salads & sides included'),
       belowMin: belowMin,
-      needPax: hasPkg ? Math.ceil(MIN / price) : pax,
-      bumpPax: () => this.setState({ pax: Math.ceil(MIN / price), consent: false, minWarn: false }),
+      needPax: hasPkg ? Math.ceil(minFor / price) : pax,
+      bumpPax: () => this.setState({ pax: Math.ceil(minFor / price), consent: false, minWarn: false }),
       consent: st.consent,
       toggleConsent: () => this.setState({ consent: !this.state.consent }),
       totalText: totalText,
@@ -1758,12 +1835,12 @@ class Component extends DCLogic {
       // under the minimum: one line under the total; it turns red if Save & Next is tapped
       minOpen: belowMin && !st.minWarn && !st.consent,
       totalSubShown: !belowMin || !!st.consent,
-      minHint: hasPkg ? 'Min. 2,000 Dh · Add ' + (Math.ceil(MIN / price) - pax) + (Math.ceil(MIN / price) - pax === 1 ? ' guest' : ' guests') : '',
+      minHint: hasPkg ? 'Min. ' + fmt(minFor) + ' Dh · Add ' + (Math.ceil(minFor / price) - pax) + (Math.ceil(minFor / price) - pax === 1 ? ' guest' : ' guests') : '',
       minHintColor: '#8A3B12',
       minWarnOn: false,
       // after Save & Next is refused: add guests, or tick to pay the minimum
       minRowShown: belowMin && !!st.minWarn,
-      minAddLabel: hasPkg ? 'Add ' + (Math.ceil(MIN / price) - pax) + (Math.ceil(MIN / price) - pax === 1 ? ' guest' : ' guests') : '',
+      minAddLabel: hasPkg ? 'Add ' + (Math.ceil(minFor / price) - pax) + (Math.ceil(minFor / price) - pax === 1 ? ' guest' : ' guests') : '',
       notReady: !ready,
       btnOpacity: 1
     };
@@ -2102,8 +2179,11 @@ class Component extends DCLogic {
     const MIN = 2000;
     const fmt = (n) => n.toLocaleString('en-US');
     const setup = this.setupKey();
-    const P = (this.PRICES[st.cuisine] || {})[setup] || [0, 0, 0, 0];
-    const cuisine = { ic: 'Indian & Chinese', in: 'Indian', ch: 'Chinese' }[st.cuisine];
+    const sm = this.setMenu(st.cuisine);
+    const P = sm ? sm.packages.map((x) => x.price)
+                 : ((this.PRICES[st.cuisine] || {})[setup] || [0, 0, 0, 0]);
+    const cuisine = sm ? sm.label
+                       : { ic: 'Indian & Chinese', in: 'Indian', ch: 'Chinese' }[st.cuisine];
     const isCustom = st.pkg === 'custom', hasPkg = typeof st.pkg === 'number';
     const g = { starters: [], mains: [], staples: [], dessert: [] };
     this.ITEMS.forEach((x) => {
@@ -2112,12 +2192,19 @@ class Component extends DCLogic {
       const note = (st.notes[x.id] || '').trim();
       g[k].push({ name: x.name, note: note, hasNote: !!note });
     });
-    const groups = [['Starters', g.starters], ['Main course', g.mains], ['Staples', g.staples], ['Dessert', g.dessert]].filter((a) => a[1].length).map((a) => ({ title: a[0] + ' (' + a[1].length + ')', items: a[1] }));
+    // a set menu's groups are the menu itself, not what was ticked
+    const smPack = (sm && hasPkg) ? sm.packages[st.pkg] : null;
+    const groups = smPack
+      ? smPack.sections.map((sec) => ({ title: sec.title + ' (' + sec.items.length + ')',
+          items: sec.items.map((n) => ({ name: n, note: '', hasNote: false })) }))
+      : [['Starters', g.starters], ['Main course', g.mains], ['Staples', g.staples], ['Dessert', g.dessert]].filter((a) => a[1].length).map((a) => ({ title: a[0] + ' (' + a[1].length + ')', items: a[1] }));
     let pp = 0;
     if (hasPkg) pp = P[st.pkg];
     else if (isCustom) pp = this.customPP({ starters: g.starters.length, mains: g.mains.length, staples: g.staples.length, dessert: g.dessert.length });
     const raw = pp * st.pax;
-    const menuTotal = pp > 0 ? Math.max(raw, MIN) : 0;
+    const minFor = smPack ? smPack.min : MIN;
+    const vat = sm ? ' + VAT' : '';
+    const menuTotal = pp > 0 ? Math.max(raw, minFor) : 0;
     const th = this.THEMES.find((t) => t.id === st.theme) || null;
     const themePrice = th ? th.price : 0;
     const grand = menuTotal + themePrice;
@@ -2136,21 +2223,24 @@ class Component extends DCLogic {
       layoutLabel: this.layoutLabelOf(st.layout) || 'Not selected',
       venueLabel: st.venue === 'indoor' ? 'Indoor' : (st.venue === 'outdoor' ? 'Outdoor' : 'Not selected'),
       isOnsite: st.type === 'onsite',
+      isSetMenu: !!this.setMenu(st.cuisine),
+      picksDishes: !this.setMenu(st.cuisine),
       hasCounters: this.hasCounters(),
       countersText: this.pickedCounters().join(', ') || 'None chosen',
-      pkgLabel: isCustom ? 'Custom menu' : (hasPkg ? 'Package ' + (st.pkg + 1) : 'Not selected'),
+      pkgLabel: isCustom ? 'Custom menu'
+        : (smPack ? smPack.name : (hasPkg ? 'Package ' + (st.pkg + 1) : 'Not selected')),
       cuisine: cuisine + (st.pureVeg ? ' (Pure Veg)' : ''),
-      ppText: pp > 0 ? pp + ' Dh' : (this.priced() ? '-' : 'On request'),
+      ppText: pp > 0 ? pp + ' Dh' + vat : (this.priced() ? '-' : 'On request'),
       groups: groups,
       themeLabel: th ? th.name + (th.price ? ' (+ ' + fmt(th.price) + ' Dh)' : ' (Free)') : 'No theme',
       notesText: (st.eventNote || '').trim() || 'None',
       menuRowLabel: pp > 0 ? 'Menu: ' + st.pax + ' guests x ' + pp + ' Dh' : 'Menu',
-      menuRowValue: pp > 0 ? fmt(raw) + ' Dh' : (this.priced() ? '-' : 'On request'),
-      showMin: pp > 0 && raw < MIN,
-      minValue: '+ ' + fmt(Math.max(MIN - raw, 0)) + ' Dh',
+      menuRowValue: pp > 0 ? fmt(raw) + ' Dh' + vat : (this.priced() ? '-' : 'On request'),
+      showMin: pp > 0 && raw < minFor,
+      minValue: '+ ' + fmt(Math.max(minFor - raw, 0)) + ' Dh',
       themeRowLabel: th ? 'Theme: ' + th.name : 'Theme',
       themeRowValue: th ? (th.price ? '+ ' + fmt(th.price) + ' Dh' : 'Free') : 'None',
-      grand: (grand > 0 || this.priced()) ? fmt(grand) + ' Dh' : 'On request', grandNum: grand, menuTotal: menuTotal, themePrice: themePrice, th: th
+      grand: (grand > 0 || this.priced()) ? fmt(grand) + ' Dh' + vat : 'On request', grandNum: grand, menuTotal: menuTotal, themePrice: themePrice, th: th
     };
   }
   /* One page, on the printed border. `bg` is optional:
@@ -2534,6 +2624,11 @@ class Component extends DCLogic {
       '<rect width="160" height="100" fill="' + bg + '"/>' + top + (BODY[id] || '') + '</svg>';
     return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
   }
+  // the set menu for this cuisine, or null when it picks dishes the usual way
+  setMenu(cu) {
+    const m = (this.SET_MENUS || {})[cu || this.state.cuisine];
+    return m && m.packages && m.packages.length ? m : null;
+  }
   // a live station means there are counters to choose
   hasCounters() {
     const l = this.state.layout;
@@ -2640,6 +2735,7 @@ class Component extends DCLogic {
       backPkg: () => go(ret ? 'review' : (this.hasCounters() ? 'counters' : 'setup'), true),
       nextFromPkg: () => {
         if (this.pkgVals().belowMin && !st.consent) { this.setState({ minWarn: true }); return; }
+        if (this.setMenu()) { go(ret ? 'review' : 'theme', true); return; }
         openItems();
       },
       backItems: () => go(ret ? 'review' : 'pkg', true),
@@ -2647,7 +2743,7 @@ class Component extends DCLogic {
         if (this.itemsVals().custBelowMin && !st.custMinOk) { this.setState({ minWarn: true }); return; }
         go(ret ? 'review' : 'theme', true);
       },
-      backTheme: () => go(ret ? 'review' : 'items', true),
+      backTheme: () => go(ret ? 'review' : (this.setMenu() ? 'pkg' : 'items'), true),
       nextFromTheme: () => go('review', true),
       backReview: () => go('theme', true),
       editDetails: () => go('details', false, true),
