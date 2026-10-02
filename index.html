@@ -1579,6 +1579,7 @@ class Component extends DCLogic {
     /* Live counters, offered when there is a live station. Grouped so the
        list reads at a glance rather than as sixteen rows, and ordered with
        the ones most often asked for at the top of each group. */
+    this.COUNTER_IMG = {};     // counter id -> photo, set from the panel
     this.COUNTERS = [
       { group: 'Grill & BBQ', bg: '#F6E1CE', items: [
         { id: 'bbq', name: 'BBQ Counter', icon: 'flame' },
@@ -2360,6 +2361,7 @@ class Component extends DCLogic {
       if (typeof config.CUSTOM_MARKUP === 'number') this.CUSTOM_MARKUP = config.CUSTOM_MARKUP;
       if (config.SAVE) this.SAVE = config.SAVE;
       if (config.QB) this.QB = config.QB;
+      if (config.COUNTER_IMG) this.COUNTER_IMG = config.COUNTER_IMG;
     }
     // dish ids are positions, so anything picked before the swap no longer means the same thing
     this.setState({ sel: {}, notes: {} });
@@ -2436,6 +2438,12 @@ class Component extends DCLogic {
   priced(setup) {
     const col = (this.PRICES[this.state.cuisine] || {})[setup || this.setupKey()];
     return !!(col && col.length && col.some((v) => +v > 0));
+  }
+  // A photograph of this counter, when the owner has put one in the panel.
+  // Anything missing just falls back to the drawing, so the page is never bare.
+  counterPhoto(id) {
+    const u = (this.COUNTER_IMG || {})[id];
+    return u ? 'url("' + String(u).replace(/"/g, '%22') + '")' : '';
   }
   /* A little illustration for every counter, in the same flat style as the
      setup cards. They are drawn here rather than in the template because
@@ -2709,7 +2717,7 @@ class Component extends DCLogic {
           const on = !!(st.counters || {})[c.id];
           return {
             name: c.name, on: on,
-            art: this.counterArt(c.id, g.bg),
+            art: this.counterPhoto(c.id) || this.counterArt(c.id, g.bg),
             border: on ? '#C9963B' : '#E4D9C2',
             bg: on ? '#FDF7EA' : '#FFFFFF',
             nameColor: on ? '#6A4E12' : '#0E3B33',
