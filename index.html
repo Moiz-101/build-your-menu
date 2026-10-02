@@ -446,9 +446,9 @@ body.locked #app{display:none}
 <!-- Cuisine -->
 <div style="display: flex; flex-direction: column; gap: 6px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Cuisine</span>
-<div style="display: flex; gap: 8px;">
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
 <sc-for list="{{cuisines}}" as="cu" hint-placeholder-count="3">
-<button class="btn" type="button" aria-pressed="{{cu.on}}" onClick="{{cu.pick}}" style="flex-grow: {{cu.grow}}; flex-basis: 0; min-width: 0; height: 42px; padding: 0 6px; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; border: 2px solid {{cu.border}}; background: {{cu.bg}}; color: {{cu.color}};">{{cu.label}}</button>
+<button class="btn" type="button" aria-pressed="{{cu.on}}" onClick="{{cu.pick}}" style="flex: 1 1 auto; min-width: 92px; height: 42px; padding: 0 10px; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; border: 2px solid {{cu.border}}; background: {{cu.bg}}; color: {{cu.color}};">{{cu.label}}</button>
 </sc-for>
 </div>
 </div>
@@ -499,7 +499,7 @@ body.locked #app{display:none}
 </div>
 </div>
 
-<sc-if value="{{picksDishes}}" hint-placeholder-val="{{true}}">
+<sc-if value="{{offersCustom}}" hint-placeholder-val="{{true}}">
 <!-- OR custom -->
 <button class="btn" type="button" aria-pressed="{{custom.on}}" onClick="{{custom.pick}}" style="display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 8px 14px 8px 12px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{custom.border}}; box-shadow: {{custom.shadow}};">
 <span style="flex-shrink: 0; padding: 4px 8px; border-radius: 999px; background: #EADFC8; color: #4A5A55; font-size: 12px; letter-spacing: 1.5px; font-weight: 700;">OR</span>
@@ -658,6 +658,7 @@ body.locked #app{display:none}
 <sc-if value="{{it.iRoll}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a4 4 0 0 1 4-4h8a4 4 0 0 1 0 8H8a4 4 0 0 1-4-4z"></path><circle cx="16" cy="12" r="2"></circle></svg></sc-if>
 <sc-if value="{{it.iSkew}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21L21 3"></path><circle cx="8" cy="16" r="2.6"></circle><circle cx="12.5" cy="11.5" r="2.6"></circle><circle cx="17" cy="7" r="2.6"></circle></svg></sc-if>
 <sc-if value="{{it.iBread}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="6.5"></ellipse><path d="M8 10q2 1.2 4 0M11 14q2 1.2 4 0"></path></svg></sc-if>
+<sc-if value="{{it.iCup}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h13v5a5 5 0 0 1-10 0z"></path><path d="M17 10h2a2.5 2.5 0 0 1 0 5h-2"></path><path d="M7 5q-1.5 1.5 0 3M11 4q-1.5 1.5 0 3M4 21h14"></path></svg></sc-if>
 <sc-if value="{{it.iSweet}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="6"></circle><path d="M9 10.5q3 2.2 6 0M4 20h16"></path></svg></sc-if>
 </sc-if>
 <sc-if value="{{it.hasDiet}}" hint-placeholder-val="{{false}}">
@@ -1616,6 +1617,60 @@ class Component extends DCLogic {
     /* Live counters, offered when there is a live station. Grouped so the
        list reads at a glance rather than as sixteen rows, and ordered with
        the ones most often asked for at the top of each group. */
+    /* Breakfast: four packages, each choosing from its own list rather than
+       from the 147 dishes. Tea and coffee come with every one of them and are
+       not counted against the choice, which is how the Indian menu is written
+       ("any 4 items with tea & coffee") and how the others read alongside it. */
+    this.PICK_MENUS = {
+      bf: {
+        label: 'Breakfast',
+        packages: [
+          { name: 'Indian Breakfast', price: 90, min: 1800,
+            sections: [
+              { title: 'Breakfast dishes', need: 4, items: [
+                'Poha', 'Dosa', 'Idli', 'Paratha', 'Puri Bhaji', 'Lassi', 'Buttermilk'] }
+            ],
+            included: ['Tea', 'Coffee'] },
+
+          { name: 'English Breakfast', price: 105, min: 2600,
+            sections: [
+              { title: 'Breakfast dishes', need: 5, items: [
+                'Assorted Eggs', 'Crispy Bacon', 'Chicken / Beef Sausages',
+                'Assorted Cereals', 'Bakery Basket', 'Assorted Meat Selection',
+                'Fish Selection', 'Assorted Yoghurt', 'Fresh Seasonal Fruits'] }
+            ],
+            included: ['Tea', 'Coffee'] },
+
+          { name: 'American Breakfast', price: 105, min: 2600,
+            sections: [
+              { title: 'Breakfast dishes', need: 5, items: [
+                'Assorted Eggs', 'Crispy Bacon', 'Chicken / Beef Sausages',
+                'Assorted Cereals', 'Bakery Basket', 'Assorted Meat Selection',
+                'Assorted Yoghurt', 'Fresh Seasonal Fruits'] }
+            ],
+            included: ['Tea', 'Coffee'] },
+
+          { name: 'Continental Breakfast', price: 105, min: 2600,
+            sections: [
+              { title: 'Fresh Juices', need: 2, items: [
+                'Fresh Orange Juice', 'Fresh Watermelon Juice', 'Fresh Pineapple Juice'] },
+              { title: 'Cut Fruits', need: 2, items: [
+                'Fresh Seasonal Cut Fruits Platter', 'Sliced Watermelon',
+                'Fresh Pineapple', 'Seasonal Melon'] },
+              { title: 'Breads & Bakery', need: 2, items: [
+                'Assorted Bread Rolls', 'White & Brown Bread', 'Butter Croissants',
+                'Danish Pastries', 'Toasted Bread'] },
+              { title: 'Butter & Preserves', need: 2, items: [
+                'Salted Butter', 'Unsalted Butter', 'Strawberry Jam',
+                'Orange Marmalade', 'Honey'] },
+              { title: 'Tea & Coffee', need: 2, items: [
+                'English Breakfast Tea', 'Green Tea', 'Masala Tea',
+                'Freshly Brewed Coffee', 'Cappuccino', 'Espresso'] }
+            ],
+            included: [] }
+        ]
+      }
+    };
     /* Set menus: a package is the whole list, not a choice from it, so these
        skip the dish-picking screen entirely. Each carries its own minimum
        order value, unlike the Indian and Chinese packages which share one.
@@ -1746,9 +1801,12 @@ class Component extends DCLogic {
       { id: 'ch', label: 'Chinese', grow: 1 }
     ].concat(setup === 'buffet' || setup === 'both'
       ? Object.keys(this.SET_MENUS || {}).map((k) => ({ id: k, label: this.SET_MENUS[k].label, grow: 1.2 }))
+          .concat(Object.keys(this.PICK_MENUS || {}).map((k) => ({ id: k, label: this.PICK_MENUS[k].label, grow: 1.2 })))
       : []);
     const sm = this.setMenu(st.cuisine);
+    const pm = this.pickMenu(st.cuisine);
     const prices = sm ? sm.packages.map((x) => x.price)
+                 : pm ? pm.packages.map((x) => x.price)
                       : ((PRICES[st.cuisine] || {})[setup] || [0, 0, 0, 0]);
     const sel = (on) => ({
       border: on ? '#C9963B' : '#E4D9C2',
@@ -1776,7 +1834,27 @@ class Component extends DCLogic {
       }, sel(on));
     }) : null;
 
-    const pkgs = setPkgs || TIERS.map((t, i) => {
+    // a pick menu's card says how many are chosen from each of its sections
+    const pickPkgs = pm ? pm.packages.map((pk, i) => {
+      const on = st.pkg === i;
+      const rows = pk.sections.map((sec) => ({
+        k: sec.title,
+        v: 'Any ' + sec.need + ' of ' + sec.items.length
+      }));
+      if (pk.included && pk.included.length) {
+        rows.push({ k: 'Included', v: pk.included.join(' · ') });
+      }
+      return Object.assign({
+        name: pk.name, price: pk.price, priceUnit: 'Dh / person', priceFont: '34px',
+        onOffer: false, wasPrice: '', saveText: '',
+        cardW: '238px', rowDisplay: 'flex', rowDir: 'row', rowGap: '10px', rowAlign: 'right',
+        popular: false, on: on,
+        pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false, minWarn: false, sel: {}, notes: {} }),
+        rows: rows
+      }, sel(on));
+    }) : null;
+
+    const pkgs = setPkgs || pickPkgs || TIERS.map((t, i) => {
       const on = st.pkg === i;
       const save = Math.max(0, parseInt(saves[i], 10) || 0);
       // the card lists whatever the picker is going to ask for, so the two
@@ -1819,10 +1897,11 @@ class Component extends DCLogic {
 
     const isCustom = st.pkg === 'custom';
     const hasPkg = typeof st.pkg === 'number';
-    const priced = sm ? true : this.priced(setup);
+    const priced = (sm || pm) ? true : this.priced(setup);
     const price = hasPkg ? prices[st.pkg] : 0;
     const raw = price * pax;
-    const minFor = (sm && hasPkg && sm.packages[st.pkg]) ? sm.packages[st.pkg].min : MIN;
+    const smp = sm || pm;
+    const minFor = (smp && hasPkg && smp.packages[st.pkg]) ? smp.packages[st.pkg].min : MIN;
     const belowMin = priced && hasPkg && raw < minFor;
     const applied = belowMin && st.consent;
     let totalText = '—', totalSub = 'Pick a package to see the price', totalColor = '#0E3B33';
@@ -1838,6 +1917,7 @@ class Component extends DCLogic {
 
     return {
       picksDishes: !sm,
+      offersCustom: !sm && !pm,
       cuisines: CUISINES.map((c) => {
         const on = st.cuisine === c.id;
         return {
@@ -1852,6 +1932,7 @@ class Component extends DCLogic {
       custom: Object.assign({ on: isCustom, off: !isCustom, pick: () => this.setState({ pkg: isCustom ? null : 'custom', consent: false, minWarn: false }) }, sel(isCustom)),
       pax: pax,
       pkgCaption: sm ? 'Everything listed is included'
+        : pm ? 'Tea & coffee included'
         : (pv ? 'Pure Veg menu · salads & sides incl.' : 'Salads & sides included'),
       belowMin: belowMin,
       needPax: hasPkg ? Math.ceil(minFor / price) : pax,
@@ -1895,9 +1976,21 @@ class Component extends DCLogic {
     const isDaal = (x) => x.cat === 'main' &&
       (x.sub === 'Daal' || /(^|\s)daa?l(\s|$)/i.test(x.name));
     const cuLabel = { ic: 'Indian & Chinese', in: 'Indian', ch: 'Chinese' }[cuisine];
-    const pool = this.ITEMS.filter((x) => (cuisine === 'ic' || x.cu === cuisine) && !(pv && x.diet === 'nonveg'));
+    // a pick menu brings its own items and its own sections
+    const pm = this.pickPool();
+    const pool = pm ? pm.items
+      : this.ITEMS.filter((x) => (cuisine === 'ic' || x.cu === cuisine) && !(pv && x.diet === 'nonveg'));
 
-    const DEFS = {
+    const PICK_DEFS = {}, PICK_TABS = [];
+    if (pm) {
+      pm.pack.sections.forEach((sec, si) => {
+        const key = 'sec' + si;
+        PICK_TABS.push({ id: key, label: sec.title });
+        PICK_DEFS[key] = [{ id: key, title: sec.title, short: sec.title,
+                            match: (x) => x.cat === key, need: sec.need }];
+      });
+    }
+    const DEFS = pm ? PICK_DEFS : {
       starters: [
         { id: 'sv', title: 'Veg Starters', short: 'Veg', match: (x) => x.cat === 'starter' && x.diet === 'veg', need: q && (pv ? q.sv + q.snv : q.sv) },
         { id: 'snv', title: 'Non-Veg Starters', short: 'Non-Veg', match: (x) => x.cat === 'starter' && x.diet === 'nonveg', need: q && q.snv }
@@ -1923,15 +2016,25 @@ class Component extends DCLogic {
         { id: 'ds', title: 'Desserts', match: (x) => x.cat === 'dessert', need: q && q.ds }
       ]
     };
-    const TABS = [
+    const TABS = pm ? PICK_TABS : [
       { id: 'starters', label: 'Starters' },
       { id: 'mains', label: 'Mains' },
       { id: 'staples', label: 'Staples' },
       { id: 'dessert', label: 'Dessert' }
     ];
 
-    const TILE = { iBowl: '#EEE0C4', iDump: '#F3E6C9', iRoll: '#E4EBD5', iSkew: '#F3DCCB', iBread: '#F1E3C0', iSweet: '#F3DCE0' };
+    const TILE = { iBowl: '#EEE0C4', iDump: '#F3E6C9', iRoll: '#E4EBD5', iSkew: '#F3DCCB', iBread: '#F1E3C0', iSweet: '#F3DCE0', iCup: '#E7E3D2' };
     const iconOf = (x) => {
+      // a pick menu's items are not dishes from the menu, so they are read by
+      // name; a breakfast of identical bowls tells the customer nothing
+      if (pm) {
+        const n = x.name.toLowerCase();
+        if (/juice|tea|coffee|lassi|buttermilk|cappuccino|espresso/.test(n)) return 'iCup';
+        if (/bread|croissant|pastry|toast|bakery|paratha|puri|dosa|idli|roll/.test(n)) return 'iBread';
+        if (/egg|bacon|sausage|meat|fish|tikka/.test(n)) return 'iSkew';
+        if (/fruit|melon|pineapple|watermelon|jam|marmalade|honey|yoghurt|cereal|butter/.test(n)) return 'iSweet';
+        return 'iBowl';
+      }
       if (x.cat === 'dessert') return 'iSweet';
       if (x.cat === 'bread') return 'iBread';
       if (x.sub.indexOf('Dim sum') === 0 || x.sub.indexOf('Bao') === 0) return 'iDump';
@@ -2071,7 +2174,7 @@ class Component extends DCLogic {
               }, 550);
             }
           };
-          ['iBowl', 'iDump', 'iRoll', 'iSkew', 'iBread', 'iSweet'].forEach((k) => { o[k] = (k === icon); });
+          ['iBowl', 'iDump', 'iRoll', 'iSkew', 'iBread', 'iSweet', 'iCup'].forEach((k) => { o[k] = (k === icon); });
           // the owner's own photo first, then the one built into this page,
           // and the drawn icon when there is neither
           const byCourse = window.DISH_PHOTOS_BY_COURSE || {};
@@ -2195,7 +2298,15 @@ class Component extends DCLogic {
       zBtnColor: zo && zo.on ? '#0E3B33' : '#FBF6EA',
       zBtnOpacity: zo && zo.locked ? 0.45 : 1,
       showRate: isCustom,
-      rateText: (() => { const c = this.catRates(); const t = st.tab; const k = { starters: ['starter', c.starters], mains: ['main course dish', c.mains], staples: ['staple', c.staples], dessert: ['dessert', c.dessert] }[t]; return 'Each ' + k[0] + ' adds ' + k[1] + ' Dh / person'; })(),
+      // only a custom menu is priced per dish, and a pick menu's tabs are its
+      // own sections, which this never knew about
+      rateText: (() => {
+        if (!isCustom) return '';
+        const c = this.catRates();
+        const k = { starters: ['starter', c.starters], mains: ['main course dish', c.mains],
+                    staples: ['staple', c.staples], dessert: ['dessert', c.dessert] }[st.tab];
+        return k ? 'Each ' + k[0] + ' adds ' + k[1] + ' Dh / person' : '';
+      })(),
       custTotal: custTotal,
       custPP: custPP,
       custSub: custSub,
@@ -2212,9 +2323,12 @@ class Component extends DCLogic {
     const fmt = (n) => n.toLocaleString('en-US');
     const setup = this.setupKey();
     const sm = this.setMenu(st.cuisine);
+    const pmenu = this.pickMenu(st.cuisine);
+    const pp2 = this.pickPool();
     const P = sm ? sm.packages.map((x) => x.price)
+              : pmenu ? pmenu.packages.map((x) => x.price)
                  : ((this.PRICES[st.cuisine] || {})[setup] || [0, 0, 0, 0]);
-    const cuisine = sm ? sm.label
+    const cuisine = sm ? sm.label : pmenu ? pmenu.label
                        : { ic: 'Indian & Chinese', in: 'Indian', ch: 'Chinese' }[st.cuisine];
     const isCustom = st.pkg === 'custom', hasPkg = typeof st.pkg === 'number';
     const g = { starters: [], mains: [], staples: [], dessert: [] };
@@ -2226,15 +2340,29 @@ class Component extends DCLogic {
     });
     // a set menu's groups are the menu itself, not what was ticked
     const smPack = (sm && hasPkg) ? sm.packages[st.pkg] : null;
-    const groups = smPack
+    let pickGroups = null;
+    if (pp2) {
+      pickGroups = pp2.pack.sections.map((sec, si) => ({
+        title: sec.title,
+        items: pp2.items.filter((x) => x.cat === 'sec' + si && st.sel[x.id])
+                        .map((x) => ({ name: x.name, note: '', hasNote: false }))
+      })).filter((g) => g.items.length)
+        .map((g) => ({ title: g.title + ' (' + g.items.length + ')', items: g.items }));
+      if (pp2.pack.included && pp2.pack.included.length) {
+        pickGroups.push({ title: 'Included',
+          items: pp2.pack.included.map((n) => ({ name: n, note: '', hasNote: false })) });
+      }
+    }
+    const groups = pickGroups || (smPack
       ? smPack.sections.map((sec) => ({ title: sec.title + ' (' + sec.items.length + ')',
           items: sec.items.map((n) => ({ name: n, note: '', hasNote: false })) }))
-      : [['Starters', g.starters], ['Main course', g.mains], ['Staples', g.staples], ['Dessert', g.dessert]].filter((a) => a[1].length).map((a) => ({ title: a[0] + ' (' + a[1].length + ')', items: a[1] }));
+      : [['Starters', g.starters], ['Main course', g.mains], ['Staples', g.staples], ['Dessert', g.dessert]].filter((a) => a[1].length).map((a) => ({ title: a[0] + ' (' + a[1].length + ')', items: a[1] })));
     let pp = 0;
     if (hasPkg) pp = P[st.pkg];
     else if (isCustom) pp = this.customPP({ starters: g.starters.length, mains: g.mains.length, staples: g.staples.length, dessert: g.dessert.length });
     const raw = pp * st.pax;
-    const minFor = smPack ? smPack.min : MIN;
+    const pkPack = pp2 ? pp2.pack : null;
+    const minFor = smPack ? smPack.min : (pkPack ? pkPack.min : MIN);
     const vat = sm ? ' + VAT' : '';
     const menuTotal = pp > 0 ? Math.max(raw, minFor) : 0;
     const th = this.THEMES.find((t) => t.id === st.theme) || null;
@@ -2260,7 +2388,8 @@ class Component extends DCLogic {
       hasCounters: this.hasCounters(),
       countersText: this.pickedCounters().join(', ') || 'None chosen',
       pkgLabel: isCustom ? 'Custom menu'
-        : (smPack ? smPack.name : (hasPkg ? 'Package ' + (st.pkg + 1) : 'Not selected')),
+        : ((smPack || pkPack) ? (smPack || pkPack).name
+           : (hasPkg ? 'Package ' + (st.pkg + 1) : 'Not selected')),
       cuisine: cuisine + (st.pureVeg ? ' (Pure Veg)' : ''),
       ppText: pp > 0 ? pp + ' Dh' + vat : (this.priced() ? '-' : 'On request'),
       groups: groups,
@@ -2678,6 +2807,28 @@ class Component extends DCLogic {
     if (/cookie|biscuit|pastr|cake/.test(sc)) return pick('sweet');
     if (/croissant|sandwich/.test(sc)) return pick('bread');
     return pick('bowl');
+  }
+  // a menu whose items are chosen from its own lists, not from the 147 dishes
+  pickMenu(cu) {
+    const m = (this.PICK_MENUS || {})[cu || this.state.cuisine];
+    return m && m.packages && m.packages.length ? m : null;
+  }
+  /* The items of the chosen pick-menu package, shaped like dishes so the
+     choosing screen, the counts and the order sheet all work unchanged.
+     One synthetic category per section. */
+  pickPool() {
+    const st = this.state;
+    const m = this.pickMenu(st.cuisine);
+    const pk = (m && typeof st.pkg === 'number') ? m.packages[st.pkg] : null;
+    if (!pk) return null;
+    const out = [];
+    pk.sections.forEach((sec, si) => {
+      sec.items.forEach((n, ni) => {
+        out.push({ id: 'p' + si + '_' + ni, name: n, cat: 'sec' + si,
+                   cu: st.cuisine, diet: null, sub: sec.title, note: '' });
+      });
+    });
+    return { pack: pk, items: out };
   }
   // the set menu for this cuisine, or null when it picks dishes the usual way
   setMenu(cu) {
