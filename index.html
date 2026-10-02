@@ -597,9 +597,9 @@ body.locked #app{display:none}
 </sc-if>
 </span>
 </div>
-<div style="display: flex; gap: 8px;">
+<div style="display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
 <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
-<button class="btn" type="button" aria-pressed="{{tb.on}}" onClick="{{tb.pick}}" style="flex: 1 1 0; min-width: 0; height: 44px; padding: 0 4px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; border: 2px solid {{tb.border}}; background: {{tb.bg}}; color: {{tb.color}};">
+<button class="btn" type="button" aria-pressed="{{tb.on}}" onClick="{{tb.pick}}" style="flex: 1 0 auto; min-width: 0; height: 44px; padding: 0 12px; white-space: nowrap; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; border: 2px solid {{tb.border}}; background: {{tb.bg}}; color: {{tb.color}};">
 <span style="font-size: 13px; font-weight: 700; line-height: 1.2;">{{tb.label}}</span>
 <span style="font-size: 11px; font-weight: 600; line-height: 1.2; color: {{tb.subColor}};">{{tb.count}}</span>
 </button>
