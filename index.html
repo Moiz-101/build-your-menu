@@ -733,12 +733,21 @@ body.locked #app{display:none}
 <sc-for list="{{setSections}}" as="sec" hint-placeholder-count="4">
 <div style="display: flex; flex-direction: column; gap: 6px; background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px;">
 <span style="font-size: 11.5px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">{{sec.title}}</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
 <sc-for list="{{sec.items}}" as="it" hint-placeholder-count="4">
-<div style="display: flex; align-items: flex-start; gap: 8px; font-size: 14px; line-height: 1.35; color: #1B2B27;">
-<span style="flex-shrink: 0; width: 6px; height: 6px; margin-top: 7px; border-radius: 50%; background: #C9963B;"></span>
-<span style="font-weight: 600;">{{it.name}}</span>
+<div style="display: flex; flex-direction: column; overflow: hidden; border-radius: 14px; background: #FFFFFF; border: 1.5px solid #E4D9C2;">
+<div style="height: 76px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: {{it.tile}};">
+<sc-if value="{{it.sCup}}" hint-placeholder-val="{{true}}"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h13v5a5 5 0 0 1-10 0z"></path><path d="M17 10h2a2.5 2.5 0 0 1 0 5h-2"></path><path d="M7 5q-1.5 1.5 0 3M11 4q-1.5 1.5 0 3M4 21h14"></path></svg></sc-if>
+<sc-if value="{{it.sBread}}" hint-placeholder-val="{{false}}"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13a9 6 0 0 1 18 0v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M7 11.5q1.5 1.5 0 3M12 11q1.5 1.5 0 3M17 11.5q1.5 1.5 0 3"></path></svg></sc-if>
+<sc-if value="{{it.sRoll}}" hint-placeholder-val="{{false}}"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="8" rx="4"></rect><path d="M9 8v8M15 8v8"></path></svg></sc-if>
+<sc-if value="{{it.sSkew}}" hint-placeholder-val="{{false}}"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21L21 3"></path><circle cx="8" cy="16" r="2.6"></circle><circle cx="12.5" cy="11.5" r="2.6"></circle><circle cx="17" cy="7" r="2.6"></circle></svg></sc-if>
+<sc-if value="{{it.sSweet}}" hint-placeholder-val="{{false}}"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11a8 8 0 0 1 16 0v9z"></path><path d="M4 15h16M12 3v-1"></path></svg></sc-if>
+<sc-if value="{{it.sBowl}}" hint-placeholder-val="{{false}}"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"></path><path d="M9 4q-1.5 2 0 4M13 3q-1.5 2 0 4M17 4q-1.5 2 0 4M8 21h8"></path></svg></sc-if>
+</div>
+<span style="padding: 8px 10px 10px 10px; font-size: 12.5px; font-weight: 700; line-height: 1.25; color: #1B2B27;">{{it.name}}</span>
 </div>
 </sc-for>
+</div>
 </div>
 </sc-for>
 </div>
@@ -2647,6 +2656,29 @@ class Component extends DCLogic {
       '<rect width="160" height="100" fill="' + bg + '"/>' + top + (BODY[id] || '') + '</svg>';
     return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
   }
+  /* Which drawn icon a set-menu item gets, and the tile colour behind it,
+     matching the dish tiles so the two screens look like one app. Chosen from
+     the item's own name first, then from the section it sits in. */
+  setIcon(name, section) {
+    const n = (name || '').toLowerCase(), sc = (section || '').toLowerCase();
+    const pick = (k) => ({
+      sCup: k === 'cup', sBread: k === 'bread', sRoll: k === 'roll',
+      sSkew: k === 'skew', sSweet: k === 'sweet', sBowl: k === 'bowl',
+      tile: { cup: '#E7E3D2', bread: '#F1E3C0', roll: '#E4EBD5',
+              skew: '#F3DCCB', sweet: '#F3DCE0', bowl: '#EEE0C4' }[k]
+    });
+    // the section wins for drinks: "English Breakfast" is a tea, and nothing
+    // in its own name says so
+    if (/tea|coffee/.test(sc)) return pick('cup');
+    if (/tea|coffee|chai/.test(n)) return pick('cup');
+    if (/roll|wrap|spring/.test(n) && !/chocolate/.test(n)) return pick('roll');
+    if (/wing|tikka|kibbeh|kebab/.test(n)) return pick('skew');
+    if (/sandwich|slider|croissant|bread|kulcha|roti/.test(n)) return pick('bread');
+    if (/cookie|biscuit|pastry|cake|brownie|chocolate/.test(n)) return pick('sweet');
+    if (/cookie|biscuit|pastr|cake/.test(sc)) return pick('sweet');
+    if (/croissant|sandwich/.test(sc)) return pick('bread');
+    return pick('bowl');
+  }
   // the set menu for this cuisine, or null when it picks dishes the usual way
   setMenu(cu) {
     const m = (this.SET_MENUS || {})[cu || this.state.cuisine];
@@ -2840,8 +2872,11 @@ class Component extends DCLogic {
       setSections: (() => {
         const m = this.setMenu(st.cuisine);
         const pk = (m && typeof st.pkg === 'number') ? m.packages[st.pkg] : null;
-        return pk ? pk.sections.map((sec) => ({
-          title: sec.title, items: sec.items.map((n) => ({ name: n })) })) : [];
+        if (!pk) return [];
+        return pk.sections.map((sec) => ({
+          title: sec.title,
+          items: sec.items.map((n) => Object.assign({ name: n }, this.setIcon(n, sec.title)))
+        }));
       })(),
       isCounters: screen === 'counters',
       counterGroups: this.COUNTERS.map((g) => ({
