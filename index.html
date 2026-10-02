@@ -542,7 +542,7 @@ body.locked #app{display:none}
 <button class="btn" type="button" onClick="{{bumpPax}}" style="flex-shrink: 0; display: flex; align-items: center; gap: 4px; min-height: 24px; padding: 0; border: none; background: transparent; color: #B3261E; font-size: 12px; font-weight: 700; white-space: nowrap; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B3261E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l10 18H2z"></path><path d="M12 10v5M12 18v.5"></path></svg><span style="text-decoration: underline; text-underline-offset: 2px;">{{minAddLabel}}</span></button>
 <label style="display: flex; align-items: center; gap: 6px; min-height: 24px; font-size: 12px; font-weight: 700; line-height: 1.2; color: #B3261E; cursor: pointer;">
 <input type="checkbox" checked="{{consent}}" onChange="{{toggleConsent}}" style="width: 18px; height: 18px; flex-shrink: 0; margin: 0; accent-color: #B3261E;">
-<span>I'll pay the 2,000 Dh minimum</span>
+<span>{{minPayLabel}}</span>
 </label>
 </div>
 </sc-if>
@@ -1771,9 +1771,8 @@ class Component extends DCLogic {
         on: on,
         pick: () => this.setState({ pkg: st.pkg === i ? null : i, consent: false, minWarn: false }),
         rows: pk.sections.map((sec) => ({
-                   k: sec.title,
-                   v: sec.items.length + (sec.items.length === 1 ? ' item' : ' items') }))
-                 .concat([{ k: 'Minimum order', v: fmt(pk.min) + ' Dh' }])
+                 k: sec.title,
+                 v: sec.items.length + (sec.items.length === 1 ? ' item' : ' items') }))
       }, sel(on));
     }) : null;
 
@@ -1872,6 +1871,7 @@ class Component extends DCLogic {
       minWarnOn: false,
       // after Save & Next is refused: add guests, or tick to pay the minimum
       minRowShown: belowMin && !!st.minWarn,
+      minPayLabel: "I'll pay the " + fmt(minFor) + ' Dh minimum',
       minAddLabel: hasPkg ? 'Add ' + (Math.ceil(minFor / price) - pax) + (Math.ceil(minFor / price) - pax === 1 ? ' guest' : ' guests') : '',
       notReady: !ready,
       btnOpacity: 1
