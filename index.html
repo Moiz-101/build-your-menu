@@ -2058,6 +2058,7 @@ class Component extends DCLogic {
       });
     });
 
+    const curTab = (built[st.tab] ? st.tab : (TABS[0] ? TABS[0].id : st.tab));
     const tabInfo = TABS.map((tb) => {
       const gs = built[tb.id];
       const need = gs.reduce((a, g) => a + (g.need || 0), 0);
@@ -2069,7 +2070,7 @@ class Component extends DCLogic {
     Object.keys(built).forEach((k) => built[k].forEach((g) => { totalPicked += g.count; }));
 
     const tabs = tabInfo.map((t) => {
-      const on = st.tab === t.tb.id;
+      const on = curTab === t.tb.id;
       return {
         label: t.tb.label, on: on,
         count: isCustom ? (t.done + ' picked') : (t.done + ' of ' + t.need),
@@ -2092,7 +2093,7 @@ class Component extends DCLogic {
       };
     });
 
-    const tabGroups = built[st.tab] || [];
+    const tabGroups = built[curTab] || [];
     const subIdx = Math.min(st.sub || 0, Math.max(tabGroups.length - 1, 0));
     const showSubs = tabGroups.length > 1;
     const subs = tabGroups.map((g, i) => {
@@ -2155,7 +2156,7 @@ class Component extends DCLogic {
               if (idx >= 0) {
                 move = { sub: idx, note: g.def.short + ' done. Now choose ' + tabGroups[idx].need + ' ' + tabGroups[idx].def.short + '.' };
               } else {
-                const here = TABS.findIndex((t) => t.id === st.tab);
+                const here = TABS.findIndex((t) => t.id === curTab);
                 const order = TABS.slice(here + 1).concat(TABS.slice(0, here));
                 for (let k = 0; k < order.length && !move; k++) {
                   const gs = built[order[k].id];
@@ -2882,7 +2883,9 @@ class Component extends DCLogic {
     const go = (scr, clearRet, setRet) => this.setState({ screen: scr, returnTo: setRet ? 'review' : (clearRet && scr === 'review' ? null : st.returnTo), pdfMsg: '' });
     const openItems = (fromReview) => {
       const key = st.cuisine + '|' + st.pkg + '|' + (st.pureVeg ? 'pv' : 'all');
-      this.setState({ screen: 'items', minWarn: false, returnTo: fromReview ? 'review' : st.returnTo, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: st.selKey === key ? st.sel : {}, notes: st.selKey === key ? st.notes : {}, noteFor: null, zoom: null, selKey: key });
+      const pmOpen = this.pickMenu(st.cuisine);
+      const firstTab = pmOpen ? 'sec0' : 'starters';
+      this.setState({ screen: 'items', minWarn: false, returnTo: fromReview ? 'review' : st.returnTo, tab: firstTab, fcu: 'all', sub: 0, note: '', sel: st.selKey === key ? st.sel : {}, notes: st.selKey === key ? st.notes : {}, noteFor: null, zoom: null, selKey: key });
     };
     const S = this.summary();
     const themes = this.THEMES.map((t) => {
