@@ -1007,7 +1007,7 @@ body.locked #app{display:none}
 </div>
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 12px 24px; display: flex; flex-direction: column; gap: 12px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">REVIEW &amp; CONFIRM</h2>
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">REVIEW &amp; REQUEST</h2>
 <span style="font-size: 13px; color: #5A6863; font-weight: 500; text-align: center;">Ref {{rv.ref}} · tap Edit to change</span>
 </div>
 <div style="background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
@@ -1077,6 +1077,21 @@ body.locked #app{display:none}
 <span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 26px; color: #0E3B33;">{{rv.grand}}</span>
 </div>
 <span style="font-size: 12px; color: #5A6863; line-height: 1.3;">Approximate price. Final quote is confirmed by our team after review.</span>
+</div>
+<div data-anchor="terms" style="scroll-margin: 12px; display: flex; flex-direction: column; gap: 10px; background: {{termsBg}}; border: 1.5px solid {{termsBorder}}; border-radius: 18px; padding: 14px 16px;">
+<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Terms &amp; conditions</span>
+<div style="display: flex; flex-direction: column; gap: 7px;">
+<sc-for list="{{terms}}" as="tc" hint-placeholder-count="4">
+<div style="display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; line-height: 1.45; color: #4A5A55;">
+<span style="flex-shrink: 0; width: 5px; height: 5px; margin-top: 7px; border-radius: 50%; background: #C9963B;"></span>
+<span>{{tc.text}}</span>
+</div>
+</sc-for>
+</div>
+<label style="display: flex; align-items: center; gap: 9px; min-height: 30px; font-size: 13px; font-weight: 700; line-height: 1.3; color: {{termsColor}}; cursor: pointer;">
+<input type="checkbox" checked="{{termsOn}}" onChange="{{toggleTerms}}" style="width: 20px; height: 20px; flex-shrink: 0; margin: 0; accent-color: #C62828;">
+<span>I have read and accept the terms &amp; conditions</span>
+</label>
 </div>
 </div>
 <div style="padding: 12px 24px 24px 24px; display: flex; flex-direction: column; gap: 8px;">
@@ -1542,7 +1557,7 @@ window.DISH_PHOTOS_BY_COURSE = {
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, detailsWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, setupEdit: null, counters: {}, counterItems: {}, cmNudge: 0, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, detailsWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, setupEdit: null, counters: {}, counterItems: {}, cmNudge: 0, terms: false, termsWarn: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
     // Dummy photo tiles for now; real photos replace the glyph tile later.
     this.ITEMS = [];
     const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
@@ -1814,6 +1829,20 @@ class Component extends DCLogic {
         ]
       }
     };
+    /* What the customer agrees to before the request goes in. The first three
+       are the owner's own wording; the rest come from the terms already on
+       Dragon Empire's written proposals, so nothing here is invented. */
+    this.TERMS = [
+      'Please ask our experts for the appropriate setup for your indoor live stations.',
+      'Event duration is 4 hours. Beyond that, AED 300 per hour applies.',
+      'Packages do not apply to house helpers or drivers unless they are counted in the guest list. We have separate combo meals designed for them.',
+      'The prices shown are an estimate. Your final quote is confirmed by our team after review.',
+      'A minimum order value applies to each package.',
+      'A 60% advance payment confirms your booking.',
+      'Cancellations must be made at least 48 hours before the event. After that, the full amount is charged.',
+      'Charges apply for any guests beyond the confirmed number.',
+      'Entry permits for the villa or community are arranged by you.'
+    ];
     this.COUNTER_IMG = {};     // counter id -> photo, set from the panel
     // counters that ship with a photograph in this page's own images folder
     this.COUNTER_SHOT = ['bao', 'bbq', 'chaat', 'chole', 'dimsum', 'khowsuey', 'makki', 'mocktail', 'pasta', 'pizza', 'shawarma', 'sizzler', 'sushi', 'tandoor', 'tawa', 'wok'];
@@ -2725,6 +2754,7 @@ class Component extends DCLogic {
       if (config.SAVE) this.SAVE = config.SAVE;
       if (config.QB) this.QB = config.QB;
       if (config.COUNTER_IMG) this.COUNTER_IMG = config.COUNTER_IMG;
+      if (Array.isArray(config.TERMS) && config.TERMS.length) this.TERMS = config.TERMS;
     }
     // dish ids are positions, so anything picked before the swap no longer means the same thing
     this.setState({ sel: {}, notes: {} });
@@ -2754,6 +2784,11 @@ class Component extends DCLogic {
     return this.REF;
   }
   async downloadPdf() {
+    if (!this.state.terms) {
+      this._scrollTo = 'terms';
+      this.setState({ termsWarn: true, pdfMsg: '' });
+      return;
+    }
     this.setState({ pdfMsg: 'Confirming and preparing your PDF...' });
     await this.ensureRef();                 // must happen before the PDF is drawn
     const filename = 'Catering-Order-' + this.REF + '.pdf';
@@ -3152,6 +3187,13 @@ class Component extends DCLogic {
       hasPdfMsg: !!st.pdfMsg,
       pdfMsg: st.pdfMsg,
       downloadPdf: () => this.downloadPdf(),
+      terms: this.TERMS.map((t) => ({ text: t })),
+      termsOn: st.terms,
+      termsWarn: st.termsWarn,
+      termsBorder: st.termsWarn && !st.terms ? '#C62828' : '#E4D9C2',
+      termsBg: st.termsWarn && !st.terms ? '#FDECEA' : '#FFFFFF',
+      termsColor: st.termsWarn && !st.terms ? '#9B1C1C' : '#0E3B33',
+      toggleTerms: () => this.setState({ terms: !st.terms, termsWarn: false }),
       // details
       name: st.name, cc: st.cc, phone: st.phone, emirate: st.emirate, date: st.date, time: st.time,
       dWarn: !!st.detailsWarn,
@@ -3682,6 +3724,7 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
       pkg: (st.pkg === undefined ? null : st.pkg),
       counters: st.counters || {},
       counterItems: st.counterItems || {},
+      terms: !!st.terms,
       theme: st.theme || null, eventNote: st.eventNote || ''
     };
   }
