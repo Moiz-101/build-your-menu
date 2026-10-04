@@ -12,7 +12,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-body{margin:0;font-family:'DM Sans',system-ui,sans-serif;background:#F7F1E6}
+body{margin:0;font-family:'DM Sans',system-ui,sans-serif;background:#F7F1E6;
+  /* stop a double tap zooming the page; pinch to zoom still works */
+  touch-action:manipulation}
 input,select,button,textarea{font-family:inherit}
 .fld:focus{outline:none;border-color:#0E3B33;box-shadow:0 0 0 3px rgba(201,150,59,0.35)}
 .btn:focus-visible{outline:3px solid #C9963B;outline-offset:2px}
@@ -59,7 +61,6 @@ body.locked #app{display:none}
 <div id="app"></div>
 <template id="tpl">
 <div class="app-shell" style="position: relative; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F1E6; color: #1B2B27; overflow: hidden;">
-
 <!-- Header -->
 <div style="background: #0E3B33; padding: 10px 24px; display: flex; align-items: center; gap: 12px;">
 <img src="images/web/logo.png" alt="Dubai Catering Service" style="height: 34px; width: auto; flex-shrink: 0; display: block;">
@@ -68,7 +69,6 @@ body.locked #app{display:none}
 <h1 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 500; font-size: 23px; line-height: 1.1; color: #FBF6EA;">Build your Menu!</h1>
 </div>
 </div>
-
 <sc-if value="{{isDetails}}" hint-placeholder-val="{{true}}">
 <!-- Stepper stripe -->
 <div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 1 of 5">
@@ -82,12 +82,10 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
-
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 6px 24px; display: flex; flex-direction: column; gap: 10px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center;">
 <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; color: #0E3B33;">Customer Details</h2>
 </div>
-
 <!-- Name -->
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <label for="name" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Name</label>
@@ -96,7 +94,6 @@ body.locked #app{display:none}
 <input id="name" class="fld" type="text" value="{{name}}" onChange="{{setName}}" placeholder="Full name" autocomplete="name" style="width: 100%; box-sizing: border-box; height: 44px; padding: 0 14px 0 44px; border: 1.5px solid {{dNameBorder}}; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
 </div>
 </div>
-
 <!-- Contact -->
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <label for="phone" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Contact</label>
@@ -119,7 +116,6 @@ body.locked #app{display:none}
 <input id="phone" class="fld" type="tel" value="{{phone}}" onChange="{{setPhone}}" inputmode="tel" placeholder="50 123 4567" autocomplete="tel-national" style="flex-grow: 1; min-width: 0; box-sizing: border-box; height: 44px; padding: 0 14px; border: 1.5px solid {{dPhoneBorder}}; border-radius: 14px; background: #FFFFFF; font-size: 16px; color: #1B2B27;">
 </div>
 </div>
-
 <!-- Emirates -->
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <label for="emirate" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Emirates</label>
@@ -138,7 +134,6 @@ body.locked #app{display:none}
 <svg style="position: absolute; right: 14px; top: 15px; pointer-events: none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
 </div>
 </div>
-
 <!-- Event date + time -->
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <label for="date" style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Event Date</label>
@@ -169,7 +164,6 @@ body.locked #app{display:none}
 </div>
 </div>
 </div>
-
 <!-- Pax -->
 <div style="display: flex; flex-direction: column; gap: 4px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Pax</span>
@@ -184,7 +178,6 @@ body.locked #app{display:none}
 <span style="font-size: 16px; font-weight: 500; color: #4A5A55;">persons</span>
 </div>
 </div>
-
 <!-- Pure veg -->
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 5px 5px 5px 14px; border-radius: 14px; background: #FFFFFF; border: 1.5px solid #DDD3BF;">
 <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
@@ -211,8 +204,6 @@ body.locked #app{display:none}
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
 </div>
-
-
 </sc-if>
 <sc-if value="{{isSetup}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe -->
@@ -227,7 +218,6 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
-
 <!-- Content -->
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 20px 24px 8px 24px; display: flex; flex-direction: column; gap: 16px;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">SETUP</h2>
@@ -354,7 +344,6 @@ body.locked #app{display:none}
 </div>
 </sc-if>
 </div>
-
 <!-- Footer actions -->
 <div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
 <button class="btn" type="button" onClick="{{backSetup}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
@@ -373,8 +362,6 @@ body.locked #app{display:none}
 </button>
 </sc-if>
 </div>
-
-
 </sc-if>
 <sc-if value="{{isCounters}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe: still step 2, this is part of describing the setup -->
@@ -389,12 +376,10 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
-
 <!-- Content -->
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 20px 24px 8px 24px; display: flex; flex-direction: column; gap: 14px;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">LIVE COUNTERS</h2>
 <span style="margin-top: -6px; text-align: center; font-size: 13px; line-height: 1.45; color: #5A6863;">Chefs cooking in front of your guests. Choose as many as you like &mdash; our team will confirm what suits your guest count.</span>
-
 <sc-for list="{{counterGroups}}" as="cg" hint-placeholder-count="2">
 <div style="display: flex; flex-direction: column; gap: 8px;">
 <span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">{{cg.group}}</span>
@@ -406,7 +391,6 @@ body.locked #app{display:none}
 </div>
 </sc-for>
 </div>
-
 <!-- Footer actions -->
 <div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
 <button class="btn" type="button" onClick="{{backCounters}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center;">
@@ -438,7 +422,6 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
-
 <!-- Counter tabs (fixed) -->
 <div style="padding: 10px 24px 0 24px; display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">COUNTER MENUS</h2>
@@ -451,7 +434,6 @@ body.locked #app{display:none}
 </sc-for>
 </div>
 </div>
-
 <!-- The chosen counter's menu -->
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 8px 24px; display: flex; flex-direction: column; gap: 14px;">
 <sc-if value="{{cmActive.hasNote}}" hint-placeholder-val="{{false}}">
@@ -484,7 +466,6 @@ body.locked #app{display:none}
 </div>
 </sc-for>
 </div>
-
 <!-- Footer actions -->
 <div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
 <button class="btn" type="button" onClick="{{backCounterMenu}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center;">
@@ -516,11 +497,9 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
-
 <!-- Content -->
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 2px 24px; display: flex; flex-direction: column; gap: 8px;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">SELECT PACKAGES</h2>
-
 <!-- Cuisine -->
 <div style="display: flex; flex-direction: column; gap: 6px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Cuisine</span>
@@ -530,7 +509,6 @@ body.locked #app{display:none}
 </sc-for>
 </div>
 </div>
-
 <!-- Package slider -->
 <div style="display: flex; flex-direction: column; gap: 6px;">
 <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
@@ -576,7 +554,6 @@ body.locked #app{display:none}
 </sc-for>
 </div>
 </div>
-
 <sc-if value="{{offersCustom}}" hint-placeholder-val="{{true}}">
 <!-- OR custom -->
 <button class="btn" type="button" aria-pressed="{{custom.on}}" onClick="{{custom.pick}}" style="display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 8px 14px 8px 12px; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{custom.border}}; box-shadow: {{custom.shadow}};">
@@ -594,7 +571,6 @@ body.locked #app{display:none}
 </button>
 </sc-if>
 </div>
-
 <!-- Approx price (pinned) -->
 <div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 8px 24px; display: flex; flex-direction: column; gap: 6px;">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
@@ -625,7 +601,6 @@ body.locked #app{display:none}
 </div>
 </sc-if>
 </div>
-
 <!-- Footer actions -->
 <div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
 <button class="btn" type="button" onClick="{{backPkg}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none;">
@@ -644,7 +619,6 @@ body.locked #app{display:none}
 </button>
 </sc-if>
 </div>
-
 </sc-if>
 <sc-if value="{{isItemsScreen}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe -->
@@ -659,7 +633,6 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
 </div>
-
 <sc-if value="{{picksDishes}}" hint-placeholder-val="{{true}}">
 <!-- Title + tabs (fixed) -->
 <div style="padding: 10px 24px 0 24px; display: flex; flex-direction: column; gap: 8px;">
@@ -708,7 +681,6 @@ body.locked #app{display:none}
 </div>
 </sc-if>
 </div>
-
 <!-- Items (scrolls) -->
 <div data-anchor="items-list" style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 12px 24px; display: flex; flex-direction: column; gap: 18px;">
 <sc-if value="{{hasNote}}" hint-placeholder-val="{{false}}">
@@ -764,7 +736,6 @@ body.locked #app{display:none}
 </div>
 </sc-for>
 </div>
-
 <!-- Progress hint -->
 <div style="background: #FFFFFF; border-top: 1px solid #DDD3BF; box-shadow: 0 -6px 16px rgba(14,59,51,0.08); padding: 8px 24px; display: flex; flex-direction: column; gap: 6px;">
 <sc-if value="{{showRate}}" hint-placeholder-val="{{false}}">
@@ -801,7 +772,6 @@ body.locked #app{display:none}
 <div style="height: 5px; border-radius: 999px; background: #E4D9C2; overflow: hidden;"><div style="height: 100%; border-radius: 999px; background: #C9963B; width: {{pct}}%;"></div></div>
 </sc-if>
 </div>
-
 </sc-if>
 <sc-if value="{{isSetItems}}" hint-placeholder-val="{{false}}">
 <div style="padding: 10px 24px 0 24px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;">
@@ -841,7 +811,6 @@ body.locked #app{display:none}
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
 </button>
 </div>
-
 </sc-if>
 <sc-if value="{{isThemeScreen}}" hint-placeholder-val="{{false}}">
 <!-- Stepper stripe -->
@@ -856,7 +825,6 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">5</div>
 </div>
-
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 8px 24px; display: flex; flex-direction: column; gap: 12px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">EVENT THEME</h2>
@@ -932,7 +900,6 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">5</div>
 </div>
-
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 0 0 8px 0; display: flex; flex-direction: column; gap: 14px;">
 <div style="position: relative; height: 236px; flex-shrink: 0;">
 <svg width="100%" height="100%" viewBox="0 0 160 124" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Sample view of {{d.name}}" style="display:block"><defs><g id="tScene"><rect width="160" height="124" fill="{{d.c1}}"></rect><rect y="100" width="160" height="24" fill="{{d.c2}}"></rect><rect width="160" height="24" fill="{{d.c4}}" opacity="0.22"></rect><g transform="translate(0 24)">
@@ -994,7 +961,6 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 5 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 </div>
-
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 22px 24px 8px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;">
 <div style="width: 84px; height: 84px; border-radius: 50%; background: #0E3B33; border: 3px solid #C9963B; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 26px rgba(14,59,51,0.3);">
 <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>
@@ -1038,7 +1004,6 @@ body.locked #app{display:none}
 <div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
 <div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 5 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
 </div>
-
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 14px 24px 12px 24px; display: flex; flex-direction: column; gap: 12px;">
 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
 <h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">REVIEW &amp; CONFIRM</h2>
@@ -1069,18 +1034,15 @@ body.locked #app{display:none}
 <div style="background: #FFFFFF; border: 1.5px solid #E4D9C2; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
 <span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; color: #0E3B33;">Menu</span>
-<button class="btn" type="button" onClick="{{editPkg}}" aria-label="Edit package Menu" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11a2.2 2.2 0 0 0-3-3L5 16z"></path></svg>Edit package</button>
+<sc-if value="{{rv.hasPackages}}" hint-placeholder-val="{{true}}"><button class="btn" type="button" onClick="{{editPkg}}" aria-label="Edit package Menu" style="height: 34px; padding: 0 12px; border-radius: 999px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11a2.2 2.2 0 0 0-3-3L5 16z"></path></svg>Edit package</button></sc-if>
 </div>
-<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Selection</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.pkgLabel}}</span></div>
+<sc-if value="{{rv.hasPackages}}" hint-placeholder-val="{{true}}"><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Selection</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.pkgLabel}}</span></div>
 <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Cuisine</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.cuisine}}</span></div>
-<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Per person</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.ppText}}</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Per person</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.ppText}}</span></div></sc-if>
 <div style="height: 1px; background: #E4D9C2;"></div>
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-<sc-if value="{{rv.isSetMenu}}" hint-placeholder-val="{{false}}">
-<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">What is included</span>
-</sc-if>
-<sc-if value="{{rv.picksDishes}}" hint-placeholder-val="{{true}}">
-<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Selected dishes</span>
+<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">{{rv.dishesLabel}}</span>
+<sc-if value="{{rv.canEditDishes}}" hint-placeholder-val="{{true}}">
 <button class="btn" type="button" onClick="{{editItems}}" aria-label="Edit dishes" style="height: 30px; padding: 0 10px; border-radius: 999px; border: 1.5px solid #0E3B33; background: transparent; color: #0E3B33; font-size: 12px; font-weight: 700; cursor: pointer;">Edit dishes</button>
 </sc-if>
 </div>
@@ -1187,8 +1149,7 @@ body.locked #app{display:none}
 </div>
 </div>
 </sc-if>
-</div>
-</template>
+</div></template>
 <script>
 /* Settings for the backend link-up.
    tracking:false means the app behaves exactly as it did before: nothing is sent anywhere. */
@@ -1697,6 +1658,12 @@ class Component extends DCLogic {
        wherever it gives no number. A counter missing from here has no menu to
        show - Amritsari Chole Kulche and Makki di Roti are the dish itself. */
     this.COUNTER_MENUS = {
+      chole: { sections: [ { title: 'Served at the counter', items: [
+        'Amritsari Chole', 'Kulche'] } ] },
+
+      makki: { sections: [ { title: 'Served at the counter', items: [
+        'Makki di Roti', 'Sarson da Saag'] } ] },
+
       bbq: { sections: [ { title: 'On the grill', items: [
         'Royal Firangi Barbecued Chicken',
         'Charcoal Kissed Harissa Lamb Chops Royale',
@@ -2497,6 +2464,7 @@ class Component extends DCLogic {
     else if (isCustom) pp = this.customPP({ starters: g.starters.length, mains: g.mains.length, staples: g.staples.length, dessert: g.dessert.length });
     const raw = pp * st.pax;
     const pkPack = pp2 ? pp2.pack : null;
+    const noPkg = !this.offersPackages();
     const minFor = smPack ? smPack.min : (pkPack ? pkPack.min : MIN);
     const vat = sm ? ' + VAT' : '';
     const menuTotal = pp > 0 ? Math.max(raw, minFor) : 0;
@@ -2519,24 +2487,30 @@ class Component extends DCLogic {
       venueLabel: st.venue === 'indoor' ? 'Indoor' : (st.venue === 'outdoor' ? 'Outdoor' : 'Not selected'),
       isOnsite: st.type === 'onsite',
       isSetMenu: !!this.setMenu(st.cuisine),
+      dishesLabel: this.setMenu(st.cuisine) ? 'What is included'
+        : (this.offersPackages() ? 'Selected dishes' : 'What will be served'),
+      canEditDishes: !this.setMenu(st.cuisine) && this.offersPackages(),
       picksDishes: !this.setMenu(st.cuisine),
       hasCounters: this.hasCounters(),
+      hasPackages: this.offersPackages(),
+      noPackages: !this.offersPackages(),
       countersText: this.pickedCounters().join(', ') || 'None chosen',
       pkgLabel: isCustom ? 'Custom menu'
         : ((smPack || pkPack) ? (smPack || pkPack).name
            : (hasPkg ? 'Package ' + (st.pkg + 1) : 'Not selected')),
       cuisine: cuisine + (st.pureVeg ? ' (Pure Veg)' : ''),
-      ppText: pp > 0 ? pp + ' Dh' + vat : (this.priced() ? '-' : 'On request'),
+      ppText: pp > 0 ? pp + ' Dh' + vat : ((noPkg || !this.priced()) ? 'On request' : '-'),
       groups: withCounters,
       themeLabel: th ? th.name + (th.price ? ' (+ ' + fmt(th.price) + ' Dh)' : ' (Free)') : 'No theme',
       notesText: (st.eventNote || '').trim() || 'None',
       menuRowLabel: pp > 0 ? 'Menu: ' + st.pax + ' guests x ' + pp + ' Dh' : 'Menu',
-      menuRowValue: pp > 0 ? fmt(raw) + ' Dh' + vat : (this.priced() ? '-' : 'On request'),
+      menuRowValue: pp > 0 ? fmt(raw) + ' Dh' + vat : ((noPkg || !this.priced()) ? 'On request' : '-'),
       showMin: pp > 0 && raw < minFor,
       minValue: '+ ' + fmt(Math.max(minFor - raw, 0)) + ' Dh',
       themeRowLabel: th ? 'Theme: ' + th.name : 'Theme',
       themeRowValue: th ? (th.price ? '+ ' + fmt(th.price) + ' Dh' : 'Free') : 'None',
-      grand: (grand > 0 || this.priced()) ? fmt(grand) + ' Dh' + vat : 'On request', grandNum: grand, menuTotal: menuTotal, themePrice: themePrice, th: th
+      grand: (noPkg && pp === 0) ? 'On request'
+        : ((grand > 0 || this.priced()) ? fmt(grand) + ' Dh' + vat : 'On request'), grandNum: grand, menuTotal: menuTotal, themePrice: themePrice, th: th
     };
   }
   /* One page, on the printed border. `bg` is optional:
@@ -3024,6 +2998,13 @@ class Component extends DCLogic {
     });
     return counters;
   }
+  /* Packages belong to a buffet. A live cooking station on its own is priced
+     from its counters, so the package and dish screens are skipped. */
+  offersPackages() {
+    const st = this.state;
+    if (st.type === 'delivery') return true;
+    return st.layout === 'buffet' || st.layout === 'both';
+  }
   // a live station means there are counters to choose
   hasCounters() {
     const l = this.state.layout;
@@ -3126,12 +3107,15 @@ class Component extends DCLogic {
         go(ret ? 'review' : 'setup', true);
       },
       backSetup: () => go(ret ? 'review' : 'details', true),
-      nextFromSetup: () => go(ret ? 'review' : (this.hasCounters() ? 'counters' : 'pkg'), true),
+      nextFromSetup: () => go(ret ? 'review'
+        : (this.hasCounters() ? 'counters' : (this.offersPackages() ? 'pkg' : 'theme')), true),
       backCounters: () => go(ret ? 'review' : 'setup', true),
       nextFromCounters: () => go(ret ? 'review'
-        : (this.menuCounters().length ? 'countermenu' : 'pkg'), true),
+        : (this.menuCounters().length ? 'countermenu'
+           : (this.offersPackages() ? 'pkg' : 'theme')), true),
       backCounterMenu: () => go(ret ? 'review' : 'counters', true),
-      nextFromCounterMenu: () => go(ret ? 'review' : 'pkg', true),
+      nextFromCounterMenu: () => go(ret ? 'review'
+        : (this.offersPackages() ? 'pkg' : 'theme'), true),
       backPkg: () => go(ret ? 'review'
         : (this.menuCounters().length ? 'countermenu'
            : (this.hasCounters() ? 'counters' : 'setup')), true),
@@ -3144,7 +3128,10 @@ class Component extends DCLogic {
         if (this.itemsVals().custBelowMin && !st.custMinOk) { this.setState({ minWarn: true }); return; }
         go(ret ? 'review' : 'theme', true);
       },
-      backTheme: () => go(ret ? 'review' : 'items', true),
+      backTheme: () => go(ret ? 'review'
+        : (this.offersPackages() ? 'items'
+           : (this.menuCounters().length ? 'countermenu'
+              : (this.hasCounters() ? 'counters' : 'setup'))), true),
       nextFromTheme: () => go('review', true),
       backReview: () => go('theme', true),
       editDetails: () => go('details', false, true),
