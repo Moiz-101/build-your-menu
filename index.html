@@ -425,6 +425,84 @@ body.locked #app{display:none}
 </sc-if>
 </div>
 </sc-if>
+<sc-if value="{{isCounterMenu}}" hint-placeholder-val="{{false}}">
+<!-- Stepper stripe: still step 2, the counters are part of the setup -->
+<div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 2 of 5">
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; display: flex; align-items: center; justify-content: center;" aria-label="Step 1 done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+<div style="flex-grow: 1; height: 2px; background: #0E3B33; margin: 0 6px;"></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #0E3B33; color: #FBF6EA; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2.5px rgba(201,150,59,0.5);">2</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">3</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">4</div>
+<div style="flex-grow: 1; height: 2px; background: #C9B98F; margin: 0 6px;"></div>
+<div style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid #8B8467; color: #4A5A55; font-weight: 600; font-size: 12px; display: flex; align-items: center; justify-content: center;">5</div>
+</div>
+
+<!-- Counter tabs (fixed) -->
+<div style="padding: 10px 24px 0 24px; display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;">
+<h2 style="margin: 0; text-align: center; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: 2px; color: #0E3B33;">COUNTER MENUS</h2>
+<div style="display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
+<sc-for list="{{cmTabs}}" as="ct" hint-placeholder-count="3">
+<button class="btn" type="button" aria-pressed="{{ct.on}}" onClick="{{ct.pick}}" style="flex: 1 0 auto; min-width: 0; height: 46px; padding: 0 12px; white-space: nowrap; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; background: {{ct.bg}}; color: {{ct.color}}; border: 1.5px solid {{ct.border}};">
+<span style="font-size: 13px; font-weight: 700; line-height: 1.2;">{{ct.label}}</span>
+<span style="font-size: 11px; font-weight: 600; line-height: 1.2; color: {{ct.subColor}};">{{ct.count}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<!-- The chosen counter's menu -->
+<div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 12px 24px 8px 24px; display: flex; flex-direction: column; gap: 14px;">
+<sc-if value="{{cmActive.hasNote}}" hint-placeholder-val="{{false}}">
+<span style="text-align: center; font-size: 13px; line-height: 1.45; color: #5A6863;">{{cmActive.note}}</span>
+</sc-if>
+<sc-for list="{{cmActive.sections}}" as="sec" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+<span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">{{sec.title}}</span>
+<span style="flex-shrink: 0; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; background: {{sec.pillBg}}; color: {{sec.pillColor}};">{{sec.pill}}</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{sec.items}}" as="it" hint-placeholder-count="4">
+<button class="btn" type="button" aria-pressed="{{it.on}}" disabled="{{it.locked}}" onClick="{{it.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; box-sizing: border-box; padding: 0; overflow: hidden; cursor: pointer; text-align: left; border-radius: 14px; opacity: {{it.opacity}}; background: {{it.bg}}; border: 2px solid {{it.border}};">
+<div style="height: 60px; width: 100%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: {{it.tile}};">
+<sc-if value="{{it.sCup}}" hint-placeholder-val="{{true}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h13v5a5 5 0 0 1-10 0z"></path><path d="M17 10h2a2.5 2.5 0 0 1 0 5h-2"></path><path d="M7 5q-1.5 1.5 0 3M11 4q-1.5 1.5 0 3M4 21h14"></path></svg></sc-if>
+<sc-if value="{{it.sBread}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13a9 6 0 0 1 18 0v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M7 11.5q1.5 1.5 0 3M12 11q1.5 1.5 0 3M17 11.5q1.5 1.5 0 3"></path></svg></sc-if>
+<sc-if value="{{it.sRoll}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="8" rx="4"></rect><path d="M9 8v8M15 8v8"></path></svg></sc-if>
+<sc-if value="{{it.sSkew}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21L21 3"></path><circle cx="8" cy="16" r="2.6"></circle><circle cx="12.5" cy="11.5" r="2.6"></circle><circle cx="17" cy="7" r="2.6"></circle></svg></sc-if>
+<sc-if value="{{it.sSweet}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11a8 8 0 0 1 16 0v9z"></path><path d="M4 15h16M12 3v-1"></path></svg></sc-if>
+<sc-if value="{{it.sBowl}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"></path><path d="M9 4q-1.5 2 0 4M13 3q-1.5 2 0 4M17 4q-1.5 2 0 4M8 21h8"></path></svg></sc-if>
+</div>
+<sc-if value="{{it.on}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
+</sc-if>
+<span style="padding: 7px 9px 9px 9px; font-size: 12px; font-weight: 700; line-height: 1.25; color: #1B2B27;">{{it.name}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<!-- Footer actions -->
+<div style="padding: 10px 24px 14px 24px; display: flex; align-items: center; gap: 12px;">
+<button class="btn" type="button" onClick="{{backCounterMenu}}" aria-label="Back" style="width: 46px; height: 46px; box-sizing: border-box; flex-shrink: 0; border-radius: 14px; border: 1.5px solid #0E3B33; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+</button>
+<sc-if value="{{cmReady}}" hint-placeholder-val="{{true}}">
+<button class="btn" type="button" onClick="{{nextFromCounterMenu}}" style="flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+<span>Save &amp; Next</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E9C77E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</button>
+</sc-if>
+<sc-if value="{{cmNotReady}}" hint-placeholder-val="{{false}}">
+<button class="btn" type="button" disabled="{{true}}" style="opacity: 0.45; flex-grow: 1; height: 46px; border: none; border-radius: 14px; background: #0E3B33; color: #FBF6EA; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
+<span>Finish each counter</span>
+</button>
+</sc-if>
+</div>
+</sc-if>
 <sc-if value="{{isPkgScreen}}" hint-placeholder-val="{{true}}">
 <!-- Stepper stripe -->
 <div style="background: #EADFC8; border-bottom: 1px solid #D9CBAB; padding: 6px 28px; display: flex; align-items: center;" aria-label="Step 3 of 5">
@@ -1502,7 +1580,7 @@ window.DISH_PHOTOS_BY_COURSE = {
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, detailsWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, setupEdit: null, counters: {}, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, detailsWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, setupEdit: null, counters: {}, counterItems: {}, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
     // Dummy photo tiles for now; real photos replace the glyph tile later.
     this.ITEMS = [];
     const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
@@ -1613,6 +1691,61 @@ class Component extends DCLogic {
         { sv: 2, snv: 2, mv: 2, mnv: 2, rc: 2, nd: 1, ds: 2 },
         { sv: 3, snv: 3, mv: 2, mnv: 3, rc: 2, nd: 1, ds: 3 }
       ]
+    };
+    /* What each live counter serves. A section with a `need` is chosen from;
+       a section without one is served whole, which is how the sheet reads
+       wherever it gives no number. A counter missing from here has no menu to
+       show - Amritsari Chole Kulche and Makki di Roti are the dish itself. */
+    this.COUNTER_MENUS = {
+      bbq: { sections: [ { title: 'On the grill', items: [
+        'Royal Firangi Barbecued Chicken',
+        'Charcoal Kissed Harissa Lamb Chops Royale',
+        'Charcoal Grilled Prawns with Garlic & Green Chillies',
+        'Charcoal Grilled Fish in Traditional Indian Spices',
+        'Lamb Mishaki Skewers',
+        'Ember Roasted Chicken Kebab Reserve',
+        'Golden Flame Mutton Kebab',
+        'Fire Roasted Corn with Lemon Butter Dust',
+        'Charcoal Grilled Cottage Cheese',
+        'Assorted Grilled Vegetable Lemon Butter Dust',
+        'Charcoal Grilled Fish',
+        'Shish Taouk'] } ] },
+
+      sizzler: { note: 'Choose one from each section', sections: [
+        { title: 'Staple', need: 1, items: ['Noodles', 'Rice'] },
+        { title: 'Mains', need: 1, items: ['Protein', 'Exotic Vegetables', 'Tofu'] },
+        { title: 'Sauces', need: 1, items: [
+          'Black Pepper', 'Hot Garlic', 'Sichuan Chilli',
+          'Orange Black Bean', 'BBQ Onion'] } ] },
+
+      mocktail: { sections: [ { title: 'Mocktails', items: [
+        'Mandarin Swirl', 'Orange Mojito', 'Lychee Lemongrass Iced Tea',
+        'Mango Basil Mojito', 'Frozen Lime', 'Watermelon Cilantro Crush',
+        'Kaffir Lime Cooler', 'Lychee Basil Quencher'] } ] },
+
+      chaat: { sections: [ { title: 'Chaat', items: [
+        'Semolina Panipuri', 'Samosa Chaat', 'Papdi Chaat', 'Dahi Bhalla',
+        'Aloo Tikki Chaat', 'Sev Puri', 'Dahi Puri', 'Palak Patta Chaat',
+        'Fruit Chaat', 'Raj Kachori'] } ] },
+
+      pasta: { note: 'Pick 2 from each section', sections: [
+        { title: 'Sauce', need: 2, items: [
+          "Rosso - Sugo all'Arrabbiata", 'Alfredo Cream Sauce', 'Marinara'] },
+        { title: 'Pasta', need: 2, items: [
+          'Penne', 'Fusilli', 'Spaghetti', 'Macaroni', 'Ravioli'] },
+        { title: 'Add-ons', need: 2, items: [
+          'Poultry', 'Exotic Vegetables', 'Shrimps'] } ] },
+
+      khowsuey: { sections: [ { title: 'Khao Suey with', items: [
+        'Exotic Vegetables', 'Poultry', 'Shrimps'] } ] },
+
+      wok: { sections: [
+        { title: 'Base', items: ['Rice', 'Noodles'] },
+        { title: 'Protein', items: [
+          'Poultry', 'Shrimps', 'Lamb', 'Tofu', 'Cottage Cheese'] },
+        { title: 'Exotic Vegetables', need: 4, items: [
+          'Broccoli', 'Baby Corn', 'Mushroom', 'Chinese Cabbage', 'Bok Choy',
+          'Bell Pepper', 'French Beans', 'Carrots', 'Spinach', 'Snow Peas'] } ] }
     };
     /* Live counters, offered when there is a live station. Grouped so the
        list reads at a glance rather than as sixteen rows, and ordered with
@@ -2358,6 +2491,7 @@ class Component extends DCLogic {
       ? smPack.sections.map((sec) => ({ title: sec.title + ' (' + sec.items.length + ')',
           items: sec.items.map((n) => ({ name: n, note: '', hasNote: false })) }))
       : [['Starters', g.starters], ['Main course', g.mains], ['Staples', g.staples], ['Dessert', g.dessert]].filter((a) => a[1].length).map((a) => ({ title: a[0] + ' (' + a[1].length + ')', items: a[1] })));
+    const withCounters = groups.concat(this.counterGroupsForQuote());
     let pp = 0;
     if (hasPkg) pp = P[st.pkg];
     else if (isCustom) pp = this.customPP({ starters: g.starters.length, mains: g.mains.length, staples: g.staples.length, dessert: g.dessert.length });
@@ -2393,7 +2527,7 @@ class Component extends DCLogic {
            : (hasPkg ? 'Package ' + (st.pkg + 1) : 'Not selected')),
       cuisine: cuisine + (st.pureVeg ? ' (Pure Veg)' : ''),
       ppText: pp > 0 ? pp + ' Dh' + vat : (this.priced() ? '-' : 'On request'),
-      groups: groups,
+      groups: withCounters,
       themeLabel: th ? th.name + (th.price ? ' (+ ' + fmt(th.price) + ' Dh)' : ' (Free)') : 'No theme',
       notesText: (st.eventNote || '').trim() || 'None',
       menuRowLabel: pp > 0 ? 'Menu: ' + st.pax + ' guests x ' + pp + ' Dh' : 'Menu',
@@ -2802,7 +2936,8 @@ class Component extends DCLogic {
     if (/tea|coffee/.test(sc)) return pick('cup');
     if (/tea|coffee|chai/.test(n)) return pick('cup');
     if (/roll|wrap|spring/.test(n) && !/chocolate/.test(n)) return pick('roll');
-    if (/wing|tikka|kibbeh|kebab/.test(n)) return pick('skew');
+    if (/wing|tikka|kibbeh|kebab|grill|barbecu|bbq|roast|chop|skewer|taouk|shish|mishaki/.test(n))
+      return pick('skew');
     if (/sandwich|slider|croissant|bread|kulcha|roti/.test(n)) return pick('bread');
     if (/cookie|biscuit|pastry|cake|brownie|chocolate/.test(n)) return pick('sweet');
     if (/cookie|biscuit|pastr|cake/.test(sc)) return pick('sweet');
@@ -2835,6 +2970,59 @@ class Component extends DCLogic {
   setMenu(cu) {
     const m = (this.SET_MENUS || {})[cu || this.state.cuisine];
     return m && m.packages && m.packages.length ? m : null;
+  }
+  // one group per chosen counter, listing what it will serve
+  counterGroupsForQuote() {
+    const st = this.state;
+    const sel = st.counterItems || {};
+    return this.menuCounters().map((c) => {
+      const names = [];
+      c.menu.sections.forEach((sec, si) => {
+        sec.items.forEach((n, ii) => {
+          const chosen = sec.need ? !!sel[this.cmKey(c.id, si, ii)] : true;
+          if (chosen) names.push(n);
+        });
+      });
+      return { title: c.name + ' (' + names.length + ')',
+               items: names.map((n) => ({ name: n, note: '', hasNote: false })) };
+    }).filter((g) => g.items.length);
+  }
+  // the counters the customer picked that actually have a menu to show
+  menuCounters() {
+    const on = this.state.counters || {};
+    const out = [];
+    (this.COUNTERS || []).forEach((g) => g.items.forEach((c) => {
+      const m = (this.COUNTER_MENUS || {})[c.id];
+      if (on[c.id] && m && m.sections && m.sections.length) out.push({ id: c.id, name: c.name, menu: m });
+    }));
+    return out;
+  }
+  // one key per item, so a choice survives changing counters and coming back
+  cmKey(counterId, si, ii) { return counterId + ':' + si + ':' + ii; }
+
+  /* Every section of every chosen counter, with how many are still needed.
+     Sections without a number are served whole and have nothing to tick. */
+  counterMenuState() {
+    const st = this.state;
+    const list = this.menuCounters();
+    const sel = st.counterItems || {};
+    const counters = list.map((c) => {
+      const sections = c.menu.sections.map((sec, si) => {
+        const items = sec.items.map((n, ii) => {
+          const key = this.cmKey(c.id, si, ii);
+          return { name: n, key: key, on: !!sel[key] };
+        });
+        const picked = items.filter((x) => x.on).length;
+        const need = sec.need || 0;
+        return { title: sec.title, need: need, picked: picked, items: items,
+                 choose: need > 0, full: need > 0 && picked >= need };
+      });
+      const need = sections.reduce((a, s) => a + s.need, 0);
+      const done = sections.reduce((a, s) => a + Math.min(s.picked, s.need || s.picked), 0);
+      return { id: c.id, name: c.name, note: c.menu.note || '', sections: sections,
+               need: need, done: done, ready: need === 0 || done >= need };
+    });
+    return counters;
   }
   // a live station means there are counters to choose
   hasCounters() {
@@ -2940,8 +3128,13 @@ class Component extends DCLogic {
       backSetup: () => go(ret ? 'review' : 'details', true),
       nextFromSetup: () => go(ret ? 'review' : (this.hasCounters() ? 'counters' : 'pkg'), true),
       backCounters: () => go(ret ? 'review' : 'setup', true),
-      nextFromCounters: () => go(ret ? 'review' : 'pkg', true),
-      backPkg: () => go(ret ? 'review' : (this.hasCounters() ? 'counters' : 'setup'), true),
+      nextFromCounters: () => go(ret ? 'review'
+        : (this.menuCounters().length ? 'countermenu' : 'pkg'), true),
+      backCounterMenu: () => go(ret ? 'review' : 'counters', true),
+      nextFromCounterMenu: () => go(ret ? 'review' : 'pkg', true),
+      backPkg: () => go(ret ? 'review'
+        : (this.menuCounters().length ? 'countermenu'
+           : (this.hasCounters() ? 'counters' : 'setup')), true),
       nextFromPkg: () => {
         if (this.pkgVals().belowMin && !st.consent) { this.setState({ minWarn: true }); return; }
         openItems();
@@ -3032,6 +3225,53 @@ class Component extends DCLogic {
           items: sec.items.map((n) => Object.assign({ name: n }, this.setIcon(n, sec.title)))
         }));
       })(),
+      isCounterMenu: screen === 'countermenu',
+      cmTabs: (() => {
+        const cs = this.counterMenuState();
+        const cur = (cs.some((c) => c.id === st.cmTab) ? st.cmTab : (cs[0] && cs[0].id));
+        return cs.map((c) => ({
+          label: c.name,
+          count: c.need ? c.done + ' of ' + c.need : 'All served',
+          on: c.id === cur,
+          subColor: c.id === cur ? '#E9C77E' : '#8A928D',
+          bg: c.id === cur ? '#0E3B33' : '#FFFFFF',
+          color: c.id === cur ? '#FBF6EA' : '#0E3B33',
+          border: c.id === cur ? '#0E3B33' : '#DDD3BF',
+          pick: () => this.setState({ cmTab: c.id })
+        }));
+      })(),
+      cmActive: (() => {
+        const cs = this.counterMenuState();
+        const cur = cs.filter((c) => c.id === st.cmTab)[0] || cs[0];
+        if (!cur) return { name: '', note: '', sections: [] };
+        return {
+          name: cur.name,
+          note: cur.note || (cur.need ? '' : 'Everything here is served'),
+          hasNote: !!(cur.note || !cur.need),
+          sections: cur.sections.map((sec) => ({
+            title: sec.title,
+            pill: sec.choose ? sec.picked + ' of ' + sec.need : 'Included',
+            pillBg: sec.choose ? (sec.full ? '#D3E7DE' : '#EADFC8') : '#D3E7DE',
+            pillColor: sec.choose ? (sec.full ? '#12604B' : '#5A6863') : '#12604B',
+            items: sec.items.map((it) => Object.assign({
+              name: it.name,
+              on: it.on || !sec.choose,
+              locked: !sec.choose,
+              border: (it.on || !sec.choose) ? '#C9963B' : '#E4D9C2',
+              bg: (it.on || !sec.choose) ? '#FDF7EA' : '#FFFFFF',
+              opacity: !sec.choose ? 0.92 : 1,
+              pick: () => {
+                if (!sec.choose) return;
+                const n = Object.assign({}, this.state.counterItems);
+                if (n[it.key]) delete n[it.key]; else n[it.key] = true;
+                this.setState({ counterItems: n });
+              }
+            }, this.setIcon(it.name, sec.title)))
+          }))
+        };
+      })(),
+      cmReady: this.counterMenuState().every((c) => c.ready),
+      cmNotReady: !this.counterMenuState().every((c) => c.ready),
       isCounters: screen === 'counters',
       counterGroups: this.COUNTERS.map((g) => ({
         group: g.group,
@@ -3440,6 +3680,7 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
       cuisine: st.cuisine || 'ic',
       pkg: (st.pkg === undefined ? null : st.pkg),
       counters: st.counters || {},
+      counterItems: st.counterItems || {},
       theme: st.theme || null, eventNote: st.eventNote || ''
     };
   }
