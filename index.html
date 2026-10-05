@@ -3503,8 +3503,19 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
       .catch(function () { return null; });
   }
 
+  /* `img` only exists once the dish-photo migration has been run. Asking for a
+     column the database does not have makes the whole request fail, which used
+     to take the prices and the dish list down with it - the page then quietly
+     ran on its built-in copy and nothing the owner changed ever reached a
+     customer. Ask again without it rather than lose the menu. */
+  function items() {
+    var cols = 'name,cu,cat,diet,sub,note';
+    return get('menu_items?select=' + cols + ',img&order=sort.asc')
+      .then(function (r) { return r || get('menu_items?select=' + cols + '&order=sort.asc'); });
+  }
+
   Promise.all([
-    get('menu_items?select=name,cu,cat,diet,sub,note,img&order=sort.asc'),
+    items(),
     get('menu_config?select=data&limit=1')
   ]).then(function (res) {
     var items = res[0];
