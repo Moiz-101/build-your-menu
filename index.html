@@ -1171,8 +1171,8 @@ body.locked #app{display:none}
    tracking:false means the app behaves exactly as it did before: nothing is sent anywhere. */
 window.BYM_CONFIG = {
   tracking: true,
-  // the daily 4-digit code; set to false to let anyone straight in
-  gate: true,
+  // the daily 4-digit code; true asks for it, false lets anyone straight in
+  gate: false,
   supabaseUrl: 'https://nrnhkuxtnbsjiyfhmwpm.supabase.co',
   // public key: safe in the page. The database rules decide what it may do.
   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ybmhrdXh0bmJzaml5Zmhtd3BtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzcwNDksImV4cCI6MjEwNTc1MzA0OX0.zSWpXCMOhua6GfbmSa41iKRCgHPo51eDdo6Fum_AZGc'
