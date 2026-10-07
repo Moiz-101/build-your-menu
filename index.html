@@ -2488,7 +2488,8 @@ class Component extends DCLogic {
       ? smPack.sections.map((sec) => ({ title: sec.title + ' (' + sec.items.length + ')',
           items: sec.items.map((n) => ({ name: n, note: '', hasNote: false })) }))
       : [['Starters', g.starters], ['Main course', g.mains], ['Staples', g.staples], ['Dessert', g.dessert]].filter((a) => a[1].length).map((a) => ({ title: a[0] + ' (' + a[1].length + ')', items: a[1] })));
-    const withCounters = groups.concat(this.counterGroupsForQuote());
+    const counterGroups = this.counterGroupsForQuote();
+    const withCounters = groups.concat(counterGroups);
     let pp = 0;
     if (hasPkg) pp = P[st.pkg];
     else if (isCustom) pp = this.customPP({ starters: g.starters.length, mains: g.mains.length, staples: g.staples.length, dessert: g.dessert.length });
@@ -2531,6 +2532,9 @@ class Component extends DCLogic {
       cuisine: cuisine + (st.pureVeg ? ' (Pure Veg)' : ''),
       ppText: pp > 0 ? pp + ' Dh' + vat : ((noPkg || !this.priced()) ? 'On request' : '-'),
       groups: withCounters,
+      dishGroups: groups,
+      counterGroups: counterGroups,
+      counterIds: counterGroups.map((g) => g.id),
       themeLabel: th ? th.name + (th.price ? ' (+ ' + fmt(th.price) + ' Dh)' : ' (Free)') : 'No theme',
       notesText: (st.eventNote || '').trim() || 'None',
       menuRowLabel: pp > 0 ? 'Menu: ' + st.pax + ' guests x ' + pp + ' Dh' : 'Menu',
@@ -2547,7 +2551,7 @@ class Component extends DCLogic {
      { data: Uint8Array, w, h } holding a baseline JPEG, which a PDF carries
      as-is through /DCTDecode. It is laid over the whole sheet at low opacity,
      and every line of the order is placed inside the clear middle of it. */
-  buildPdf(bg) {
+  buildPdf(bg, counterShots, themeShot) {
     const S = this.summary();
     const W1 = [278, 278, 355, 556, 556, 889, 667, 191, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584, 584, 556, 1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 278, 278, 278, 469, 556, 333, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500, 334, 260, 334, 584], W2 = [278, 333, 474, 556, 556, 889, 722, 238, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 333, 333, 584, 584, 584, 611, 975, 722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 333, 278, 333, 584, 556, 333, 556, 611, 556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889, 611, 611, 611, 611, 389, 556, 333, 611, 556, 778, 556, 556, 500, 389, 280, 389, 584];
     const wOf = (t, size, bold) => { const tb = bold ? W2 : W1; let w = 0; for (let i = 0; i < t.length; i++) { const c = t.charCodeAt(i) - 32; w += (c >= 0 && c < 95 ? tb[c] : 556); } return w * size / 1000; };
@@ -2558,22 +2562,37 @@ class Component extends DCLogic {
     const IM = 66, CW = PW - 2 * IM;                 // stay inside the printed border
     const INK = '#0E3B33', GOLD = '#B9832B', SOFT = '#9A7D4A', DARK = '#1B2B27', PAPER = '#FBF6EA';
 
-    const ops = [];
+    const ops = [], ops2 = [];        // page one, and page two when the menu needs it
     const n2 = (v) => (Math.round(v * 100) / 100).toString();
     const col = (hex) => { const n = parseInt(hex.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => (v / 255).toFixed(3)).join(' '); };
     const Y = (yTop) => PH - yTop;
 
-    const text = (x, yb, t, size, bold, hex) => ops.push('BT /' + (bold ? 'F2' : 'F1') + ' ' + size + ' Tf ' + col(hex) + ' rg ' + n2(x) + ' ' + n2(Y(yb)) + ' Td (' + esc(clean(t)) + ') Tj ET');
-    const ctext = (cx, yb, t, size, bold, hex) => text(cx - wOf(clean(t), size, bold) / 2, yb, t, size, bold, hex);
-    const rtext = (xr, yb, t, size, bold, hex) => text(xr - wOf(clean(t), size, bold), yb, t, size, bold, hex);
-    const rule = (x1, yt, x2, hex, w) => ops.push(col(hex) + ' RG ' + n2(w || 0.7) + ' w ' + n2(x1) + ' ' + n2(Y(yt)) + ' m ' + n2(x2) + ' ' + n2(Y(yt)) + ' l S');
-    const dot = (cx, cy, r, hex) => {
+    const text = (x, yb, t, size, bold, hex, into) => (into || ops).push('BT /' + (bold ? 'F2' : 'F1') + ' ' + size + ' Tf ' + col(hex) + ' rg ' + n2(x) + ' ' + n2(Y(yb)) + ' Td (' + esc(clean(t)) + ') Tj ET');
+    const ctext = (cx, yb, t, size, bold, hex, into) => text(cx - wOf(clean(t), size, bold) / 2, yb, t, size, bold, hex, into);
+    const rtext = (xr, yb, t, size, bold, hex, into) => text(xr - wOf(clean(t), size, bold), yb, t, size, bold, hex, into);
+    const rule = (x1, yt, x2, hex, w, into) => (into || ops).push(col(hex) + ' RG ' + n2(w || 0.7) + ' w ' + n2(x1) + ' ' + n2(Y(yt)) + ' m ' + n2(x2) + ' ' + n2(Y(yt)) + ' l S');
+    const dot = (cx, cy, r, hex, into) => {
       const k = 0.5523 * r, y = Y(cy);
-      ops.push(col(hex) + ' rg ' + n2(cx + r) + ' ' + n2(y) + ' m ' +
+      (into || ops).push(col(hex) + ' rg ' + n2(cx + r) + ' ' + n2(y) + ' m ' +
         n2(cx + r) + ' ' + n2(y + k) + ' ' + n2(cx + k) + ' ' + n2(y + r) + ' ' + n2(cx) + ' ' + n2(y + r) + ' c ' +
         n2(cx - k) + ' ' + n2(y + r) + ' ' + n2(cx - r) + ' ' + n2(y + k) + ' ' + n2(cx - r) + ' ' + n2(y) + ' c ' +
         n2(cx - r) + ' ' + n2(y - k) + ' ' + n2(cx - k) + ' ' + n2(y - r) + ' ' + n2(cx) + ' ' + n2(y - r) + ' c ' +
         n2(cx + k) + ' ' + n2(y - r) + ' ' + n2(cx + r) + ' ' + n2(y - k) + ' ' + n2(cx + r) + ' ' + n2(y) + ' c f');
+    };
+    const wrap = (t, maxW, size, bold, maxLines) => {
+      const words = clean(t).split(' ');
+      const lines = []; let line = '';
+      words.forEach((w) => {
+        const trial = line ? line + ' ' + w : w;
+        if (wOf(trial, size, bold) <= maxW) line = trial;
+        else { if (line) lines.push(line); line = w; }
+      });
+      if (line) lines.push(line);
+      if (maxLines && lines.length > maxLines) {
+        lines.length = maxLines;
+        lines[maxLines - 1] = cut(lines[maxLines - 1] + ' ...', maxW, size, bold);
+      }
+      return lines;
     };
     const cut = (t, maxW, size, bold) => {
       t = clean(t);
@@ -2581,143 +2600,280 @@ class Component extends DCLogic {
       while (t.length > 1 && wOf(t + '..', size, bold) > maxW) t = t.slice(0, -1);
       return t.replace(/[\s-]+$/, '') + '..';
     };
+    const rrect = (x, yTop, w, h, r, fillHex, strokeHex, lw) => {
+      const yb = Y(yTop + h), k = 0.5523 * r;
+      const parts = [
+        n2(x + r) + ' ' + n2(yb) + ' m',
+        n2(x + w - r) + ' ' + n2(yb) + ' l',
+        n2(x + w - r + k) + ' ' + n2(yb) + ' ' + n2(x + w) + ' ' + n2(yb + r - k) + ' ' + n2(x + w) + ' ' + n2(yb + r) + ' c',
+        n2(x + w) + ' ' + n2(yb + h - r) + ' l',
+        n2(x + w) + ' ' + n2(yb + h - r + k) + ' ' + n2(x + w - r + k) + ' ' + n2(yb + h) + ' ' + n2(x + w - r) + ' ' + n2(yb + h) + ' c',
+        n2(x + r) + ' ' + n2(yb + h) + ' l',
+        n2(x + r - k) + ' ' + n2(yb + h) + ' ' + n2(x) + ' ' + n2(yb + h - r + k) + ' ' + n2(x) + ' ' + n2(yb + h - r) + ' c',
+        n2(x) + ' ' + n2(yb + r) + ' l',
+        n2(x) + ' ' + n2(yb + r - k) + ' ' + n2(x + r - k) + ' ' + n2(yb) + ' ' + n2(x + r) + ' ' + n2(yb) + ' c'
+      ].join(' ');
+      let op = '';
+      if (fillHex) op += col(fillHex) + ' rg ';
+      if (strokeHex) op += col(strokeHex) + ' RG ' + n2(lw || 0.8) + ' w ';
+      ops.push(op + parts + ' ' + (fillHex && strokeHex ? 'B' : fillHex ? 'f' : 'S'));
+    };
     // Helvetica has no small caps, so space the letters out by hand
     const spaced = (t) => clean(t).toUpperCase().split('').join(' ');
 
-    /* ---------------- the page ---------------- */
+    /* ---------------- page one ----------------
+
+       The theme the customer chose carries the top of the sheet, full bleed,
+       with the title over it. A dark scrim sits between the photograph and the
+       type so the type reads whatever the photograph happens to be doing. When
+       there is no theme photograph the green band stands in. */
     ops.push(col(PAPER) + ' rg 0 0 ' + PW + ' ' + PH + ' re f');
-    if (bg) ops.push('q /GSbg gs ' + PW + ' 0 0 ' + PH + ' 0 0 cm /Bg Do Q');
 
-    /* ---------------- title ---------------- */
-    let y = 104;
-    ctext(PW / 2, y, spaced('Dragon Empire'), 8.5, true, GOLD);
-    y += 32;
-    ctext(PW / 2, y, 'Build your Menu!', 29, true, INK);
-    y += 16;
-    const rw = 68;
-    rule(PW / 2 - rw - 16, y, PW / 2 - 10, GOLD, 0.8);
-    rule(PW / 2 + 10, y, PW / 2 + rw + 16, GOLD, 0.8);
-    dot(PW / 2, y - 2.2, 2.2, GOLD);
-    y += 18;
-    ctext(PW / 2, y, spaced('Catering Order'), 8, true, SOFT);
+    const HERO = 318;
+    const placed = [];
+    const photo = (im, x, yTop, w, h, into) => {
+      const name = 'Im' + placed.length;
+      placed.push({ name: name, img: im });
+      const s2 = Math.max(w / im.w, h / im.h);
+      const dw = im.w * s2, dh = im.h * s2;
+      const dx = x - (dw - w) / 2, dy = Y(yTop + h) - (dh - h) / 2;
+      (into || ops).push('q ' + n2(x) + ' ' + n2(Y(yTop + h)) + ' ' + n2(w) + ' ' + n2(h) + ' re W n ' +
+        n2(dw) + ' 0 0 ' + n2(dh) + ' ' + n2(dx) + ' ' + n2(dy) + ' cm /' + name + ' Do Q');
+    };
+
+    if (themeShot) {
+      photo(themeShot, 0, 0, PW, HERO);
+      // the scrim: solid at the foot of the hero, so the wordmark sits on ink
+      ops.push('q /GSdim gs ' + col('#07211C') + ' rg 0 ' + n2(Y(HERO)) + ' ' + PW + ' ' + HERO + ' re f Q');
+    } else {
+      ops.push(col(INK) + ' rg 0 ' + n2(Y(HERO)) + ' ' + PW + ' ' + HERO + ' re f');
+    }
+    // a gold hairline along the bottom edge of the hero
+    ops.push(col(GOLD) + ' RG 1.4 w 0 ' + n2(Y(HERO)) + ' m ' + PW + ' ' + n2(Y(HERO)) + ' l S');
+
+    let y = 118;
+    ctext(PW / 2, y, spaced('Dragon Empire'), 9, true, GOLD);
+    y += 46;
+    ctext(PW / 2, y, 'Build your Menu!', 36, true, PAPER);
+    y += 20;
+    const rw = 70;
+    rule(PW / 2 - rw - 18, y, PW / 2 - 11, GOLD, 1);
+    rule(PW / 2 + 11, y, PW / 2 + rw + 18, GOLD, 1);
+    dot(PW / 2, y - 2.6, 2.6, GOLD);
     y += 22;
-    ctext(PW / 2, y, S.ref, 17, true, INK);
+    ctext(PW / 2, y, spaced(S.th ? S.th.name : 'Catering Order'), 8, true, '#CFE0D8');
 
-    /* ---------------- the facts ---------------- */
-    y += 34;
+    // the order number on a chip across the hero's edge
+    const chipW = 208, chipH = 42, chipX = (PW - chipW) / 2, chipY = HERO - chipH / 2;
+    rrect(chipX, chipY, chipW, chipH, 21, PAPER, GOLD, 1.2);
+    ctext(PW / 2, chipY + 27, S.ref, 17, true, INK);
+
+    /* ---------------- the event ---------------- */
+    y = HERO + 62;
+    text(IM, y, spaced('The Event'), 7, true, GOLD);
+    rule(IM + wOf(spaced('The Event'), 7, true) + 12, y - 3, PW - IM, '#E0CFA8', 0.7);
+    y += 22;
     const pairs = [
       ['Guest', S.name], ['Contact', S.contact],
-      ['Event', S.when], ['Guests', S.pax + (S.veg === 'Yes' ? ' - pure veg' : '')],
-      ['Service', S.isOnsite ? S.typeLabel + ', ' + S.layoutLabel + ', ' + S.venueLabel : S.typeLabel],
-      ['Selection', S.pkgLabel + ' - ' + S.cuisine]
-    ].concat(S.hasCounters ? [['Live counters', S.countersText]] : []);
-    const half = CW / 2, gutter = 22;
+      ['Date & time', S.when], ['Guests', S.pax + (S.veg === 'Yes' ? ' - pure veg' : '')],
+      ['Service', S.isOnsite ? S.typeLabel + ', ' + S.layoutLabel : S.typeLabel],
+      ['Venue', S.isOnsite ? S.venueLabel : S.emirate]
+    ];
+    const half = CW / 2;
     pairs.forEach((p, i) => {
       const x = IM + (i % 2) * half;
-      const ry = y + Math.floor(i / 2) * 30;
-      text(x, ry, spaced(p[0]), 6.5, true, GOLD);
-      text(x, ry + 13, cut(p[1], half - gutter, 10.5, true), 10.5, true, DARK);
+      const ry = y + Math.floor(i / 2) * 34;
+      text(x, ry, spaced(p[0]), 6.5, true, SOFT);
+      text(x, ry + 14, cut(p[1], half - 26, 11, true), 11, true, DARK);
     });
-    y += Math.ceil(pairs.length / 2) * 30 + 12;
+    y += Math.ceil(pairs.length / 2) * 34 + 20;
 
-    /* ---------------- the menu ---------------- */
-    rule(IM, y, PW - IM, GOLD, 0.7);
-    y += 15;
-    ctext(PW / 2, y, spaced('The Menu'), 9, true, INK);
-    y += 8;
+    /* ---------------- what they are having ---------------- */
+    text(IM, y, spaced('Your Selection'), 7, true, GOLD);
+    rule(IM + wOf(spaced('Your Selection'), 7, true) + 12, y - 3, PW - IM, '#E0CFA8', 0.7);
+    y += 24;
 
-    const groups = S.groups;
-
-    /* Everything below the menu is pinned clear of the printed border at the
-       foot of the page, and the menu is given whatever is left. */
-    const nRows = 2 + (S.showMin ? 1 : 0);
-    const hasNote = !!(S.notesText && S.notesText !== 'None');
-    const FOOT = PH - 150;
-    const moneyH = 16 + nRows * 14 + (hasNote ? 14 : 0) + 12 + 28;
-    const moneyTop = FOOT - 16 - moneyH;
-    const avail = moneyTop - 16 - y;
-
-    // two columns while the list is short, three when it is long, tighter last
-    const measure = (ncol, lead) => {
-      let h = 0;
-      groups.forEach((g) => { h += 24 + Math.ceil(g.items.length / ncol) * lead; });
-      return h;
-    };
-    let NCOL = 2, LEAD = 15, SIZE = 10;
-    // stay in two columns as long as possible: three columns cuts dish names short
-    const tries = [[2, 15.5, 10], [2, 14.5, 9.8], [2, 13.5, 9.5], [2, 12.5, 9.2],
-                   [2, 11.5, 9], [3, 12.5, 8.8], [3, 11, 8.3], [3, 9.8, 7.8]];
-    for (let i = 0; i < tries.length; i++) {
-      NCOL = tries[i][0]; LEAD = tries[i][1]; SIZE = tries[i][2];
-      if (measure(NCOL, LEAD) <= avail || i === tries.length - 1) break;
+    const selRows = [];
+    if (S.pkgLabel && S.pkgLabel !== 'Not selected') selRows.push([S.pkgLabel, S.cuisine]);
+    if (S.hasCounters) selRows.push(['Live stations', S.countersText]);
+    selRows.forEach((r) => {
+      text(IM, y, cut(r[0], CW * 0.42, 13, true), 13, true, DARK);
+      text(IM + CW * 0.44, y, cut(r[1], CW * 0.56, 10, false), 10, false, SOFT);
+      y += 22;
+    });
+    if (S.ppText && S.ppText !== '-') {
+      text(IM, y, cut('Per person  ' + S.ppText, CW, 10, false), 10, false, SOFT);
+      y += 22;
     }
-    const colW = (CW - (NCOL - 1) * 18) / NCOL;
-    // share out any room left over so the sheet does not sag in the middle
-    const extra = Math.max(0, Math.min((avail - measure(NCOL, LEAD)) / groups.length, 26));
-
-    groups.forEach((g) => {
-      y += 18 + extra;
-      const head = spaced(g.title.replace(/\s*\(\d+\)$/, ''));
-      text(IM, y, head, 7.5, true, GOLD);
-      rule(IM + wOf(clean(head), 7.5, true) + 10, y - 2.5, PW - IM, '#E0CFA8', 0.6);
-      y += 6;
-      g.items.forEach((it, i) => {
-        const c = i % NCOL, r = Math.floor(i / NCOL);
-        const x = IM + c * (colW + 18), ly = y + r * LEAD + LEAD - 4;
-        dot(x + 2.2, ly - SIZE * 0.29, 1.5, GOLD);
-        text(x + 9, ly, cut(it.name + (it.hasNote ? '  (' + it.note + ')' : ''), colW - 12, SIZE, false), SIZE, false, DARK);
-      });
-      y += Math.ceil(g.items.length / NCOL) * LEAD;
-    });
 
     /* ---------------- money ---------------- */
-    let ty = moneyTop;
-    rule(IM, ty, PW - IM, GOLD, 0.7);
-    ty += 16;
+    const nRows = 2 + (S.showMin ? 1 : 0);
+    const hasNote = !!(S.notesText && S.notesText !== 'None');
+    const FOOT = PH - 54;
+    const panelH = 26 + nRows * 16 + (hasNote ? 16 : 0) + 44;
+    const panelTop = FOOT - 30 - panelH;
+
+    rrect(IM, panelTop, CW, panelH, 14, '#F4EDDC', '#E0CFA8', 0.9);
+    let ty = panelTop + 26;
     const lineRow = (label, value) => {
-      text(IM, ty, label, 9, false, SOFT);
-      rtext(PW - IM, ty, value, 9, false, DARK);
-      ty += 14;
+      text(IM + 20, ty, label, 9.5, false, SOFT);
+      rtext(PW - IM - 20, ty, value, 9.5, false, DARK);
+      ty += 16;
     };
     lineRow(S.menuRowLabel, S.menuRowValue);
     if (S.showMin) lineRow('Minimum order top-up', S.minValue);
     lineRow(S.themeRowLabel, S.themeRowValue);
-    if (hasNote) { text(IM, ty, 'Note: ' + cut(S.notesText, CW - 40, 8, false), 8, false, SOFT); ty += 14; }
-    rule(PW - IM - 215, ty - 2, PW - IM, GOLD, 0.7);
-    ty += 24;
-    text(PW - IM - 215, ty - 4, spaced('Total'), 9, true, GOLD);
-    rtext(PW - IM, ty, S.grand, 22, true, INK);
+    if (hasNote) { text(IM + 20, ty, 'Note: ' + cut(S.notesText, CW - 60, 8.5, false), 8.5, false, SOFT); ty += 16; }
+    rule(IM + 20, ty - 4, PW - IM - 20, '#DCC89C', 0.8);
+    ty += 28;
+    text(IM + 20, ty - 6, spaced('Approx. total'), 9, true, GOLD);
+    rtext(PW - IM - 20, ty, S.grand, 25, true, INK);
 
-    /* ---------------- footer ---------------- */
-    ctext(PW / 2, FOOT, 'Dragon Empire Catering  -  order.dubaicateringservice.com', 7.5, false, SOFT);
+    ctext(PW / 2, FOOT - 10, 'Approximate price. Final quote is confirmed by our team after review.', 7.5, false, SOFT);
+    ctext(PW / 2, FOOT + 4, 'Dragon Empire Catering  -  order.dubaicateringservice.com', 7.5, true, SOFT);
 
-    /* ---------------- assemble ---------------- */
-    const body = ops.join('\n');
-    let out = '%PDF-1.4\n'; const offs = [];
-    const add = (b) => { offs.push(out.length); out += offs.length + ' 0 obj\n' + b + '\nendobj\n'; };
-    const GS = 5, BGO = 6, CONTENT = bg ? 7 : 6, PAGE = CONTENT + 1;
+    /* ---------------- page two ----------------
 
-    add('<< /Type /Catalog /Pages 2 0 R >>');
-    add('<< /Type /Pages /Kids [' + PAGE + ' 0 R] /Count 1 >>');
-    add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
-    add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
-    add('<< /Type /ExtGState /ca ' + (this.PDF_BG_ALPHA || 0.5) + ' >>');
-    if (bg) {
-      let bin = '';
-      for (let i = 0; i < bg.data.length; i += 8192) bin += String.fromCharCode.apply(null, bg.data.subarray ? bg.data.subarray(i, i + 8192) : bg.data.slice(i, i + 8192));
-      add('<< /Type /XObject /Subtype /Image /Width ' + bg.w + ' /Height ' + bg.h +
-          ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + bg.data.length +
-          ' >>\nstream\n' + bin + '\nendstream');
+       The food, on its own sheet. Courses first, then the live stations as
+       their own section with each counter's photograph beside what it serves -
+       an order can have both, and flattening the counters in among the courses
+       made a buffet look like it came with a Mocktail Bar course. */
+    const dishG = S.dishGroups || [];
+    const ctrG = S.counterGroups || [];
+    const ctrIds = S.counterIds || [];
+
+    ops2.push(col(PAPER) + ' rg 0 0 ' + PW + ' ' + PH + ' re f');
+    ops2.push(col(INK) + ' rg 0 ' + n2(Y(104)) + ' ' + PW + ' 104 re f');
+    ctext(PW / 2, 42, spaced('Dragon Empire'), 8, true, GOLD, ops2);
+    ctext(PW / 2, 72, 'Your Menu', 25, true, PAPER, ops2);
+    ops2.push(col(GOLD) + ' RG 1.2 w 0 ' + n2(Y(104)) + ' m ' + PW + ' ' + n2(Y(104)) + ' l S');
+    // a live-stations order has no package, so do not announce one that is not there
+    const sub2 = (S.pkgLabel && S.pkgLabel !== 'Not selected')
+      ? S.ref + '   ' + S.pkgLabel + '  -  ' + S.cuisine
+      : S.ref + '   Live stations';
+    ctext(PW / 2, 128, sub2, 9, true, SOFT, ops2);
+
+    let y2 = 164;
+
+    /* --- the courses --- */
+    const FOOT2 = PH - 54;
+    // with no courses above them the stations carry the page on their own,
+    // so they get a bigger photograph and a taller row
+    const bigStn = !dishG.length;
+    const STNW = bigStn ? 112 : 62;
+    const stnLines = (g) => wrap(g.items.map((it) => it.name).join('  -  '), PW - IM - (IM + STNW + 14), 8.5, false, 3);
+    const stnH = (g) => Math.max(bigStn ? 76 : 46, 22 + stnLines(g).length * 11);
+    const ctrH = ctrG.length ? 34 + ctrG.reduce((a, g) => a + stnH(g) + 10, 0) : 0;
+    const roomCourses = FOOT2 - 30 - ctrH - y2;
+
+    const measure = (list, ncol, lead) => {
+      let h = 0;
+      list.forEach((g) => { h += 26 + Math.ceil(g.items.length / ncol) * lead; });
+      return h;
+    };
+    const ladder = [[2, 21, 12], [2, 19, 11.5], [2, 17, 11], [2, 15.5, 10.5], [2, 14, 10],
+                    [2, 12.8, 9.5], [3, 13, 9], [3, 11.5, 8.5], [3, 10, 8]];
+    let fit = ladder[ladder.length - 1];
+    for (let i = 0; i < ladder.length; i++) {
+      if (measure(dishG, ladder[i][0], ladder[i][1]) <= roomCourses) { fit = ladder[i]; break; }
     }
-    add('<< /Length ' + body.length + ' >>\nstream\n' + body + '\nendstream');
-    add('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + PW + ' ' + PH + '] /Resources << /Font << /F1 3 0 R /F2 4 0 R >>' +
-        ' /ExtGState << /GSbg ' + GS + ' 0 R >>' +
-        (bg ? ' /XObject << /Bg ' + BGO + ' 0 R >>' : '') +
-        ' >> /Contents ' + CONTENT + ' 0 R >>');
+    const NCOL = fit[0], LEAD = fit[1], SIZE = fit[2];
+    const colW = (CW - (NCOL - 1) * 20) / NCOL;
+    const units = Math.max(dishG.length + ctrG.length, 1);
+    const spare = (FOOT2 - 30 - y2) - measure(dishG, NCOL, LEAD) - ctrH;
+    const slack = Math.max(0, Math.min(spare / units, 52));
+
+    dishG.forEach((g) => {
+      y2 += 20 + slack;
+      const head = spaced(g.title.replace(/\s*\(\d+\)$/, ''));
+      const hw = wOf(clean(head), 7.5, true);
+      dot(IM + 2, y2 - 2.8, 2, GOLD, ops2);
+      text(IM + 9, y2, head, 7.5, true, GOLD, ops2);
+      rule(IM + 9 + hw + 12, y2 - 2.8, PW - IM, '#E6D8B8', 0.6, ops2);
+      y2 += 8;
+      g.items.forEach((it, i) => {
+        const c = i % NCOL, r = Math.floor(i / NCOL);
+        const x = IM + c * (colW + 20), ly = y2 + r * LEAD + LEAD - 4;
+        dot(x + 2.2, ly - SIZE * 0.29, 1.5, '#CBA85F', ops2);
+        text(x + 10, ly, cut(it.name + (it.hasNote ? '  (' + it.note + ')' : ''), colW - 14, SIZE, false), SIZE, false, DARK, ops2);
+      });
+      y2 += Math.ceil(g.items.length / NCOL) * LEAD;
+    });
+
+    /* --- the live stations --- */
+    if (ctrG.length) {
+      y2 += dishG.length ? 34 : 10;
+      const head = spaced('Live Stations');
+      dot(IM + 2, y2 - 2.8, 2, GOLD, ops2);
+      text(IM + 9, y2, head, 7.5, true, GOLD, ops2);
+      rule(IM + 9 + wOf(clean(head), 7.5, true) + 12, y2 - 2.8, PW - IM, '#E6D8B8', 0.6, ops2);
+      y2 += 14;
+
+      ctrG.forEach((g, k) => {
+        const px = IM, pw2 = STNW, twx = PW - IM - (px + pw2 + 14);
+        const lines = stnLines(g);
+        const rowH = stnH(g);
+        const shot = (counterShots || {})[ctrIds[k]];
+        if (shot) photo(shot, px, y2, pw2, rowH, ops2);
+        else ops2.push(col('#F0E7D2') + ' rg ' + n2(px) + ' ' + n2(Y(y2 + rowH)) + ' ' + n2(pw2) + ' ' + n2(rowH) + ' re f');
+        ops2.push(col('#E0CFA8') + ' RG 0.6 w ' + n2(px) + ' ' + n2(Y(y2 + rowH)) + ' ' + n2(pw2) + ' ' + n2(rowH) + ' re S');
+
+        const tx = px + pw2 + 14;
+        text(tx, y2 + 13, cut(g.title.replace(/\s*\(\d+\)$/, ''), twx, 11, true), 11, true, DARK, ops2);
+        if (lines.length && lines[0]) lines.forEach((ln, li) => text(tx, y2 + 27 + li * 11, ln, 8.5, false, SOFT, ops2));
+        else text(tx, y2 + 27, 'Served live at the station', 8.5, false, SOFT, ops2);
+        y2 += rowH + 10 + slack;
+      });
+    }
+
+    ctext(PW / 2, FOOT2 + 4, 'Dragon Empire Catering  -  order.dubaicateringservice.com', 7.5, true, SOFT, ops2);
+
+    /* ---------------- assemble ----------------
+       Any number of photographs can be placed on the page, so the objects are
+       numbered as they are written rather than counted out by hand. */
+    const bodies = [ops.join('\n'), ops2.join('\n')];
+    const body = bodies[0];
+    let out = '%PDF-1.4\n'; const offs = [];
+    const add = (b) => { offs.push(out.length); out += offs.length + ' 0 obj\n' + b + '\nendobj\n'; return offs.length; };
+
+    const CAT = add('<< /Type /Catalog /Pages 2 0 R >>');          // 1
+    add('<< /Type /Pages /Kids [PAGEREF] /Count ' + bodies.length + ' >>');   // 2, patched below
+    const F1 = add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+    const F2 = add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+    const GS = add('<< /Type /ExtGState /ca ' + (this.PDF_BG_ALPHA || 0.5) + ' >>');
+    const GSD = add('<< /Type /ExtGState /ca 0.46 >>');
+
+    const bin = (u8) => {
+      let s = '';
+      for (let i = 0; i < u8.length; i += 8192) s += String.fromCharCode.apply(null, u8.subarray ? u8.subarray(i, i + 8192) : u8.slice(i, i + 8192));
+      return s;
+    };
+    const imgObj = (im) => add('<< /Type /XObject /Subtype /Image /Width ' + im.w + ' /Height ' + im.h +
+      ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + im.data.length +
+      ' >>\nstream\n' + bin(im.data) + '\nendstream');
+
+    const xobj = [];
+    if (bg) xobj.push('/Bg ' + imgObj(bg) + ' 0 R');
+    placed.forEach((p) => { xobj.push('/' + p.name + ' ' + imgObj(p.img) + ' 0 R'); });
+
+    const pageRefs = bodies.map((bd) => {
+      const c = add('<< /Length ' + bd.length + ' >>\nstream\n' + bd + '\nendstream');
+      return add('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + PW + ' ' + PH + ']' +
+        ' /Resources << /Font << /F1 ' + F1 + ' 0 R /F2 ' + F2 + ' 0 R >>' +
+        ' /ExtGState << /GSbg ' + GS + ' 0 R /GSdim ' + GSD + ' 0 R >>' +
+        (xobj.length ? ' /XObject << ' + xobj.join(' ') + ' >>' : '') +
+        ' >> /Contents ' + c + ' 0 R >>');
+    });
+
+    // object 2 had to be written before the page's number was known
+    const before = out.length;
+    out = out.replace('/Kids [PAGEREF]', '/Kids [' + pageRefs.map((n) => n + ' 0 R').join(' ') + ']');
+    const shift = out.length - before;
+    for (let i = 2; i < offs.length; i++) offs[i] += shift;
 
     const xr = out.length;
     out += 'xref\n0 ' + (offs.length + 1) + '\n0000000000 65535 f \n' + offs.map((o) => String(o).padStart(10, '0') + ' 00000 n \n').join('');
-    out += 'trailer\n<< /Size ' + (offs.length + 1) + ' /Root 1 0 R >>\nstartxref\n' + xr + '\n%%EOF';
+    out += 'trailer\n<< /Size ' + (offs.length + 1) + ' /Root ' + CAT + ' 0 R >>\nstartxref\n' + xr + '\n%%EOF';
     const u8 = new Uint8Array(out.length);
     for (let i = 0; i < out.length; i++) u8[i] = out.charCodeAt(i) & 255;
     return new Blob([u8], { type: 'application/pdf' });
@@ -2783,6 +2939,45 @@ class Component extends DCLogic {
     } catch (e) { /* offline: keep the local number rather than block the order */ }
     return this.REF;
   }
+  /* A JPEG's size lives in its start-of-frame marker, and a PDF has to be
+     told it, so it is read out here rather than guessed. */
+  static jpegSize(b) {
+    let i = 2;
+    while (i < b.length) {
+      if (b[i] !== 0xFF) { i++; continue; }
+      const m = b[i + 1];
+      if (m >= 0xC0 && m <= 0xCF && m !== 0xC4 && m !== 0xC8 && m !== 0xCC) {
+        return { h: (b[i + 5] << 8) | b[i + 6], w: (b[i + 7] << 8) | b[i + 8] };
+      }
+      i += 2 + ((b[i + 2] << 8) | b[i + 3]);
+    }
+    return null;
+  }
+  async loadJpeg(url) {
+    try {
+      const r = await fetch((this.PDF_BASE || '') + url);
+      if (!r.ok) return null;
+      const b = new Uint8Array(await r.arrayBuffer());
+      const s = Component.jpegSize(b);
+      return s ? { data: b, w: s.w, h: s.h } : null;
+    } catch (e) { return null; }
+  }
+  // the theme photograph and a photograph for every counter on the order
+  async pdfShots() {
+    const st = this.state;
+    const out = { theme: null, counters: {} };
+    const jobs = [];
+    if (st.theme) jobs.push(this.loadJpeg('images/themes/' + st.theme + '-1.jpg')
+      .then((im) => { out.theme = im; }));
+    (this.COUNTERS || []).forEach((g) => g.items.forEach((c) => {
+      if ((st.counters || {})[c.id]) {
+        jobs.push(this.loadJpeg('images/counters/' + c.id + '.jpg')
+          .then((im) => { if (im) out.counters[c.id] = im; }));
+      }
+    }));
+    try { await Promise.all(jobs); } catch (e) {}
+    return out;
+  }
   async downloadPdf() {
     if (!this.state.terms) {
       this._scrollTo = 'terms';
@@ -2793,7 +2988,9 @@ class Component extends DCLogic {
     await this.ensureRef();                 // must happen before the PDF is drawn
     const filename = 'Catering-Order-' + this.REF + '.pdf';
     let blob;
-    try { blob = this.buildPdf(); } catch (e) { this.setState({ pdfMsg: 'Could not create the PDF. Please try again.' }); return; }
+    const shots = await this.pdfShots();
+    try { blob = this.buildPdf(null, shots.counters, shots.theme); }
+    catch (e) { this.setState({ pdfMsg: 'Could not create the PDF. Please try again.' }); return; }
     let dl = null;
     try { dl = (window.claude && window.claude.use) ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
     try {
@@ -2985,6 +3182,14 @@ class Component extends DCLogic {
   counterGroupsForQuote() {
     const st = this.state;
     const sel = st.counterItems || {};
+    const withMenu = {};
+    this.menuCounters().forEach((c) => { withMenu[c.id] = true; });
+    const bare = [];
+    (this.COUNTERS || []).forEach((g) => g.items.forEach((c) => {
+      if ((st.counters || {})[c.id] && !withMenu[c.id]) {
+        bare.push({ id: c.id, title: c.name, items: [] });
+      }
+    }));
     return this.menuCounters().map((c) => {
       const names = [];
       c.menu.sections.forEach((sec, si) => {
@@ -2993,9 +3198,9 @@ class Component extends DCLogic {
           if (chosen) names.push(n);
         });
       });
-      return { title: c.name + ' (' + names.length + ')',
+      return { id: c.id, title: c.name + ' (' + names.length + ')',
                items: names.map((n) => ({ name: n, note: '', hasNote: false })) };
-    }).filter((g) => g.items.length);
+    }).filter((g) => g.items.length).concat(bare);
   }
   // the counters the customer picked that actually have a menu to show
   menuCounters() {
