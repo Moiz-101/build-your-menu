@@ -1863,11 +1863,10 @@ class Component extends DCLogic {
     ];
     this.COUNTER_IMG = {};     // counter id -> photo, set from the panel
     // counters that ship with a photograph in this page's own images folder
-    this.COUNTER_SHOT = ['bao', 'bbq', 'chaat', 'chole', 'dimsum', 'khowsuey', 'makki', 'mocktail', 'pasta', 'pizza', 'shawarma', 'sizzler', 'sushi', 'tandoor', 'tawa', 'wok'];
+    this.COUNTER_SHOT = ['bao', 'bbq', 'chaat', 'chole', 'dimsum', 'khowsuey', 'makki', 'mocktail', 'pasta', 'pizza', 'sizzler', 'sushi', 'tandoor', 'tawa', 'wok'];
     this.COUNTERS = [
       { group: 'Grill & BBQ', bg: '#F6E1CE', items: [
         { id: 'bbq', name: 'BBQ Counter', icon: 'flame' },
-        { id: 'shawarma', name: 'Shawarma Counter', icon: 'skew' },
         { id: 'tandoor', name: 'Tandoor Counter', icon: 'flame' },
         { id: 'tawa', name: 'Tawa Counter', icon: 'pan' },
         { id: 'sizzler', name: 'Sizzler Counter', icon: 'pan' }
@@ -3089,10 +3088,6 @@ class Component extends DCLogic {
            '<path d="M50 47h60M50 54h60M50 61h60" stroke="#6E7673" stroke-width="2.2" stroke-linecap="round"/>' +
            '<path d="M72 38q-5-9 2-16q1 7 5 9q1-6 5-8q0 8 4 11q-2 7-9 7z" fill="#E0752B"/>' +
            '<path d="M78 38q-3-5 1-9q1 4 3 5q0-3 2-4q0 5 2 6q-1 4-5 4z" fill="#F4C25B"/>',
-      shawarma: '<rect x="77" y="14" width="5" height="54" fill="#8A928D"/>' +
-                '<path d="M79.5 22q16 3 16 22t-16 24q-16-5-16-24t16-22z" fill="#B5652B"/>' +
-                '<path d="M79.5 30q10 2 10 15t-10 17q-10-4-10-17t10-15z" fill="#D9A441"/>' +
-                '<path d="M104 44h16l-4 10h-12z" fill="#FBF6EA" stroke="#C9B98F" stroke-width="1.5"/>',
       tandoor: '<path d="M56 68V46a24 15 0 0 1 48 0v22z" fill="#B5652B"/>' +
                '<ellipse cx="80" cy="46" rx="24" ry="9" fill="#7A3F1C"/>' +
                '<path d="M80 62q-8-7-3-15q1 5 5 6q1-5 4-6q0 6 4 8q0 6-10 7z" fill="#E0752B"/>' +
