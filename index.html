@@ -839,6 +839,7 @@ body.locked #app{display:none}
 <div class="snap" style="flex: 0 0 224px; position: relative; display: flex;">
 <button class="btn" type="button" aria-pressed="{{t.on}}" onClick="{{t.pick}}" style="flex-grow: 1; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; padding: 0; overflow: hidden; text-align: left; cursor: pointer; border-radius: 18px; background: #FFFFFF; border: 2.5px solid {{t.border}}; box-shadow: {{t.shadow}};">
 <div style="position: relative; height: 172px; flex-shrink: 0;">
+<sc-if value="{{t.noShot}}" hint-placeholder-val="{{false}}">
 <svg width="100%" height="100%" viewBox="0 0 160 124" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><rect width="160" height="124" fill="{{t.c1}}"/><rect y="100" width="160" height="24" fill="{{t.c2}}"/><rect width="160" height="24" fill="{{t.c4}}" opacity="0.22"/>
 <g transform="translate(0 24)">
 <sc-if value="{{t.k1}}" hint-placeholder-val="{{false}}"><path d="M20 76V44a22 22 0 0 1 44 0V76z" fill="none" stroke="{{t.c3}}" stroke-width="3"/><path d="M96 76V44a22 22 0 0 1 44 0V76z" fill="none" stroke="{{t.c3}}" stroke-width="3"/><circle cx="20" cy="50" r="2.2" fill="{{t.c3}}"/><circle cx="25" cy="35" r="2.2" fill="{{t.c3}}"/><circle cx="42" cy="22" r="2.2" fill="{{t.c3}}"/><circle cx="59" cy="35" r="2.2" fill="{{t.c3}}"/><circle cx="64" cy="50" r="2.2" fill="{{t.c3}}"/><circle cx="96" cy="50" r="2.2" fill="{{t.c3}}"/><circle cx="101" cy="35" r="2.2" fill="{{t.c3}}"/><circle cx="118" cy="22" r="2.2" fill="{{t.c3}}"/><circle cx="135" cy="35" r="2.2" fill="{{t.c3}}"/><circle cx="140" cy="50" r="2.2" fill="{{t.c3}}"/><rect x="62" y="64" width="36" height="6" rx="2" fill="{{t.c4}}"/><rect x="78" y="70" width="4" height="12" fill="{{t.c4}}"/><rect x="72" y="52" width="3" height="12" fill="{{t.c3}}"/><rect x="85" y="52" width="3" height="12" fill="{{t.c3}}"/></sc-if>
@@ -849,6 +850,8 @@ body.locked #app{display:none}
 <sc-if value="{{t.k6}}" hint-placeholder-val="{{false}}"><path d="M80 0V14" stroke="{{t.c3}}" stroke-width="2"/><path d="M50 34Q80 8 110 34" stroke="{{t.c3}}" stroke-width="2.5" fill="none"/><path d="M62 34V44M72 30V46M80 28V50M88 30V46M98 34V44" stroke="{{t.c3}}" stroke-width="1.5"/><circle cx="62" cy="46" r="2.6" fill="{{t.c4}}"/><circle cx="72" cy="48" r="2.6" fill="{{t.c4}}"/><circle cx="80" cy="52" r="3" fill="{{t.c4}}"/><circle cx="88" cy="48" r="2.6" fill="{{t.c4}}"/><circle cx="98" cy="46" r="2.6" fill="{{t.c4}}"/><circle cx="26" cy="66" r="8" fill="{{t.c4}}" stroke="{{t.c3}}"/><circle cx="40" cy="70" r="7" fill="{{t.c4}}" stroke="{{t.c3}}"/><circle cx="134" cy="66" r="8" fill="{{t.c4}}" stroke="{{t.c3}}"/><circle cx="120" cy="70" r="7" fill="{{t.c4}}" stroke="{{t.c3}}"/><rect x="62" y="66" width="36" height="6" rx="2" fill="{{t.c3}}"/></sc-if>
 </g>
 </svg>
+</sc-if>
+<sc-if value="{{t.hasShot}}" hint-placeholder-val="{{true}}"><div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: {{t.c1}}; background-image: {{t.shot}}; background-size: cover; background-position: center; background-repeat: no-repeat;"></div></sc-if>
 <span style="position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 999px; font-size: 10px; letter-spacing: 1px; font-weight: 700; background: {{t.tagBg}}; color: {{t.tagColor}};">{{t.tag}}</span>
 <sc-if value="{{t.on}}" hint-placeholder-val="{{false}}"><div style="position: absolute; top: 8px; right: 8px;"><div style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div></div></sc-if>
 </div>
@@ -903,6 +906,7 @@ body.locked #app{display:none}
 </div>
 <div style="flex-grow: 1; min-height: 0; overflow-y: auto; padding: 0 0 8px 0; display: flex; flex-direction: column; gap: 14px;">
 <div style="position: relative; height: 236px; flex-shrink: 0;">
+<sc-if value="{{d.noShot}}" hint-placeholder-val="{{false}}">
 <svg width="100%" height="100%" viewBox="0 0 160 124" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Sample view of {{d.name}}" style="display:block"><defs><g id="tScene"><rect width="160" height="124" fill="{{d.c1}}"></rect><rect y="100" width="160" height="24" fill="{{d.c2}}"></rect><rect width="160" height="24" fill="{{d.c4}}" opacity="0.22"></rect><g transform="translate(0 24)">
 <sc-if value="{{d.k1}}" hint-placeholder-val="{{false}}"><path d="M20 76V44a22 22 0 0 1 44 0V76z" fill="none" stroke="{{d.c3}}" stroke-width="3"/><path d="M96 76V44a22 22 0 0 1 44 0V76z" fill="none" stroke="{{d.c3}}" stroke-width="3"/><circle cx="20" cy="50" r="2.2" fill="{{d.c3}}"/><circle cx="25" cy="35" r="2.2" fill="{{d.c3}}"/><circle cx="42" cy="22" r="2.2" fill="{{d.c3}}"/><circle cx="59" cy="35" r="2.2" fill="{{d.c3}}"/><circle cx="64" cy="50" r="2.2" fill="{{d.c3}}"/><circle cx="96" cy="50" r="2.2" fill="{{d.c3}}"/><circle cx="101" cy="35" r="2.2" fill="{{d.c3}}"/><circle cx="118" cy="22" r="2.2" fill="{{d.c3}}"/><circle cx="135" cy="35" r="2.2" fill="{{d.c3}}"/><circle cx="140" cy="50" r="2.2" fill="{{d.c3}}"/><rect x="62" y="64" width="36" height="6" rx="2" fill="{{d.c4}}"/><rect x="78" y="70" width="4" height="12" fill="{{d.c4}}"/><rect x="72" y="52" width="3" height="12" fill="{{d.c3}}"/><rect x="85" y="52" width="3" height="12" fill="{{d.c3}}"/></sc-if>
 <sc-if value="{{d.k2}}" hint-placeholder-val="{{false}}"><circle cx="16" cy="44" r="16" fill="{{d.c3}}"/><circle cx="36" cy="30" r="13" fill="{{d.c3}}"/><circle cx="58" cy="22" r="10" fill="{{d.c4}}"/><circle cx="144" cy="44" r="16" fill="{{d.c3}}"/><circle cx="124" cy="30" r="13" fill="{{d.c3}}"/><circle cx="102" cy="22" r="10" fill="{{d.c4}}"/><path d="M60 0V26M100 0V26M80 0V18" stroke="{{d.c4}}" stroke-width="1.6"/><circle cx="80" cy="22" r="6" fill="{{d.c3}}"/><path d="M60 76V52a20 20 0 0 1 40 0V76z" fill="none" stroke="{{d.c4}}" stroke-width="3"/><rect x="66" y="66" width="28" height="5" rx="2" fill="{{d.c4}}"/></sc-if>
@@ -911,6 +915,8 @@ body.locked #app{display:none}
 <sc-if value="{{d.k5}}" hint-placeholder-val="{{false}}"><circle cx="118" cy="26" r="13" fill="{{d.c3}}"/><circle cx="124" cy="22" r="12" fill="{{d.c1}}"/><circle cx="24" cy="18" r="1.8" fill="{{d.c3}}"/><circle cx="60" cy="12" r="1.5" fill="{{d.c3}}"/><circle cx="90" cy="26" r="1.8" fill="{{d.c3}}"/><circle cx="146" cy="10" r="1.5" fill="{{d.c3}}"/><circle cx="140" cy="48" r="1.5" fill="{{d.c3}}"/><path d="M34 0V20M74 0V30" stroke="{{d.c3}}" stroke-width="1.5"/><path d="M28 20h12l3 18H25z" fill="{{d.c3}}"/><path d="M68 30h12l3 18H65z" fill="{{d.c4}}"/><path d="M6 76V64Q20 46 34 64V76z" fill="{{d.c2}}" stroke="{{d.c3}}" stroke-width="1.5"/><rect x="60" y="64" width="40" height="6" rx="2" fill="{{d.c4}}"/></sc-if>
 <sc-if value="{{d.k6}}" hint-placeholder-val="{{false}}"><path d="M80 0V14" stroke="{{d.c3}}" stroke-width="2"/><path d="M50 34Q80 8 110 34" stroke="{{d.c3}}" stroke-width="2.5" fill="none"/><path d="M62 34V44M72 30V46M80 28V50M88 30V46M98 34V44" stroke="{{d.c3}}" stroke-width="1.5"/><circle cx="62" cy="46" r="2.6" fill="{{d.c4}}"/><circle cx="72" cy="48" r="2.6" fill="{{d.c4}}"/><circle cx="80" cy="52" r="3" fill="{{d.c4}}"/><circle cx="88" cy="48" r="2.6" fill="{{d.c4}}"/><circle cx="98" cy="46" r="2.6" fill="{{d.c4}}"/><circle cx="26" cy="66" r="8" fill="{{d.c4}}" stroke="{{d.c3}}"/><circle cx="40" cy="70" r="7" fill="{{d.c4}}" stroke="{{d.c3}}"/><circle cx="134" cy="66" r="8" fill="{{d.c4}}" stroke="{{d.c3}}"/><circle cx="120" cy="70" r="7" fill="{{d.c4}}" stroke="{{d.c3}}"/><rect x="62" y="66" width="36" height="6" rx="2" fill="{{d.c3}}"/></sc-if>
 </g></g></defs><use href="#tScene"></use></svg>
+</sc-if>
+<sc-if value="{{d.hasShot}}" hint-placeholder-val="{{true}}"><div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: {{d.c1}}; background-image: {{d.shot}}; background-size: cover; background-position: center; background-repeat: no-repeat;"></div></sc-if>
 <span style="position: absolute; top: 12px; left: 16px; padding: 5px 11px; border-radius: 999px; font-size: 11px; letter-spacing: 1px; font-weight: 700; background: {{d.tagBg}}; color: {{d.tagColor}};">{{d.tag}}</span>
 </div>
 <div style="padding: 0 24px; display: flex; flex-direction: column; gap: 14px;">
@@ -923,9 +929,12 @@ body.locked #app{display:none}
 <span style="font-size: 15px; line-height: 1.45; color: #1B2B27;">{{d.long}}</span>
 <div style="display: flex; flex-direction: column; gap: 8px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Photos</span>
+<sc-if value="{{d.hasShot}}" hint-placeholder-val="{{true}}"><div style="display: flex; gap: 8px;"><sc-for list="{{d.shots}}" as="p" hint-placeholder-count="3"><button class="btn" type="button" aria-pressed="{{p.on}}" aria-label="Show this photo larger" onClick="{{p.pick}}" style="flex: 1 1 0; min-width: 0; height: 84px; padding: 0; border-radius: 12px; overflow: hidden; cursor: pointer; border: {{p.ring}}; background-color: {{d.c1}}; background-image: {{p.url}}; background-size: cover; background-position: center; background-repeat: no-repeat;"></button></sc-for></div><span style="font-size: 12px; color: #8A928D;">Sample setups in this theme - your own setup is styled to your venue.</span></sc-if>
+<sc-if value="{{d.noShot}}" hint-placeholder-val="{{false}}">
 <div style="display: flex; gap: 8px;">
 <div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><div style="height: 84px; border-radius: 12px; overflow: hidden; border: 1.5px solid #E4D9C2;"><svg width="100%" height="100%" viewBox="0 0 160 124" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><use href="#tScene"></use></svg></div><span style="font-size: 11.5px; font-weight: 600; color: #5A6863; text-align: center;">Full setup</span></div><div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><div style="height: 84px; border-radius: 12px; overflow: hidden; border: 1.5px solid #E4D9C2;"><svg width="100%" height="100%" viewBox="16 36 80 70" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><use href="#tScene"></use></svg></div><span style="font-size: 11.5px; font-weight: 600; color: #5A6863; text-align: center;">Backdrop</span></div><div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><div style="height: 84px; border-radius: 12px; overflow: hidden; border: 1.5px solid #E4D9C2;"><svg width="100%" height="100%" viewBox="80 60 80 64" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block"><use href="#tScene"></use></svg></div><span style="font-size: 11.5px; font-weight: 600; color: #5A6863; text-align: center;">Table styling</span></div></div>
 <span style="font-size: 12px; color: #8A928D;">Sample illustrations - real event photos will appear here</span>
+</sc-if>
 </div>
 <div style="display: flex; flex-direction: column; gap: 8px;">
 <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">What is included</span>
@@ -1557,7 +1566,7 @@ window.DISH_PHOTOS_BY_COURSE = {
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, detailsWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, setupEdit: null, counters: {}, counterItems: {}, cmNudge: 0, terms: false, termsWarn: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
+    this.state = { screen: null, name: '', cc: '+971', phone: '', emirate: '', date: '', time: '', pax: 18, paxEdit: null, pureVeg: false, minWarn: false, custMinOk: false, detailsWarn: false, type: null, layout: null, venue: null, cuisine: 'ic', pkg: null, theme: null, themeView: null, themeShot: 1, eventNote: '', returnTo: null, pdfMsg: '', zoom: null, notes: {}, noteFor: null, noteDraft: '', consent: false, setupEdit: null, counters: {}, counterItems: {}, cmNudge: 0, terms: false, termsWarn: false, tab: 'starters', fcu: 'all', sub: 0, note: '', sel: {}, selKey: '' };
     // Dummy photo tiles for now; real photos replace the glyph tile later.
     this.ITEMS = [];
     const add = (cu, cat, diet, sub, list) => list.forEach((n) => {
@@ -1631,6 +1640,10 @@ class Component extends DCLogic {
       { id: 't5', name: 'Arabian Nights', desc: 'Lanterns, crescent moon and starlight', price: 1200, c: ['#14264A', '#0C1830', '#F0C868', '#C9963B'] },
       { id: 't6', name: 'Crystal Luxe', desc: 'Chandeliers, crystal and white florals', price: 1800, c: ['#EEF1F5', '#D5DBE5', '#8FA3BF', '#FFFFFF'] }
     ];
+    // Themes that have photographs in deploy/images/themes, three to a theme.
+    // Anything not listed falls back to the drawing, so a new theme is never bare.
+    this.THEME_SHOT = ['t1', 't2', 't3', 't4', 't5', 't6'];
+    this.THEME_IMG = {};       // "t5-2" -> photo, for when the panel can set them
     this.THEME_INFO = {
       t1: { long: 'A timeless ivory and gold setup with soft fairy lights, classic arches and elegant table styling. Suits almost any celebration.', incl: ['Ivory and gold backdrop with arch frames', 'Fairy-light canopy', 'Elegant table centrepieces with candles', 'Matching table linen and napkins', 'Welcome signboard'], best: ['Weddings', 'Anniversaries', 'Corporate dinners'] },
       t2: { long: 'Fresh green foliage, hanging vines and natural textures create a calm, relaxed garden-party mood.', incl: ['Foliage wall and leafy arch', 'Hanging greenery accents', 'Wood and greenery table centrepieces', 'Natural linen table runners', 'Welcome signboard'], best: ['Birthdays', 'Baby showers', 'Outdoor lunches'] },
@@ -2910,6 +2923,7 @@ class Component extends DCLogic {
       if (config.SAVE) this.SAVE = config.SAVE;
       if (config.QB) this.QB = config.QB;
       if (config.COUNTER_IMG) this.COUNTER_IMG = config.COUNTER_IMG;
+      if (config.THEME_IMG) this.THEME_IMG = config.THEME_IMG;
       if (Array.isArray(config.TERMS) && config.TERMS.length) this.TERMS = config.TERMS;
     }
     // dish ids are positions, so anything picked before the swap no longer means the same thing
@@ -3041,6 +3055,14 @@ class Component extends DCLogic {
     if (u) return 'url("' + String(u).replace(/"/g, '%22') + '")';
     return (this.COUNTER_SHOT || []).indexOf(id) !== -1
       ? 'url("images/counters/' + id + '.jpg")' : '';
+  }
+  // One of a theme's three photographs, as a CSS background value.
+  themePhoto(id, n) {
+    const key = id + '-' + (n || 1);
+    const u = (this.THEME_IMG || {})[key];
+    if (u) return 'url("' + String(u).replace(/"/g, '%22') + '")';
+    return (this.THEME_SHOT || []).indexOf(id) !== -1
+      ? 'url("images/themes/' + key + '.jpg")' : '';
   }
   /* A little illustration for every counter, in the same flat style as the
      setup cards. They are drawn here rather than in the template because
@@ -3300,8 +3322,10 @@ class Component extends DCLogic {
     const S = this.summary();
     const themes = this.THEMES.map((t) => {
       const on = st.theme === t.id, free = t.price === 0;
+      const shot = this.themePhoto(t.id, 1);
       return {
         name: t.name, desc: t.desc, c1: t.c[0], c2: t.c[1], c3: t.c[2], c4: t.c[3],
+        shot: shot, hasShot: !!shot, noShot: !shot,
         k1: t.id === 't1', k2: t.id === 't2', k3: t.id === 't3', k4: t.id === 't4', k5: t.id === 't5', k6: t.id === 't6',
         tag: free ? 'FREE' : 'PREMIUM', tagBg: free ? '#D3E7DE' : '#C9963B', tagColor: '#0E3B33',
         priceText: free ? 'Free' : '+ ' + S.fmt(t.price) + ' Dh',
@@ -3309,14 +3333,22 @@ class Component extends DCLogic {
         on: on, border: on ? '#C9963B' : '#E4D9C2',
         shadow: on ? '0 6px 16px rgba(201,150,59,0.35)' : '0 1px 2px rgba(14,59,51,0.06)',
         pick: () => this.setState({ theme: on ? null : t.id }),
-        open: () => this.setState({ screen: 'themeDetail', themeView: t.id })
+        open: () => this.setState({ screen: 'themeDetail', themeView: t.id, themeShot: 1 })
       };
     });
     const dt = this.THEMES.find((t) => t.id === st.themeView) || this.THEMES[3];
     const di = this.THEME_INFO[dt.id];
     const dOn = st.theme === dt.id, dFree = dt.price === 0;
+    const dShotNo = st.themeShot || 1;
+    const dShot = this.themePhoto(dt.id, dShotNo) || this.themePhoto(dt.id, 1);
+    const dShots = [1, 2, 3].map((n) => ({
+      url: this.themePhoto(dt.id, n), on: n === dShotNo,
+      ring: n === dShotNo ? '2.5px solid #C9963B' : '1.5px solid #E4D9C2',
+      pick: () => this.setState({ themeShot: n })
+    })).filter((x) => !!x.url);
     const dObj = {
       name: dt.name, c1: dt.c[0], c2: dt.c[1], c3: dt.c[2], c4: dt.c[3],
+      shot: dShot, hasShot: !!dShot, noShot: !dShot, shots: dShots,
       k1: dt.id === 't1', k2: dt.id === 't2', k3: dt.id === 't3', k4: dt.id === 't4', k5: dt.id === 't5', k6: dt.id === 't6',
       tag: dFree ? 'FREE WITH PACKAGE' : 'PREMIUM', tagBg: dFree ? '#D3E7DE' : '#C9963B', tagColor: '#0E3B33',
       priceLong: dFree ? 'Free with your package' : '+ ' + S.fmt(dt.price) + ' Dh per event',
