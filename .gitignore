@@ -1,7 +1,9 @@
 # Original camera photos live here but are never published: far too large.
 # Only the compressed copies under images/web/ go to the live site.
+#
+# images/themes/ is NOT ignored: it holds the shrunk theme photographs the
+# order sheet publishes. Keep camera originals out of it.
 images/dishes/
-images/themes/
 images/logo/
 images/setup/
 images/READ-ME-FIRST.txt
