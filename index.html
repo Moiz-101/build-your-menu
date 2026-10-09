@@ -55,9 +55,49 @@ body.locked #app{display:none}
 #gate #gMsg{min-height:18px;font-size:13px;font-weight:600;color:#5A6863}
 #gate #gMsg.bad{color:#9B1C1C}
 #gate .gnote{margin:4px 0 0;font-size:12px;line-height:1.45;color:#8A9491}
+
+/* ---------- the opening card ---------- */
+body.splashing{overflow:hidden}
+#splash{position:fixed;inset:0;z-index:10000;background:#0E3B33;display:flex;align-items:center;
+        justify-content:center;padding:28px;overflow:hidden;
+        transition:opacity .45s ease,visibility .45s ease}
+#splash::before{content:"";position:absolute;left:50%;top:38%;width:150vmax;height:150vmax;
+        transform:translate(-50%,-50%);pointer-events:none;
+        background:radial-gradient(circle,rgba(201,150,59,.26) 0%,rgba(201,150,59,.07) 34%,rgba(14,59,51,0) 62%)}
+#splash.gone{opacity:0;visibility:hidden;pointer-events:none}
+#splash .sbox{position:relative;width:100%;max-width:330px;text-align:center;
+        display:flex;flex-direction:column;align-items:center;gap:0}
+#splash img{width:222px;max-width:70%;height:auto;display:block;
+        animation:sRise .9s cubic-bezier(.2,.7,.3,1) both}
+#splash .sname{margin-top:18px;font-size:12.5px;letter-spacing:5.5px;font-weight:700;color:#E9C77E;
+        animation:sRise .9s cubic-bezier(.2,.7,.3,1) .18s both}
+#splash .srule{margin:14px 0 2px;display:flex;align-items:center;gap:10px;width:168px;
+        animation:sWide .8s cubic-bezier(.2,.7,.3,1) .3s both}
+#splash .srule i{flex-grow:1;height:1px;background:linear-gradient(90deg,rgba(233,199,126,0),#C9963B,rgba(233,199,126,0))}
+#splash .srule b{width:7px;height:7px;flex-shrink:0;background:#C9963B;transform:rotate(45deg)}
+#splash h1{margin:10px 0 0;font-family:'Fraunces',Georgia,serif;font-style:italic;font-weight:500;
+        font-size:34px;line-height:1.12;color:#FBF6EA;
+        animation:sRise .9s cubic-bezier(.2,.7,.3,1) .34s both}
+#splash .stag{margin:12px 0 0;font-size:13.5px;line-height:1.5;color:#BFD3CB;
+        animation:sRise .9s cubic-bezier(.2,.7,.3,1) .48s both}
+@keyframes sRise{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes sWide{from{opacity:0;transform:scaleX(.3)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  #splash img,#splash .sname,#splash .srule,#splash h1,#splash .stag{animation:sFade .4s ease both}
+  @keyframes sFade{from{opacity:0}to{opacity:1}}
+}
 </style>
 </head>
-<body class="locked">
+<body class="locked splashing">
+<div id="splash" aria-hidden="true">
+  <div class="sbox">
+    <img src="images/web/logo.png" alt="">
+    <div class="sname">DESIRE CATERING</div>
+    <div class="srule"><i></i><b></b><i></i></div>
+    <h1>Build your Menu!</h1>
+    <div class="stag">Buffets, live counters and themes for your event in Dubai.</div>
+  </div>
+</div>
 <div id="app"></div>
 <template id="tpl">
 <div class="app-shell" style="position: relative; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F1E6; color: #1B2B27; overflow: hidden;">
@@ -1842,7 +1882,7 @@ class Component extends DCLogic {
     };
     /* What the customer agrees to before the request goes in. The first three
        are the owner's own wording; the rest come from the terms already on
-       Dragon Empire's written proposals, so nothing here is invented. */
+       Desire Catering's written proposals, so nothing here is invented. */
     this.TERMS = [
       'Please ask our experts for the appropriate setup for your indoor live stations.',
       'Event duration is 4 hours. Beyond that, AED 300 per hour applies.',
@@ -2679,7 +2719,7 @@ class Component extends DCLogic {
     ops.push(col(GOLD) + ' RG 1.4 w 0 ' + n2(Y(HERO)) + ' m ' + PW + ' ' + n2(Y(HERO)) + ' l S');
 
     let y = 118;
-    ctext(PW / 2, y, spaced('Dragon Empire'), 9, true, GOLD);
+    ctext(PW / 2, y, spaced('Desire Catering'), 9, true, GOLD);
     y += 46;
     ctext(PW / 2, y, 'Build your Menu!', 36, true, PAPER);
     y += 20;
@@ -2758,7 +2798,7 @@ class Component extends DCLogic {
     rtext(PW - IM - 20, ty, S.grand, 25, true, INK);
 
     ctext(PW / 2, FOOT - 10, 'Approximate price. Final quote is confirmed by our team after review.', 7.5, false, SOFT);
-    ctext(PW / 2, FOOT + 4, 'Dragon Empire Catering  -  order.dubaicateringservice.com', 7.5, true, SOFT);
+    ctext(PW / 2, FOOT + 4, 'Desire Catering  -  order.dubaicateringservice.com', 7.5, true, SOFT);
 
     /* ---------------- page two ----------------
 
@@ -2772,7 +2812,7 @@ class Component extends DCLogic {
 
     ops2.push(col(PAPER) + ' rg 0 0 ' + PW + ' ' + PH + ' re f');
     ops2.push(col(INK) + ' rg 0 ' + n2(Y(104)) + ' ' + PW + ' 104 re f');
-    ctext(PW / 2, 42, spaced('Dragon Empire'), 8, true, GOLD, ops2);
+    ctext(PW / 2, 42, spaced('Desire Catering'), 8, true, GOLD, ops2);
     ctext(PW / 2, 72, 'Your Menu', 25, true, PAPER, ops2);
     ops2.push(col(GOLD) + ' RG 1.2 w 0 ' + n2(Y(104)) + ' m ' + PW + ' ' + n2(Y(104)) + ' l S');
     // a live-stations order has no package, so do not announce one that is not there
@@ -2888,7 +2928,7 @@ class Component extends DCLogic {
       });
     }
 
-    ctext(PW / 2, FOOT2 + 4, 'Dragon Empire Catering  -  order.dubaicateringservice.com', 7.5, true, SOFT, ops2);
+    ctext(PW / 2, FOOT2 + 4, 'Desire Catering  -  order.dubaicateringservice.com', 7.5, true, SOFT, ops2);
 
     /* ---------------- assemble ----------------
        Any number of photographs can be placed on the page, so the objects are
@@ -3762,7 +3802,7 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
         'aria-label="Today’s four digit code" placeholder="0000">' +
       '<button id="gGo" type="button">Open the menu</button>' +
       '<div id="gMsg" role="status"></div>' +
-      '<p class="gnote">Ask Dragon Empire Catering for today’s code. It changes every night.</p>' +
+      '<p class="gnote">Ask Desire Catering for today’s code. It changes every night.</p>' +
     '</div>';
   body.appendChild(wrap);
 
@@ -3959,6 +3999,45 @@ window.__dcMount(Component, { start: 'details', popular: 2 }, 'tpl', 'app');
   }
 
   start();
+})();
+/* ------------------------------------------------------------------
+   The opening card.
+
+   Two and a half seconds of the business before the form appears: the
+   mark, the name, and one line about what this is. It sits over the
+   app rather than delaying it, so everything underneath has already
+   loaded and drawn by the time it lifts.
+
+   A tap takes it away early. Anyone who has asked for less motion gets
+   the card without the movement, and it still leaves on its own.
+   ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+
+  var el = document.getElementById('splash');
+  if (!el) return;
+
+  var HOLD = 2400;          // on screen
+  var FADE = 450;           // and the time it takes to lift
+  var done = false;
+
+  function close() {
+    if (done) return;
+    done = true;
+    el.classList.add('gone');
+    setTimeout(function () {
+      if (el.parentNode) el.parentNode.removeChild(el);
+      document.body.classList.remove('splashing');
+    }, FADE + 60);
+  }
+
+  // let it play, but never trap anyone behind it
+  var timer = setTimeout(close, HOLD);
+  el.addEventListener('click', function () { clearTimeout(timer); close(); });
+  // a phone that comes back from the background mid-card should not hold it
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { clearTimeout(timer); close(); }
+  });
 })();
 /* ------------------------------------------------------------------
    Sends visits and leads to Supabase.
