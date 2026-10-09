@@ -448,24 +448,16 @@ body.locked #app{display:none}
 <span style="font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">{{sec.title}}</span>
 <span style="flex-shrink: 0; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; background: {{sec.pillBg}}; color: {{sec.pillColor}};">{{sec.pill}}</span>
 </div>
-<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<div style="border-radius: 16px; border: 1.5px solid #E4D9C2; background: #FFFFFF; overflow: hidden; box-shadow: 0 1px 3px rgba(14,59,51,0.07);">
 <sc-for list="{{sec.items}}" as="it" hint-placeholder-count="4">
-<button class="btn" type="button" aria-pressed="{{it.on}}" disabled="{{it.locked}}" onClick="{{it.pick}}" style="position: relative; display: flex; flex-direction: column; width: 100%; box-sizing: border-box; padding: 0; overflow: hidden; cursor: pointer; text-align: left; border-radius: 14px; opacity: {{it.opacity}}; background: {{it.bg}}; border: 2px solid {{it.border}};">
-<div style="height: 60px; width: 100%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background-color: {{it.tile}}; background-image: {{it.photo}}; background-size: cover; background-position: center; background-repeat: no-repeat;">
-<sc-if value="{{it.noPhoto}}" hint-placeholder-val="{{true}}">
-<sc-if value="{{it.sCup}}" hint-placeholder-val="{{true}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h13v5a5 5 0 0 1-10 0z"></path><path d="M17 10h2a2.5 2.5 0 0 1 0 5h-2"></path><path d="M7 5q-1.5 1.5 0 3M11 4q-1.5 1.5 0 3M4 21h14"></path></svg></sc-if>
-<sc-if value="{{it.sBread}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13a9 6 0 0 1 18 0v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M7 11.5q1.5 1.5 0 3M12 11q1.5 1.5 0 3M17 11.5q1.5 1.5 0 3"></path></svg></sc-if>
-<sc-if value="{{it.sRoll}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="8" rx="4"></rect><path d="M9 8v8M15 8v8"></path></svg></sc-if>
-<sc-if value="{{it.sSkew}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21L21 3"></path><circle cx="8" cy="16" r="2.6"></circle><circle cx="12.5" cy="11.5" r="2.6"></circle><circle cx="17" cy="7" r="2.6"></circle></svg></sc-if>
-<sc-if value="{{it.sSweet}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11a8 8 0 0 1 16 0v9z"></path><path d="M4 15h16M12 3v-1"></path></svg></sc-if>
-<sc-if value="{{it.sBowl}}" hint-placeholder-val="{{false}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"></path><path d="M9 4q-1.5 2 0 4M13 3q-1.5 2 0 4M17 4q-1.5 2 0 4M8 21h8"></path></svg></sc-if>
-</sc-if>
-</div>
-<sc-if value="{{it.on}}" hint-placeholder-val="{{false}}">
-<div style="position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: #C9963B; display: flex; align-items: center; justify-content: center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></div>
-</sc-if>
-<span style="padding: 7px 9px 9px 9px; font-size: 12px; font-weight: 700; line-height: 1.25; color: #1B2B27;">{{it.name}}</span>
+<button class="btn" type="button" aria-pressed="{{it.on}}" disabled="{{it.locked}}" onClick="{{it.pick}}" style="display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box; padding: 13px 14px; border: none; background: {{it.rowBg}}; cursor: {{it.cursor}}; text-align: left;">
+<svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true" style="flex-shrink: 0;"><path d="M5 0l5 5-5 5-5-5z" fill="{{it.markBg}}" stroke="{{it.markStroke}}" stroke-width="1.2"></path></svg>
+<span style="flex-grow: 1; min-width: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 15px; line-height: 1.3; color: {{it.nameColor}};">{{it.name}}</span>
+<span style="flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid {{it.markStroke}}; background: {{it.markBg}}; display: flex; align-items: center; justify-content: center;">
+<sc-if value="{{it.on}}" hint-placeholder-val="{{false}}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E3B33" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></sc-if>
+</span>
 </button>
+<sc-if value="{{it.notLast}}" hint-placeholder-val="{{true}}"><div style="height: 1px; background: #F1E7D2; margin: 0 14px;"></div></sc-if>
 </sc-for>
 </div>
 </div>
@@ -1082,9 +1074,10 @@ body.locked #app{display:none}
 <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; color: #5A6863;">Notes</span><span style="font-size: 14px; font-weight: 600; color: #1B2B27; line-height: 1.35; white-space: pre-line;">{{rv.notesText}}</span></div></div>
 <div style="background: #EADFC8; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
 <span style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 17px; color: #0E3B33;">Price summary</span>
-<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">{{rv.menuRowLabel}}</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.menuRowValue}}</span></div>
+<sc-if value="{{rv.showMenu}}" hint-placeholder-val="{{true}}"><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">{{rv.menuRowLabel}}</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.menuRowValue}}</span></div></sc-if>
 <sc-if value="{{rv.showMin}}" hint-placeholder-val="{{false}}"><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">Minimum order top-up</span><span style="font-weight: 600; color: #1B2B27; text-align: right; color: #8A5A00;">{{rv.minValue}}</span></div>
-</sc-if><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">{{rv.themeRowLabel}}</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.themeRowValue}}</span></div>
+</sc-if><sc-if value="{{rv.showCounters}}" hint-placeholder-val="{{false}}"><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863;">{{rv.counterRowLabel}}</span><span style="font-weight: 600; color: #1B2B27; text-align: right; flex-shrink: 0;">{{rv.counterRowValue}}</span></div></sc-if>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 1.3;"><span style="color: #5A6863; flex-shrink: 0;">{{rv.themeRowLabel}}</span><span style="font-weight: 600; color: #1B2B27; text-align: right; ">{{rv.themeRowValue}}</span></div>
 <div style="height: 1px; background: #C9B98F;"></div>
 <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
 <span style="font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: #4A5A55;">Approx. total</span>
@@ -1863,6 +1856,18 @@ class Component extends DCLogic {
     ];
     this.COUNTER_IMG = {};     // counter id -> photo, set from the panel
     // counters that ship with a photograph in this page's own images folder
+    /* What each live counter costs, in dirhams, for every 20 guests. A counter
+       is quoted per 20 heads, so 30 guests is two of them. Taken from the
+       trade price list; the Tawa counter is listed there at 500/600/700 for
+       veg/chicken/mutton and is carried here at the chicken price. */
+    this.COUNTER_UNIT = 20;
+    this.COUNTER_PRICE = {
+      bbq: 800, tandoor: 750, tawa: 600, sizzler: 650,
+      chaat: 700, chole: 500, makki: 600,
+      dimsum: 500, bao: 500, sushi: 500, wok: 650, khowsuey: 650,
+      pasta: 800, pizza: 900,
+      mocktail: 700
+    };
     this.COUNTER_SHOT = ['bao', 'bbq', 'chaat', 'chole', 'dimsum', 'khowsuey', 'makki', 'mocktail', 'pasta', 'pizza', 'sizzler', 'sushi', 'tandoor', 'tawa', 'wok'];
     this.COUNTERS = [
       { group: 'Grill & BBQ', bg: '#F6E1CE', items: [
@@ -1904,7 +1909,7 @@ class Component extends DCLogic {
   catRates() {
     const st = this.state;
     const setup = this.setupKey();
-    const P = (this.PRICES[st.cuisine] || {})[setup] || [0, 0, 0, 0];
+    const P = this.priceCol(setup);
     const w = this.CAT_W, X = this.COMP.map((c) => c[0] * w[0] + c[1] * w[1] + c[2] * w[2] + c[3] * w[3]);
     const mx = X.reduce((a, b) => a + b, 0) / 4, my = P.reduce((a, b) => a + b, 0) / 4;
     let sxy = 0, sxx = 0;
@@ -1954,13 +1959,13 @@ class Component extends DCLogic {
     const pm = this.pickMenu(st.cuisine);
     const prices = sm ? sm.packages.map((x) => x.price)
                  : pm ? pm.packages.map((x) => x.price)
-                      : ((PRICES[st.cuisine] || {})[setup] || [0, 0, 0, 0]);
+                      : this.priceCol(setup);
     const sel = (on) => ({
       border: on ? '#C9963B' : '#E4D9C2',
       shadow: on ? '0 6px 16px rgba(201,150,59,0.35)' : '0 1px 2px rgba(14,59,51,0.06)'
     });
 
-    const saves = ((this.SAVE || {})[setup] || {})[st.cuisine] || [];
+    const saves = this.saveCol(setup);
     // A set menu's cards are the menu itself: every section, every item, and
     // the minimum order that package carries.
     const setPkgs = sm ? sm.packages.map((pk, i) => {
@@ -2057,7 +2062,8 @@ class Component extends DCLogic {
       totalText = priced ? fmt(applied ? minFor : raw) + ' Dh' + (sm ? ' + VAT' : '') : 'On request';
       totalSub = !priced ? 'Our team will confirm the price for this setup'
                : (applied ? 'Minimum applied (was ' + fmt(raw) + ' Dh)'
-                          : pax + ' guests × ' + price + ' Dh' + (sm ? ' + VAT' : ''));
+                          : pax + ' guests × ' + price + ' Dh' + (sm ? ' + VAT' : '')
+                            + (this.counterCost().count > 0 ? ', live stations on top' : ''));
       if (belowMin && !st.consent) totalColor = st.minWarn ? '#B3261E' : '#8A3B12';
     }
     const ready = isCustom || hasPkg;
@@ -2471,7 +2477,7 @@ class Component extends DCLogic {
     const pp2 = this.pickPool();
     const P = sm ? sm.packages.map((x) => x.price)
               : pmenu ? pmenu.packages.map((x) => x.price)
-                 : ((this.PRICES[st.cuisine] || {})[setup] || [0, 0, 0, 0]);
+                 : this.priceCol(setup);
     const cuisine = sm ? sm.label : pmenu ? pmenu.label
                        : { ic: 'Indian & Chinese', in: 'Indian', ch: 'Chinese' }[st.cuisine];
     const isCustom = st.pkg === 'custom', hasPkg = typeof st.pkg === 'number';
@@ -2514,7 +2520,8 @@ class Component extends DCLogic {
     const menuTotal = pp > 0 ? Math.max(raw, minFor) : 0;
     const th = this.THEMES.find((t) => t.id === st.theme) || null;
     const themePrice = th ? th.price : 0;
-    const grand = menuTotal + themePrice;
+    const cc = this.counterCost();
+    const grand = menuTotal + cc.total + themePrice;
     const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     let dateText = 'Not provided';
     const dm = /^(\d{4})-(\d{2})-(\d{2})$/.exec(st.date || '');
@@ -2543,7 +2550,7 @@ class Component extends DCLogic {
         : ((smPack || pkPack) ? (smPack || pkPack).name
            : (hasPkg ? 'Package ' + (st.pkg + 1) : 'Not selected')),
       cuisine: cuisine + (st.pureVeg ? ' (Pure Veg)' : ''),
-      ppText: pp > 0 ? pp + ' Dh' + vat : ((noPkg || !this.priced()) ? 'On request' : '-'),
+      ppText: pp > 0 ? pp + ' Dh' + vat : ((noPkg && cc.total > 0) ? '-' : ((noPkg || !this.priced()) ? 'On request' : '-')),
       groups: withCounters,
       dishGroups: groups,
       counterGroups: counterGroups,
@@ -2551,12 +2558,19 @@ class Component extends DCLogic {
       themeLabel: th ? th.name + (th.price ? ' (+ ' + fmt(th.price) + ' Dh)' : ' (Free)') : 'No theme',
       notesText: (st.eventNote || '').trim() || 'None',
       menuRowLabel: pp > 0 ? 'Menu: ' + st.pax + ' guests x ' + pp + ' Dh' : 'Menu',
-      menuRowValue: pp > 0 ? fmt(raw) + ' Dh' + vat : ((noPkg || !this.priced()) ? 'On request' : '-'),
+      menuRowValue: pp > 0 ? fmt(raw) + ' Dh' + vat
+        : (noPkg ? (cc.total > 0 ? '-' : 'On request') : (!this.priced() ? 'On request' : '-')),
+      showMenu: !noPkg || cc.count === 0,
+      showCounters: cc.count > 0,
+      counterRowLabel: 'Live stations: ' + cc.count + (cc.count === 1 ? ' counter' : ' counters')
+        + (cc.units > 1 ? ' x ' + cc.units + ' (up to ' + cc.unit + ' guests each)' : ''),
+      counterRowValue: cc.total > 0 ? '+ ' + fmt(cc.total) + ' Dh' + vat : 'On request',
+      counterTotal: cc.total, counterUnpriced: cc.unpriced,
       showMin: pp > 0 && raw < minFor,
       minValue: '+ ' + fmt(Math.max(minFor - raw, 0)) + ' Dh',
       themeRowLabel: th ? 'Theme: ' + th.name : 'Theme',
       themeRowValue: th ? (th.price ? '+ ' + fmt(th.price) + ' Dh' : 'Free') : 'None',
-      grand: (noPkg && pp === 0) ? 'On request'
+      grand: ((!noPkg && pp === 0) || cc.unpriced > 0 || (noPkg && pp === 0 && cc.total === 0)) ? 'On request'
         : ((grand > 0 || this.priced()) ? fmt(grand) + ' Dh' + vat : 'On request'), grandNum: grand, menuTotal: menuTotal, themePrice: themePrice, th: th
     };
   }
@@ -2613,7 +2627,7 @@ class Component extends DCLogic {
       while (t.length > 1 && wOf(t + '..', size, bold) > maxW) t = t.slice(0, -1);
       return t.replace(/[\s-]+$/, '') + '..';
     };
-    const rrect = (x, yTop, w, h, r, fillHex, strokeHex, lw) => {
+    const rrect = (x, yTop, w, h, r, fillHex, strokeHex, lw, into) => {
       const yb = Y(yTop + h), k = 0.5523 * r;
       const parts = [
         n2(x + r) + ' ' + n2(yb) + ' m',
@@ -2629,7 +2643,7 @@ class Component extends DCLogic {
       let op = '';
       if (fillHex) op += col(fillHex) + ' rg ';
       if (strokeHex) op += col(strokeHex) + ' RG ' + n2(lw || 0.8) + ' w ';
-      ops.push(op + parts + ' ' + (fillHex && strokeHex ? 'B' : fillHex ? 'f' : 'S'));
+      (into || ops).push(op + parts + ' ' + (fillHex && strokeHex ? 'B' : fillHex ? 'f' : 'S'));
     };
     // Helvetica has no small caps, so space the letters out by hand
     const spaced = (t) => clean(t).toUpperCase().split('').join(' ');
@@ -2720,7 +2734,7 @@ class Component extends DCLogic {
     }
 
     /* ---------------- money ---------------- */
-    const nRows = 2 + (S.showMin ? 1 : 0);
+    const nRows = 1 + (S.showMenu ? 1 : 0) + (S.showMin ? 1 : 0) + (S.showCounters ? 1 : 0);
     const hasNote = !!(S.notesText && S.notesText !== 'None');
     const FOOT = PH - 54;
     const panelH = 26 + nRows * 16 + (hasNote ? 16 : 0) + 44;
@@ -2733,8 +2747,9 @@ class Component extends DCLogic {
       rtext(PW - IM - 20, ty, value, 9.5, false, DARK);
       ty += 16;
     };
-    lineRow(S.menuRowLabel, S.menuRowValue);
+    if (S.showMenu) lineRow(S.menuRowLabel, S.menuRowValue);
     if (S.showMin) lineRow('Minimum order top-up', S.minValue);
+    if (S.showCounters) lineRow(S.counterRowLabel, S.counterRowValue);
     lineRow(S.themeRowLabel, S.themeRowValue);
     if (hasNote) { text(IM + 20, ty, 'Note: ' + cut(S.notesText, CW - 60, 8.5, false), 8.5, false, SOFT); ty += 16; }
     rule(IM + 20, ty - 4, PW - IM - 20, '#DCC89C', 0.8);
@@ -2770,13 +2785,30 @@ class Component extends DCLogic {
 
     /* --- the courses --- */
     const FOOT2 = PH - 54;
-    // with no courses above them the stations carry the page on their own,
-    // so they get a bigger photograph and a taller row
+    /* A station is a panel carrying its name and everything it serves, set in
+       columns. With no courses above them the stations have the page to
+       themselves and can be set larger. */
     const bigStn = !dishG.length;
-    const STNW = bigStn ? 112 : 62;
-    const stnLines = (g) => wrap(g.items.map((it) => it.name).join('  -  '), PW - IM - (IM + STNW + 14), 8.5, false, 3);
-    const stnH = (g) => Math.max(bigStn ? 76 : 46, 22 + stnLines(g).length * 11);
-    const ctrH = ctrG.length ? 34 + ctrG.reduce((a, g) => a + stnH(g) + 10, 0) : 0;
+    const SPAD = 14;                                   // inside the panel
+    const SLEAD = bigStn ? 15 : 12.5;                  // line height of an item
+    const SSIZE = bigStn ? 10 : 9;
+    const SCOLW = (CW - 2 * SPAD - 18) / 2;
+    const stnCols = (g) => (g.items.length > 3 ? 2 : 1);
+    /* Rather than cut a long dish name short, let a station set its own type a
+       little smaller until the longest name fits its column. */
+    const stnSize = (g) => {
+      const w = (stnCols(g) === 1 ? CW - 2 * SPAD : SCOLW) - 20;
+      const longest = g.items.reduce((a, it) => Math.max(a, wOf(clean(it.name), 100, false)), 0) / 100;
+      if (!longest) return SSIZE;
+      for (let sz = SSIZE; sz >= 7.5; sz -= 0.5) {
+        if (longest * sz <= w) return sz;
+      }
+      return 7.5;
+    };
+    const stnRows = (g) => Math.ceil(Math.max(g.items.length, 1) / stnCols(g));
+    const stnH = (g) => SPAD + 15 + 8 + stnRows(g) * SLEAD + SPAD - 4;
+    const STNGAP = 12;
+    const ctrH = ctrG.length ? 34 + ctrG.reduce((a, g) => a + stnH(g) + STNGAP, 0) : 0;
     const roomCourses = FOOT2 - 30 - ctrH - y2;
 
     const measure = (list, ncol, lead) => {
@@ -2822,20 +2854,37 @@ class Component extends DCLogic {
       rule(IM + 9 + wOf(clean(head), 7.5, true) + 12, y2 - 2.8, PW - IM, '#E6D8B8', 0.6, ops2);
       y2 += 14;
 
-      ctrG.forEach((g, k) => {
-        const px = IM, pw2 = STNW, twx = PW - IM - (px + pw2 + 14);
-        const lines = stnLines(g);
+      ctrG.forEach((g) => {
         const rowH = stnH(g);
-        const shot = (counterShots || {})[ctrIds[k]];
-        if (shot) photo(shot, px, y2, pw2, rowH, ops2);
-        else ops2.push(col('#F0E7D2') + ' rg ' + n2(px) + ' ' + n2(Y(y2 + rowH)) + ' ' + n2(pw2) + ' ' + n2(rowH) + ' re f');
-        ops2.push(col('#E0CFA8') + ' RG 0.6 w ' + n2(px) + ' ' + n2(Y(y2 + rowH)) + ' ' + n2(pw2) + ' ' + n2(rowH) + ' re S');
+        const nc = stnCols(g);
+        const sz = stnSize(g);
+        const cw = nc === 1 ? CW - 2 * SPAD : SCOLW;
+        rrect(IM, y2, CW, rowH, 10, '#FBF6EA', '#E6D8B8', 0.7, ops2);
+        // a thin gold bar down the left edge, so the panels read as a set
+        ops2.push(col(GOLD) + ' rg ' + n2(IM) + ' ' + n2(Y(y2 + rowH - 10)) + ' 2.2 ' + n2(rowH - 20) + ' re f');
 
-        const tx = px + pw2 + 14;
-        text(tx, y2 + 13, cut(g.title.replace(/\s*\(\d+\)$/, ''), twx, 11, true), 11, true, DARK, ops2);
-        if (lines.length && lines[0]) lines.forEach((ln, li) => text(tx, y2 + 27 + li * 11, ln, 8.5, false, SOFT, ops2));
-        else text(tx, y2 + 27, 'Served live at the station', 8.5, false, SOFT, ops2);
-        y2 += rowH + 10 + slack;
+        const name = g.title.replace(/\s*\(\d+\)$/, '');
+        const ty = y2 + SPAD + 7;
+        text(IM + SPAD + 8, ty, cut(name, CW - 2 * SPAD - 70, bigStn ? 12 : 11, true), bigStn ? 12 : 11, true, INK, ops2);
+        if (g.items.length) {
+          const cnt = g.items.length + (g.items.length === 1 ? ' item' : ' items');
+          rtext(PW - IM - SPAD, ty, spaced(cnt), 6.5, true, '#A08A52', ops2);
+        }
+        rule(IM + SPAD + 8, ty + 7, PW - IM - SPAD, '#E6D8B8', 0.6, ops2);
+
+        if (g.items.length) {
+          g.items.forEach((it, i) => {
+            const c = i % nc, r = Math.floor(i / nc);
+            const x = IM + SPAD + 8 + c * (cw + 10);
+            const ly = ty + 20 + r * SLEAD;
+            dot(x + 2, ly - sz * 0.3, 1.4, '#CBA85F', ops2);
+            text(x + 9, ly, cut(it.name, cw - 20, sz, false), sz, false, DARK, ops2);
+          });
+        } else {
+          text(IM + SPAD + 8, ty + 20, 'Our team will confirm what this station serves with you.',
+               SSIZE, false, SOFT, ops2);
+        }
+        y2 += rowH + STNGAP + slack;
       });
     }
 
@@ -2924,6 +2973,8 @@ class Component extends DCLogic {
       if (config.QB) this.QB = config.QB;
       if (config.COUNTER_IMG) this.COUNTER_IMG = config.COUNTER_IMG;
       if (config.THEME_IMG) this.THEME_IMG = config.THEME_IMG;
+      if (config.COUNTER_PRICE) this.COUNTER_PRICE = Object.assign({}, this.COUNTER_PRICE, config.COUNTER_PRICE);
+      if (config.COUNTER_UNIT > 0) this.COUNTER_UNIT = config.COUNTER_UNIT;
       if (Array.isArray(config.TERMS) && config.TERMS.length) this.TERMS = config.TERMS;
     }
     // dish ids are positions, so anything picked before the swap no longer means the same thing
@@ -2983,12 +3034,6 @@ class Component extends DCLogic {
     const jobs = [];
     if (st.theme) jobs.push(this.loadJpeg('images/themes/' + st.theme + '-1.jpg')
       .then((im) => { out.theme = im; }));
-    (this.COUNTERS || []).forEach((g) => g.items.forEach((c) => {
-      if ((st.counters || {})[c.id]) {
-        jobs.push(this.loadJpeg('images/counters/' + c.id + '.jpg')
-          .then((im) => { if (im) out.counters[c.id] = im; }));
-      }
-    }));
     try { await Promise.all(jobs); } catch (e) {}
     return out;
   }
@@ -3043,10 +3088,46 @@ class Component extends DCLogic {
     if (st.layout === 'both') return 'both';
     return 'buffet';
   }
+  /* The four package prices for a setup. Buffet + Live Station is charged at
+     the buffet rate - the live counters are added on top, each at its own
+     price - so it reads the buffet column rather than carrying a copy that
+     could drift when the buffet prices are edited. */
+  priceCol(setup) {
+    const key = setup || this.setupKey();
+    const byCu = this.PRICES[this.state.cuisine] || {};
+    const own = byCu[key];
+    if (key === 'both' && !(own && own.some((v) => +v > 0))) return byCu.buffet || [0, 0, 0, 0];
+    return own || [0, 0, 0, 0];
+  }
+  // the saving shown struck through, which follows the same column
+  saveCol(setup) {
+    const key = setup || this.setupKey();
+    const byS = this.SAVE || {};
+    const own = (byS[key] || {})[this.state.cuisine];
+    if (own && own.length) return own;
+    return (key === 'both' ? (byS.buffet || {})[this.state.cuisine] : null) || [];
+  }
   // a price column with nothing in it yet means "we will quote you"
   priced(setup) {
-    const col = (this.PRICES[this.state.cuisine] || {})[setup || this.setupKey()];
+    const col = this.priceCol(setup);
     return !!(col && col.length && col.some((v) => +v > 0));
+  }
+  /* What the chosen live counters come to. Each counter is priced for up to
+     COUNTER_UNIT guests, so a larger party needs more than one of each. A
+     counter with no price yet simply adds nothing and is reported back, so
+     the quote can say the total is still to be confirmed. */
+  counterCost() {
+    const on = this.state.counters || {};
+    const unit = this.COUNTER_UNIT || 20;
+    const units = Math.max(1, Math.ceil((+this.state.pax || 0) / unit));
+    let total = 0, n = 0, unpriced = 0;
+    (this.COUNTERS || []).forEach((g) => g.items.forEach((c) => {
+      if (!on[c.id]) return;
+      n++;
+      const p = +(this.COUNTER_PRICE || {})[c.id] || 0;
+      if (p > 0) total += p * units; else unpriced++;
+    }));
+    return { count: n, units: units, unit: unit, total: total, unpriced: unpriced };
   }
   // A photograph of this counter, when the owner has put one in the panel.
   // Anything missing just falls back to the drawing, so the page is never bare.
@@ -3540,13 +3621,16 @@ class Component extends DCLogic {
             pill: sec.choose ? sec.picked + ' of ' + sec.need : 'Included',
             pillBg: sec.choose ? (sec.full ? '#D3E7DE' : '#EADFC8') : '#D3E7DE',
             pillColor: sec.choose ? (sec.full ? '#12604B' : '#5A6863') : '#12604B',
-            items: sec.items.map((it) => Object.assign({
+            items: sec.items.map((it, ii, arr) => Object.assign({
               name: it.name,
-              photo: this.dishPhoto(it.name) ? 'url("' + this.dishPhoto(it.name) + '")' : 'none',
-              hasPhoto: !!this.dishPhoto(it.name),
-              noPhoto: !this.dishPhoto(it.name),
               on: it.on || !sec.choose,
               locked: !sec.choose,
+              notLast: ii < arr.length - 1,
+              cursor: sec.choose ? 'pointer' : 'default',
+              rowBg: (it.on && sec.choose) ? '#FDF7EA' : '#FFFFFF',
+              markBg: (it.on || !sec.choose) ? '#C9963B' : 'transparent',
+              markStroke: (it.on || !sec.choose) ? '#C9963B' : '#DDD3BF',
+              nameColor: (it.on || !sec.choose) ? '#0E3B33' : '#1B2B27',
               border: (it.on || !sec.choose) ? '#C9963B' : '#E4D9C2',
               bg: (it.on || !sec.choose) ? '#FDF7EA' : '#FFFFFF',
               opacity: !sec.choose ? 0.92 : 1,
